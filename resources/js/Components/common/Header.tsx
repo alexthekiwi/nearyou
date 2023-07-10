@@ -7,7 +7,7 @@ export default function Header() {
     const { isAuth } = useAuth();
 
     return (
-        <header className="fixed top-0 z-[100] w-full bg-white py-4 shadow-sm">
+        <header className="sticky top-0 z-[100] w-full bg-white py-4 shadow-sm">
             <nav className="container flex items-center justify-between gap-8">
                 <Link
                     href="/"

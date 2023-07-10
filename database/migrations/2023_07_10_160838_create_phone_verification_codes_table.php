@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('phone_verification_codes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('phone_number');
+            $table->bigInteger('phone_number');
             $table->integer('country_code');
             $table->integer('code');
             $table->dateTime('expires_at');

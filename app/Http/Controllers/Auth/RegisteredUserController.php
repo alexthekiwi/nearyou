@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'username' => 'nullable|string|max:255',
+            'username' => 'nullable|string|alpha_num|max:255|unique:'.User::class,
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -52,6 +52,8 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        session()->forget('verified_phone_number');
 
         return redirect(RouteServiceProvider::HOME);
     }

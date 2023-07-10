@@ -66,7 +66,7 @@ if [ -f artisan ]; then
     $FORGE_PHP artisan migrate --force
 
     # Sync the schedule monitor
-    $FORGE_PHP schedule-monitor:sync
+    $FORGE_PHP artisan schedule-monitor:sync
 
     # Restart Horizon (queues)
     $FORGE_PHP artisan horizon:terminate

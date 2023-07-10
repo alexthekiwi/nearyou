@@ -81,7 +81,7 @@ export default function Register({ phoneNumber }: Props) {
                                 if you leave this field blank.
                             </span>
                             {errors.username && (
-                                <span className="error">{errors.name}</span>
+                                <span className="error">{errors.username}</span>
                             )}
                         </label>
 

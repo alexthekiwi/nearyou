@@ -10,7 +10,10 @@ export default function Home({}: Props) {
     return (
         <Layout>
             <Head title="Home" />
-            <H1>Home</H1>
+            <div className="container">
+                <H1>Home</H1>
+                TODO: Listings go here.
+            </div>
         </Layout>
     );
 }

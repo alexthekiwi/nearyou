@@ -36,6 +36,16 @@ export default function Dashboard({}: Props) {
 
                     <Card className="flex flex-col gap-8">
                         <Button
+                            href={route('home')}
+                            className="mt-auto"
+                            theme="success"
+                        >
+                            Browse listings
+                        </Button>
+                    </Card>
+
+                    <Card className="flex flex-col gap-8">
+                        <Button
                             href={route('profile.edit')}
                             className="mt-auto"
                             theme="success"
