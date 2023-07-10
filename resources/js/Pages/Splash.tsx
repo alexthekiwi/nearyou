@@ -36,13 +36,13 @@ export default function Splash({}: Props) {
                             onClick={() => setSignupModalActive(true)}
                             theme="primary"
                         >
-                            Get started
+                            Sign up
                         </Button>
                         <Link
-                            href="/about"
+                            href="/login"
                             className="font-bold text-teal transition-opacity hover:opacity-50"
                         >
-                            About us
+                            Login
                         </Link>
                     </div>
                 </div>
