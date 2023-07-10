@@ -1,9 +1,10 @@
-import { useEffect, FormEventHandler } from 'react';
+import { useEffect } from 'react';
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import Card from '@/Components/common/Card';
 import { handleChange, useSubmit } from '@/lib/forms';
 import Button from '@/Components/common/Button';
-import Layout from '@/Layouts/Layout';
+import H2 from '@/Components/typography/H2';
+import GuestLayout from '@/Layouts/GuestLayout';
+import Logo from '@/Components/common/Logo';
 
 interface Props {
     phoneNumber: string;
@@ -28,32 +29,34 @@ export default function Register({ phoneNumber }: Props) {
         []
     );
 
-    const submit: FormEventHandler = (e) => {
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
         post(route('register'));
-    };
+    }
 
     function handleRemoveVerifiedPhoneNumber() {
         router.delete('/signup/verify', onRemovePhoneNumber);
     }
 
     return (
-        <Layout>
+        <GuestLayout background="">
             <Head title="Register" />
 
-            <div className="container my-24">
-                <Card className="mx-auto max-w-xl">
+            <div className="container flex flex-col gap-8">
+                <Logo className="mx-auto h-12" />
+                <div className="mx-auto w-full max-w-lg">
+                    <H2 className="mb-6">Create your account</H2>
+
                     {status && (
-                        <div className="mb-4 text-sm font-medium text-teal-600">
+                        <div className="mb-6 text-sm font-medium text-teal-600">
                             {status}
                         </div>
                     )}
 
-                    <div className="mb-4 flex flex-col items-start gap-1 rounded-xl bg-gray-100 p-4">
+                    <div className="mb-6 flex w-full flex-col items-start gap-1 rounded-xl bg-teal-xlight p-4">
                         <p className="font-bold text-teal">
-                            You have verified your phone number as {phoneNumber}
-                            .{' '}
+                            Your verified phone number is {phoneNumber}.{' '}
                         </p>
                         <button
                             onClick={handleRemoveVerifiedPhoneNumber}
@@ -62,54 +65,69 @@ export default function Register({ phoneNumber }: Props) {
                             Change phone number?
                         </button>
                     </div>
-
-                    <form className="flex flex-col gap-8" onSubmit={submit}>
+                    <form
+                        className="flex w-full flex-col gap-8"
+                        onSubmit={handleSubmit}
+                    >
                         <label>
                             Username
                             <input
                                 id="username"
                                 type="text"
                                 name="username"
+                                className={errors.username ? 'error' : ''}
                                 value={data.username}
+                                className={errors.username ? 'error' : ''}
                                 onChange={(e) =>
-                                    handleChange({ event: e, data, setData })
+                                    handleChange({
+                                        event: e,
+                                        data,
+                                        setData,
+                                    })
                                 }
                             />
                             <span className="text-sm">
                                 This is what is shown to other traders to
-                                protect your privacy. We'll create one for you
-                                if you leave this field blank.
+                                protect your privacy.
                             </span>
                             {errors.username && (
                                 <span className="error">{errors.username}</span>
                             )}
                         </label>
-
                         <label>
                             Name
                             <input
                                 id="name"
                                 type="text"
                                 name="name"
+                                className={errors.name ? 'error' : ''}
                                 value={data.name}
                                 onChange={(e) =>
-                                    handleChange({ event: e, data, setData })
+                                    handleChange({
+                                        event: e,
+                                        data,
+                                        setData,
+                                    })
                                 }
                             />
                             {errors.name && (
                                 <span className="error">{errors.name}</span>
                             )}
                         </label>
-
                         <label>
                             Email
                             <input
                                 id="email"
                                 type="email"
                                 name="email"
+                                className={errors.email ? 'error' : ''}
                                 value={data.email}
                                 onChange={(e) =>
-                                    handleChange({ event: e, data, setData })
+                                    handleChange({
+                                        event: e,
+                                        data,
+                                        setData,
+                                    })
                                 }
                             />
                             {errors.email && (
@@ -122,9 +140,14 @@ export default function Register({ phoneNumber }: Props) {
                                 id="password"
                                 type="password"
                                 name="password"
+                                className={errors.password ? 'error' : ''}
                                 value={data.password}
                                 onChange={(e) =>
-                                    handleChange({ event: e, data, setData })
+                                    handleChange({
+                                        event: e,
+                                        data,
+                                        setData,
+                                    })
                                 }
                             />
                             {errors.password && (
@@ -139,7 +162,11 @@ export default function Register({ phoneNumber }: Props) {
                                 name="password_confirmation"
                                 value={data.password_confirmation}
                                 onChange={(e) =>
-                                    handleChange({ event: e, data, setData })
+                                    handleChange({
+                                        event: e,
+                                        data,
+                                        setData,
+                                    })
                                 }
                             />
                             {errors.password_confirmation && (
@@ -165,8 +192,8 @@ export default function Register({ phoneNumber }: Props) {
                             </Button>
                         </div>
                     </form>
-                </Card>
+                </div>
             </div>
-        </Layout>
+        </GuestLayout>
     );
 }

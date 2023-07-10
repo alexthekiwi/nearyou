@@ -31,7 +31,7 @@ export default function Splash({}: Props) {
                             <span>Trade local.</span>
                         </h1>
                     </div>
-                    <div className="flex flex-col items-start gap-6 lg:flex-row lg:items-center">
+                    <div className="flex flex-row items-center gap-6">
                         <Button
                             onClick={() => setSignupModalActive(true)}
                             theme="primary"

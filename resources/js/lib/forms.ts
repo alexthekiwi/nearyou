@@ -50,24 +50,23 @@ export function useSubmit({
     return {
         preserveScroll,
         onSuccess: () => {
-            addToast({
-                message: message ?? 'Success!',
-                status: 'success',
-            });
-
             if (onSuccess) {
                 onSuccess();
+            } else {
+                addToast({
+                    message: message ?? 'Success!',
+                    status: 'success',
+                });
             }
         },
         onError: () => {
-            addToast({
-                message:
-                    'Oops! There was an error with your submission. Please review and try again.',
-                status: 'error',
-            });
-
             if (onError) {
                 onError();
+            } else {
+                addToast({
+                    message: 'Oops! There was an error.',
+                    status: 'error',
+                });
             }
         },
         onFinish: () => {

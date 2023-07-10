@@ -55,9 +55,6 @@ export default function UsersIndex({ users }: Props) {
 
             <div className="container mb-24 mt-12 flex flex-col gap-8">
                 <PageHeader heading="Users">
-                    <Button href="/dashboard" className="text-sm">
-                        Go back
-                    </Button>
                     <Button
                         href="/users/create"
                         theme="success"

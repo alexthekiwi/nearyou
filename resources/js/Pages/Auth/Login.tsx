@@ -4,6 +4,10 @@ import Card from '@/Components/common/Card';
 import { handleChange } from '@/lib/forms';
 import Button from '@/Components/common/Button';
 import Layout from '@/Layouts/Layout';
+import GuestLayout from '@/Layouts/GuestLayout';
+import Logo from '@/Components/common/Logo';
+import H2 from '@/Components/typography/H2';
+import Message from '@/Components/common/Message';
 
 export default function Login({
     status,
@@ -25,30 +29,36 @@ export default function Login({
         []
     );
 
-    const submit: FormEventHandler = (e) => {
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
         post(route('login'));
-    };
+    }
 
     return (
-        <Layout>
+        <GuestLayout>
             <Head title="Log in" />
 
-            <div className="container my-24">
-                <Card className="mx-auto max-w-xl">
-                    {status && (
-                        <div className="mb-4 text-sm font-medium text-teal-600">
-                            {status}
-                        </div>
-                    )}
-                    <form className="flex flex-col gap-8" onSubmit={submit}>
+            <div className="flex flex-col gap-8">
+                <Logo className="mx-auto h-12" />
+                <div className="mx-auto w-full max-w-lg">
+                    <H2 className="mb-6">Login</H2>
+
+                    <Message status="success" className="mb-6">
+                        {status}
+                    </Message>
+
+                    <form
+                        className="flex flex-col gap-8"
+                        onSubmit={handleSubmit}
+                    >
                         <label>
                             Email
                             <input
                                 id="email"
                                 type="email"
                                 name="email"
+                                className={errors.email ? 'error' : ''}
                                 value={data.email}
                                 onChange={(e) =>
                                     handleChange({ event: e, data, setData })
@@ -64,6 +74,7 @@ export default function Login({
                                 id="password"
                                 type="password"
                                 name="password"
+                                className={errors.password ? 'error' : ''}
                                 value={data.password}
                                 onChange={(e) =>
                                     handleChange({ event: e, data, setData })
@@ -104,8 +115,8 @@ export default function Login({
                             </Button>
                         </div>
                     </form>
-                </Card>
+                </div>
             </div>
-        </Layout>
+        </GuestLayout>
     );
 }

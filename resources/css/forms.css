@@ -7,7 +7,7 @@ fieldset {
 
 label,
 .label {
-    @apply flex max-w-2xl flex-col gap-3 text-base;
+    @apply flex max-w-2xl flex-col gap-2 text-sm font-bold text-black;
 }
 
 label.checkbox {
@@ -18,6 +18,10 @@ input.error,
 select.error,
 textarea.error {
     @apply !border-red-500 !ring !ring-red-500 !ring-opacity-25;
+}
+
+label span:not(:first-child) {
+    @apply text-xs;
 }
 
 span.error {
@@ -35,7 +39,7 @@ select,
 select[multiple],
 textarea,
 .form-control {
-    @apply rounded-lg border border-gray-400 px-4 py-3 transition-all focus:border-teal focus:outline-none focus:ring focus:ring-teal focus:ring-opacity-25;
+    @apply rounded-lg border text-black border-gray-400 px-4 py-3 transition-all focus:border-teal focus:outline-none focus:ring focus:ring-teal focus:ring-opacity-25;
 }
 
 input[type="file"] {

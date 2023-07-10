@@ -1,29 +1,42 @@
 import cn from 'classnames';
+import { usePage } from '@inertiajs/react';
+import { PropsWithChildren } from 'react';
 import H1 from '../typography/H1';
+import Breadcrumbs, { BreadcrumbProps } from './Breadcrumbs';
 
-interface Props {
+interface Props extends PropsWithChildren {
     className?: string;
-    children?: React.ReactNode;
     heading: string;
+    showBreadcrumbs?: boolean;
 }
 
 export default function PageHeader({
+    showBreadcrumbs = true,
     className = '',
     heading,
     children,
 }: Props) {
-    return (
-        <div
-            className={cn(
-                className,
-                'mb-6 flex flex-col gap-6 border-b-2 border-teal pb-6 lg:flex-row lg:items-end lg:justify-between'
-            )}
-        >
-            <H1>{heading}</H1>
+    const { breadcrumbs } = usePage().props;
 
-            <div className="flex max-w-full items-center gap-6 overflow-x-scroll">
-                {children}
+    return (
+        <nav className="flex flex-col">
+            <div
+                className={cn(
+                    className,
+                    'mb-6 flex flex-col gap-6 border-b border-gray-300 pb-6'
+                )}
+            >
+                {breadcrumbs && showBreadcrumbs && (
+                    <Breadcrumbs
+                        breadcrumbs={breadcrumbs as BreadcrumbProps[]}
+                    />
+                )}
+                <H1>{heading}</H1>
             </div>
-        </div>
+
+            {children && (
+                <div className="flex items-start gap-4">{children}</div>
+            )}
+        </nav>
     );
 }

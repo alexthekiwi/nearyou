@@ -20,6 +20,8 @@ export default {
             },
             colors: {
                 teal: {
+                    'light': '#D2E8E8',
+                    'xlight': '#F0F8F7',
                     DEFAULT: '#0ABAB5',
                 },
                 gray: {

@@ -35,7 +35,7 @@ export default function Button({
         (theme === 'info' && 'bg-blue-400 text-white') ||
         (theme === 'danger' && 'bg-red-500 text-white') ||
         (theme === 'warning' && 'bg-yellow-400 text-white') ||
-        'bg-gray-600 text-white';
+        'bg-gray-500 text-white';
 
     const classes = cn(className, themeClass, baseClasses);
 

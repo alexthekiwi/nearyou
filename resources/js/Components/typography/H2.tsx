@@ -11,7 +11,7 @@ interface Props {
 export default function H2({ children, className, as = 'h2' }: Props) {
     const classes = cn(
         className,
-        'text-4xl font-black !leading-tight lg:text-5xl'
+        'text-2xl font-black !leading-tight lg:text-3xl'
     );
 
     return React.createElement(as, { className: classes }, children);

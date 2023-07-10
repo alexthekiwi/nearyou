@@ -53,13 +53,14 @@ export default function UpdatePasswordForm({ className }: Props) {
                 </p>
             </header>
 
-            <form onSubmit={updatePassword} className="mt-6 space-y-6">
+            <form onSubmit={updatePassword} className="mt-6">
                 <label>
                     Password
                     <input
                         id="current_password"
                         type="password"
                         name="current_password"
+                        className={errors.current_password ? 'error' : ''}
                         value={data.current_password}
                         onChange={(e) =>
                             handleChange({ event: e, data, setData })
@@ -76,6 +77,7 @@ export default function UpdatePasswordForm({ className }: Props) {
                         id="password"
                         type="password"
                         name="password"
+                        className={errors.password ? 'error' : ''}
                         value={data.password}
                         onChange={(e) =>
                             handleChange({ event: e, data, setData })
@@ -91,6 +93,7 @@ export default function UpdatePasswordForm({ className }: Props) {
                         id="password_confirmation"
                         type="password"
                         name="password_confirmation"
+                        className={errors.password_confirmation ? 'error' : ''}
                         value={data.password_confirmation}
                         onChange={(e) =>
                             handleChange({ event: e, data, setData })
@@ -105,7 +108,7 @@ export default function UpdatePasswordForm({ className }: Props) {
 
                 <div className="flex items-center justify-end gap-4">
                     <Button type="submit" disabled={processing} theme="success">
-                        Save
+                        Update password
                     </Button>
                 </div>
             </form>

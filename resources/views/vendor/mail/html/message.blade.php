@@ -3,8 +3,8 @@
 <x-slot:header>
 <x-mail::header url="https://nzhf.org">
 <img
-    width="135"
-    height="70"
+    width="155"
+    height="50"
     src="{{ url('/logo.png') }}"
     alt="{{ config('app.name') }}"
 />

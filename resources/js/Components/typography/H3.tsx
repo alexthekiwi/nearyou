@@ -11,7 +11,7 @@ interface Props {
 export default function H3({ children, className, as = 'h3' }: Props) {
     const classes = cn(
         className,
-        'max-w-[650px] text-xl leading-tight font-bold'
+        'text-xl font-black !leading-tight lg:text-2xl'
     );
 
     return React.createElement(as, { className: classes }, children);

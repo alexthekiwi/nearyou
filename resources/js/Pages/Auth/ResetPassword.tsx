@@ -1,9 +1,11 @@
-import { useEffect, FormEventHandler } from 'react';
+import { useEffect } from 'react';
 import { Head, useForm } from '@inertiajs/react';
-import Card from '@/Components/common/Card';
 import { handleChange } from '@/lib/forms';
 import Button from '@/Components/common/Button';
-import Layout from '@/Layouts/Layout';
+import Message from '@/Components/common/Message';
+import H2 from '@/Components/typography/H2';
+import Logo from '@/Components/common/Logo';
+import GuestLayout from '@/Layouts/GuestLayout';
 
 export default function ResetPassword({
     token,
@@ -26,19 +28,29 @@ export default function ResetPassword({
         []
     );
 
-    const submit: FormEventHandler = (e) => {
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
         post(route('password.store'));
-    };
+    }
 
     return (
-        <Layout>
+        <GuestLayout>
             <Head title="Reset Password" />
 
-            <div className="container my-24">
-                <Card className="mx-auto max-w-xl">
-                    <form className="flex flex-col gap-8" onSubmit={submit}>
+            <div className="flex flex-col gap-8">
+                <Logo className="mx-auto h-12" />
+                <div className="mx-auto w-full max-w-lg">
+                    <H2 className="mb-6">Reset your password</H2>
+
+                    <Message status="success" className="mb-6">
+                        {status}
+                    </Message>
+
+                    <form
+                        className="flex flex-col gap-8"
+                        onSubmit={handleSubmit}
+                    >
                         <label>
                             Email
                             <input
@@ -97,8 +109,8 @@ export default function ResetPassword({
                             </Button>
                         </div>
                     </form>
-                </Card>
+                </div>
             </div>
-        </Layout>
+        </GuestLayout>
     );
 }

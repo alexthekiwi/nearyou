@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "alexthekiwi/laravel-typescript": "^0.1.1",
+        "diglactic/laravel-breadcrumbs": "^8.1",
         "guzzlehttp/guzzle": "^7.7",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/breeze": "^1.21",
@@ -16,6 +17,7 @@
         "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.8",
         "laravel/vonage-notification-channel": "^3.2",
+        "robertboes/inertia-breadcrumbs": "^0.3.0",
         "spatie/laravel-backup": "^8.1",
         "spatie/laravel-schedule-monitor": "^3.3",
         "tightenco/ziggy": "^1.0",

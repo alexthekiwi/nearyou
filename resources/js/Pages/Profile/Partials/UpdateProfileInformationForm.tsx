@@ -24,6 +24,7 @@ export default function UpdateProfileInformation({
     });
 
     const { data, setData, put, errors, processing } = useForm({
+        username: user.username,
         name: user.name,
         email: user.email,
     });
@@ -44,13 +45,31 @@ export default function UpdateProfileInformation({
                 </p>
             </header>
 
-            <form onSubmit={submit} className="mt-6 space-y-6">
+            <form onSubmit={submit} className="mt-6">
+                <label>
+                    Username
+                    <input
+                        id="username"
+                        type="text"
+                        name="username"
+                        className={errors.username ? 'error' : ''}
+                        value={data.username}
+                        onChange={(e) =>
+                            handleChange({ event: e, data, setData })
+                        }
+                    />
+                    {errors.username && (
+                        <span className="error">{errors.username}</span>
+                    )}
+                </label>
+
                 <label>
                     Name
                     <input
                         id="name"
                         type="text"
                         name="name"
+                        className={errors.name ? 'error' : ''}
                         value={data.name}
                         onChange={(e) =>
                             handleChange({ event: e, data, setData })
@@ -67,6 +86,7 @@ export default function UpdateProfileInformation({
                         id="email"
                         type="email"
                         name="email"
+                        className={errors.email ? 'error' : ''}
                         value={data.email}
                         onChange={(e) =>
                             handleChange({ event: e, data, setData })
@@ -102,7 +122,7 @@ export default function UpdateProfileInformation({
 
                 <div className="flex items-center justify-end gap-4">
                     <Button type="submit" disabled={processing} theme="success">
-                        Save
+                        Save profile
                     </Button>
                 </div>
             </form>

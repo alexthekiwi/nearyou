@@ -77,9 +77,10 @@ export default function DeleteUserForm({ className = '' }: Props) {
 
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
                 <form onSubmit={deleteUser}>
-                    <p className="mb-6">
+                    <p>
                         Please enter your password to confirm you would like to
-                        permanently delete your account.
+                        permanently delete your account. Please note, there is
+                        no way to recover this.
                     </p>
 
                     <label>
@@ -89,6 +90,7 @@ export default function DeleteUserForm({ className = '' }: Props) {
                             type="password"
                             name="password"
                             value={data.password}
+                            className={errors.password ? 'error' : ''}
                             onChange={(e) =>
                                 handleChange({ event: e, data, setData })
                             }

@@ -1,4 +1,4 @@
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import type { ErrorBag, Errors, Page, PageProps } from '@inertiajs/core';
 import { App } from '@/types';
 
@@ -6,6 +6,7 @@ type AuthContext = {
     user: App['Models']['User'];
     isAuth: boolean;
     can: (ability: string) => boolean;
+    logout: () => void;
 };
 
 type AppPage = {
@@ -29,9 +30,14 @@ export function useAuth(): AuthContext {
         return props.auth.user.is_admin;
     }
 
+    function logout() {
+        router.post(route('logout'));
+    }
+
     return {
         user: props.auth.user,
         isAuth,
         can,
+        logout,
     };
 }
