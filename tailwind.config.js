@@ -21,7 +21,11 @@ export default {
             colors: {
                 teal: {
                     DEFAULT: '#0ABAB5',
-                }
+                },
+                gray: {
+                    ...defaultTheme.colors.gray,
+                    DEFAULT: '#56555B',
+                },
             },
             transitionTimingFunction: {
                 DEFAULT: 'cubic-bezier(0.4, 0, 0.2, 1)',

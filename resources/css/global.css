@@ -1,4 +1,9 @@
 /* Global styles */
 body {
-    @apply text-gray-600;
+    @apply text-black;
+}
+
+/* Make selection colours more on-brand */
+::selection {
+	@apply bg-black text-white;
 }

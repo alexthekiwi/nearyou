@@ -1,31 +1,24 @@
 import { Link } from '@inertiajs/react';
 import { useAuth } from '@/lib/auth';
+import NavLink from './NavLink';
+import Logo from './Logo';
 
 export default function Header() {
     const { isAuth } = useAuth();
 
     return (
-        <header className="relative z-[100] bg-teal py-4">
+        <header className="fixed top-0 z-[100] w-full bg-white py-4 shadow-sm">
             <nav className="container flex items-center justify-between gap-8">
-                <a
-                    href="https://www.nzhf.org/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-white transition-all hover:opacity-75"
+                <Link
+                    href="/"
+                    className="font-bold text-white transition-all hover:opacity-50"
                 >
-                    Near You
-                </a>
+                    <Logo className="h-12" />
+                </Link>
 
-                <div className="flex items-center gap-6 font-bold text-white">
-                    <Link href="/">Home</Link>
-                    {isAuth && (
-                        <Link
-                            href="/dashboard"
-                            className="transition-all hover:opacity-75"
-                        >
-                            Admin Dashboard
-                        </Link>
-                    )}
+                <div className="flex items-center gap-6 font-bold text-black">
+                    <NavLink href="/">Browse</NavLink>
+                    {isAuth && <NavLink href="/dashboard">Dashboard</NavLink>}
                 </div>
             </nav>
         </header>

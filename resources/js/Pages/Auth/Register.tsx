@@ -1,14 +1,22 @@
 import { useEffect, FormEventHandler } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, router, useForm } from '@inertiajs/react';
 import Card from '@/Components/common/Card';
-import { handleChange } from '@/lib/forms';
+import { handleChange, useSubmit } from '@/lib/forms';
 import Button from '@/Components/common/Button';
 import Layout from '@/Layouts/Layout';
 
-export default function Register() {
+interface Props {
+    phoneNumber: string;
+}
+
+export default function Register({ phoneNumber }: Props) {
+    const onRemovePhoneNumber = useSubmit({ message: 'Phone number reset!' });
+
     const { data, setData, post, processing, errors, reset } = useForm({
+        username: '',
         name: '',
         email: '',
+        phone: '',
         password: '',
         password_confirmation: '',
     });
@@ -26,6 +34,10 @@ export default function Register() {
         post(route('register'));
     };
 
+    function handleRemoveVerifiedPhoneNumber() {
+        router.delete('/signup/verify', onRemovePhoneNumber);
+    }
+
     return (
         <Layout>
             <Head title="Register" />
@@ -37,7 +49,42 @@ export default function Register() {
                             {status}
                         </div>
                     )}
+
+                    <div className="mb-4 flex flex-col items-start gap-1 rounded-xl bg-gray-100 p-4">
+                        <p className="font-bold text-teal">
+                            You have verified your phone number as {phoneNumber}
+                            .{' '}
+                        </p>
+                        <button
+                            onClick={handleRemoveVerifiedPhoneNumber}
+                            className="underline"
+                        >
+                            Change phone number?
+                        </button>
+                    </div>
+
                     <form className="flex flex-col gap-8" onSubmit={submit}>
+                        <label>
+                            Username
+                            <input
+                                id="username"
+                                type="text"
+                                name="username"
+                                value={data.username}
+                                onChange={(e) =>
+                                    handleChange({ event: e, data, setData })
+                                }
+                            />
+                            <span className="text-sm">
+                                This is what is shown to other traders to
+                                protect your privacy. We'll create one for you
+                                if you leave this field blank.
+                            </span>
+                            {errors.username && (
+                                <span className="error">{errors.name}</span>
+                            )}
+                        </label>
+
                         <label>
                             Name
                             <input
@@ -53,6 +100,7 @@ export default function Register() {
                                 <span className="error">{errors.name}</span>
                             )}
                         </label>
+
                         <label>
                             Email
                             <input

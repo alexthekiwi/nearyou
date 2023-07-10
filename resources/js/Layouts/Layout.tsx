@@ -8,9 +8,7 @@ export default function Layout({ children }: PropsWithChildren) {
     return (
         <div className="flex min-h-screen flex-col bg-white">
             <Header />
-            <main className="relative z-[2] flex-grow pb-24 pt-12">
-                {children}
-            </main>
+            <main className="relative z-[2] flex-grow pb-24">{children}</main>
             <Footer />
             <Toasts />
             <UserImpersonationBar />

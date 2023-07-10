@@ -34,7 +34,7 @@ input[type="password"],
 select,
 select[multiple],
 textarea,
-input.form-control {
+.form-control {
     @apply rounded-lg border border-gray-400 px-4 py-3 transition-all focus:border-teal focus:outline-none focus:ring focus:ring-teal focus:ring-opacity-25;
 }
 
