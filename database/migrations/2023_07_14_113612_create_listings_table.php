@@ -15,12 +15,14 @@ return new class extends Migration
         Schema::create('listings', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
+            $table->foreignUuid('location_id')->nullable()->constrained('locations', 'id')->nullOnDelete();
             $table->foreignUuid('seller_id')->nullable()->constrained('users', 'id')->nullOnDelete();
             $table->foreignUuid('buyer_id')->nullable()->constrained('users', 'id')->nullOnDelete();
             $table->string('title', 255);
             $table->bigInteger('price');
             $table->string('status')->default(ListingStatus::AVAILABLE->value);
             $table->dateTime('sold_at')->nullable();
+            $table->text('description')->nullable();
         });
     }
 

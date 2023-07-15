@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ListingStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,5 +52,10 @@ class Listing extends Model
             get: fn ($value) => $value / 100,
             set: fn ($value) => round($value * 100),
         );
+    }
+
+    public function scopeForUser(Builder $query, User $user)
+    {
+        return $query->where('location_id', $user->location_id);
     }
 }

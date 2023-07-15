@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Listings\GetListings;
+
 // use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         if (session()->has('verified_phone_number')) {
             return to_route('register');
@@ -20,6 +22,8 @@ class HomeController extends Controller
             return to_route('dashboard')->withMessage('Please set your location to browse local listings.', 'warning');
         }
 
-        return inertia('Home');
+        return inertia('Home', [
+            'listings' => (new GetListings)(auth()->user()),
+        ]);
     }
 }

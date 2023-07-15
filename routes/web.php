@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * Public routes
  */
-Route::get('/', HomeController::class)->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::delete('/user-proxy', [UserProxyController::class, 'destroy'])->name('user-proxy.destroy');
 
 /**
