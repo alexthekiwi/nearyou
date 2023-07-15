@@ -112,7 +112,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255',
             'username' => 'nullable|string|max:255|unique:users,username,'.$user->id,
             'password' => ['nullable', Rules\Password::defaults()->min(8)->mixedCase()->letters()->numbers()->uncompromised()],
-
+            'is_admin' => 'nullable|boolean',
         ]);
 
         $user->name = $request->name;
@@ -135,7 +135,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
 
-        if ($request->is_admin && auth()->user()->is_admin) {
+        if (auth()->user()->is_admin) {
             $user->is_admin = $request->is_admin;
         }
 

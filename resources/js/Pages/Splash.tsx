@@ -17,7 +17,7 @@ export default function Splash({}: Props) {
         <GuestLayout>
             <Head title="No Fees - No Fakes - Trade Local" />
 
-            <div className="my-auto grid gap-x-12 gap-y-4 md:grid-cols-12 md:items-center">
+            <div className="grid gap-x-12 gap-y-4 md:grid-cols-12 md:items-center">
                 <div className="flex flex-col items-start gap-12 md:col-span-4 lg:col-span-6">
                     <div className="flex flex-col items-start gap-6">
                         <Logo className="h-12" />
@@ -53,7 +53,7 @@ export default function Splash({}: Props) {
                 />
             </div>
 
-            <nav className="flex flex-col items-start gap-x-12 gap-y-4 font-bold text-gray md:flex-row md:justify-center">
+            <nav className="mt-auto flex flex-col items-start gap-x-12 gap-y-4 font-bold text-gray md:flex-row md:justify-center">
                 <Link
                     className="transition-colors hover:text-teal"
                     href="/terms-and-conditions"

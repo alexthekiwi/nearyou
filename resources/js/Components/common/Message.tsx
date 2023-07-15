@@ -1,13 +1,16 @@
 import React, { PropsWithChildren } from 'react';
 import cn from 'classnames';
+import { MessageStatus } from '@/lib/message';
 
 interface Props extends PropsWithChildren {
-    status?: 'success' | 'error' | 'default' | 'warning';
+    message?: string;
+    status?: MessageStatus;
     className?: string;
     canToggle?: boolean;
 }
 
 export default function Message({
+    message,
     children,
     status = 'default',
     className: additionalClasses = '',
@@ -25,11 +28,11 @@ export default function Message({
         'bg-gray-100 border-black text-black': status === 'default',
     });
 
-    if (!children || !show) return null;
+    if (!(children || message) || !show) return null;
 
     return (
         <div className={className}>
-            <div>{children}</div>
+            <div>{children || message}</div>
             {canToggle && (
                 <button title="Hide message" onClick={() => setShow(false)}>
                     <svg

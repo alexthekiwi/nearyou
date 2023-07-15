@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Actions\CreateMessage;
+use App\Enums\MessageStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
 
         // Disable mass assignment protection globally
         Model::unguard();
+
+        // Add a "withMessage" function to RedirectResponses
+        RedirectResponse::macro('withMessage', function (string $message, MessageStatus|string|null $status = null) {
+            return $this->with(['message' => (new CreateMessage)(...func_get_args())]);
+        });
     }
 }

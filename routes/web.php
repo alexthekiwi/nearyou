@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PhoneNumberRegisterController;
 use App\Http\Controllers\PhoneNumberVerifyController;
 use App\Http\Controllers\ProfileController;
@@ -10,36 +11,41 @@ use App\Http\Controllers\UserProxyController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Public routes
+ */
 Route::get('/', HomeController::class)->name('home');
+Route::delete('/user-proxy', [UserProxyController::class, 'destroy'])->name('user-proxy.destroy');
 
+/**
+ * Guest routes
+ */
 Route::middleware(['guest'])->group(function () {
     Route::post('/signup', [PhoneNumberRegisterController::class, 'store'])->name('phone-number-register.store');
     Route::post('/signup/verify', [PhoneNumberVerifyController::class, 'store'])->name('phone-number-verify.store');
     Route::delete('/signup/verify', [PhoneNumberVerifyController::class, 'destroy'])->name('phone-number-verify.destroy');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::resource('/users', UserController::class);
-});
-
-Route::middleware(['auth', IsAdmin::class])->group(function () {
-    Route::post('/user-proxy', [UserProxyController::class, 'store'])->name('user-proxy.store');
-});
-
-Route::delete('/user-proxy', [UserProxyController::class, 'destroy'])->name('user-proxy.destroy');
-
+/**
+ * Auth routes
+ */
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/location', [LocationController::class, 'store'])->name('location.store');
+    Route::put('/location', [LocationController::class, 'update'])->name('location.update');
 });
 
 /**
- * Local/development routes
+ * Admin rotues
  */
-if (app()->environment('local')) {
-    //
-}
+Route::middleware(['auth', IsAdmin::class])->group(function () {
+    Route::resource('/users', UserController::class);
+    Route::post('/user-proxy', [UserProxyController::class, 'store'])->name('user-proxy.store');
+});
 
 require __DIR__.'/auth.php';

@@ -3,6 +3,7 @@ import { useForm, usePage } from '@inertiajs/react';
 import H2 from '../typography/H2';
 import Button from '../common/Button';
 import { useSubmit } from '@/lib/forms';
+import Message from '../common/Message';
 
 type Stage = 'phone_number' | 'verification_code';
 
@@ -24,7 +25,7 @@ export default function RegisterPhoneNumberForm() {
     });
 
     const onVerify = useSubmit({
-        preserveScroll: true,
+        preserveScroll: false,
         message: 'Phone verification complete!',
     });
 
@@ -60,10 +61,14 @@ export default function RegisterPhoneNumberForm() {
             <H2 as="h1">
                 {stage === 'phone_number'
                     ? "What's your phone number?"
-                    : `Enter the code we sent to ${data.country_code} ${data.phone_number}.`}
+                    : `Enter the code we sent to ${data.country_code}${data.phone_number}.`}
             </H2>
 
             <div className="flex flex-col gap-3">
+                {Object.values(errors).map((error) => (
+                    <Message key={error} message={error} status="error" />
+                ))}
+
                 <form
                     onSubmit={handleSubmit}
                     className="flex flex-col gap-x-4 gap-y-6 lg:flex-row lg:flex-wrap"
@@ -73,7 +78,7 @@ export default function RegisterPhoneNumberForm() {
                             <span className="sr-only">
                                 Enter your phone number
                             </span>
-                            <span className="pointer-events-none">
+                            <span className="pointer-events-none !text-base">
                                 {data.country_code}
                             </span>
                             <input
@@ -106,31 +111,15 @@ export default function RegisterPhoneNumberForm() {
                     <Button type="submit" theme="primary">
                         {stage === 'phone_number' ? 'Send code' : 'Verify code'}
                     </Button>
-
-                    {errors.country_code && (
-                        <p className="w-full text-red-500">
-                            {errors.country_code}
-                        </p>
-                    )}
-
-                    {errors.phone_number && (
-                        <p className="w-full text-red-500">
-                            {errors.phone_number}
-                        </p>
-                    )}
-
-                    {errors.verification_code && (
-                        <p className="w-full text-red-500">
-                            {errors.verification_code}
-                        </p>
-                    )}
                 </form>
+
                 {stage === 'phone_number' && (
                     <p className="text-sm font-bold">
                         We’ll text you to confirm your number. Standard message
                         and data rates apply.
                     </p>
                 )}
+
                 {stage === 'verification_code' && (
                     <p className="text-sm font-bold">
                         This may take up to 2 minutes to come through.{' '}

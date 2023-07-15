@@ -13,7 +13,7 @@ class UserProxyController extends Controller
         }
 
         $request->validate([
-            'user_id' => ['required_without:type', 'integer', 'exists:users,id'],
+            'user_id' => ['string', 'exists:users,id'],
         ]);
 
         session(['user_proxy_id' => $request->input('user_id')]);

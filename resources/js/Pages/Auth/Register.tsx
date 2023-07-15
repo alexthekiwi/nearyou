@@ -5,6 +5,7 @@ import Button from '@/Components/common/Button';
 import H2 from '@/Components/typography/H2';
 import GuestLayout from '@/Layouts/GuestLayout';
 import Logo from '@/Components/common/Logo';
+import Message from '@/Components/common/Message';
 
 interface Props {
     phoneNumber: string;
@@ -54,17 +55,20 @@ export default function Register({ phoneNumber }: Props) {
                         </div>
                     )}
 
-                    <div className="mb-6 flex w-full flex-col items-start gap-1 rounded-xl bg-teal-xlight p-4">
-                        <p className="font-bold text-teal">
-                            Your verified phone number is {phoneNumber}.{' '}
-                        </p>
-                        <button
-                            onClick={handleRemoveVerifiedPhoneNumber}
-                            className="underline"
-                        >
-                            Change phone number?
-                        </button>
-                    </div>
+                    <Message className="mb-6" status="success">
+                        <div className="flex flex-col items-start gap-1">
+                            <p className="font-bold text-teal">
+                                Your verified phone number is {phoneNumber}.{' '}
+                            </p>
+                            <button
+                                onClick={handleRemoveVerifiedPhoneNumber}
+                                className="text-black underline"
+                            >
+                                Change phone number?
+                            </button>
+                        </div>
+                    </Message>
+
                     <form
                         className="flex w-full flex-col gap-8"
                         onSubmit={handleSubmit}
@@ -89,12 +93,15 @@ export default function Register({ phoneNumber }: Props) {
                             <span className="text-sm">
                                 This is what is shown to other traders to
                                 protect your privacy.
+                                <br />
+                                It can be your real name if you like.
                             </span>
                             {errors.username && (
                                 <span className="error">{errors.username}</span>
                             )}
                         </label>
-                        <label>
+
+                        {/* <label>
                             Name
                             <input
                                 id="name"
@@ -113,7 +120,8 @@ export default function Register({ phoneNumber }: Props) {
                             {errors.name && (
                                 <span className="error">{errors.name}</span>
                             )}
-                        </label>
+                        </label> */}
+
                         <label>
                             Email
                             <input

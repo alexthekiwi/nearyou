@@ -63,7 +63,7 @@ export default function UpdateProfileInformation({
                     )}
                 </label>
 
-                <label>
+                {/* <label>
                     Name
                     <input
                         id="name"
@@ -78,7 +78,7 @@ export default function UpdateProfileInformation({
                     {errors.name && (
                         <span className="error">{errors.name}</span>
                     )}
-                </label>
+                </label> */}
 
                 <label>
                     Email

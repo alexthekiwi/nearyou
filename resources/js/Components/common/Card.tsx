@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren {
 
 export default function Card({ className = '', children }: Props) {
     const baseClasses =
-        'rounded-lg border border-gray-100 bg-white p-6 shadow lg:p-8';
+        'rounded-lg border border-gray-200 bg-white p-6 shadow-sm lg:p-8';
 
     return <div className={cn(className, baseClasses)}>{children}</div>;
 }

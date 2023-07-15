@@ -21,9 +21,9 @@ export default function UsersCreate({}: Props) {
                     </Button>
                 </PageHeader>
 
-                <Card className="mx-auto w-full max-w-xl">
+                <div className="mx-auto w-full max-w-2xl rounded-lg bg-teal-xlight p-6">
                     <UserForm />
-                </Card>
+                </div>
             </div>
         </Layout>
     );

@@ -19,13 +19,19 @@ export default function Edit({ mustVerifyEmail, status }: Props) {
             <div className="container mb-24 mt-12 flex flex-col gap-12">
                 <PageHeader heading="Profile" />
 
-                <div className="mx-auto flex max-w-2xl flex-col gap-12">
-                    <UpdateProfileInformationForm
-                        mustVerifyEmail={mustVerifyEmail}
-                        status={status}
-                    />
-                    <UpdatePasswordForm />
-                    <DeleteUserForm />
+                <div className="grid items-start gap-8 md:grid-cols-12">
+                    <div className="rounded-lg bg-teal-xlight p-6 md:col-span-6">
+                        <UpdateProfileInformationForm
+                            mustVerifyEmail={mustVerifyEmail}
+                            status={status}
+                        />
+                    </div>
+                    <div className="rounded-lg bg-teal-xlight p-6 md:col-span-6">
+                        <UpdatePasswordForm />
+                    </div>
+                    <div className="rounded-lg bg-red-50 p-6 md:col-span-full">
+                        <DeleteUserForm />
+                    </div>
                 </div>
             </div>
         </Layout>

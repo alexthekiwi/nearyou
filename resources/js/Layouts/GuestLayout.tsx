@@ -13,7 +13,6 @@ export default function GuestLayout({ background, children }: Props) {
             <main className="container relative z-[2] flex h-screen min-h-[900px] flex-grow flex-col py-8 md:py-16">
                 {children}
             </main>
-            <div className="h-24" />
             <Toasts />
         </div>
     );

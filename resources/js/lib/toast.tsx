@@ -39,6 +39,11 @@ export function ToastProvider({ children }: any) {
     }
 
     /**
+     * Memoise the addToast function so we can use it in dependency arrays
+     */
+    const memoisedToast = React.useCallback(addToast, []);
+
+    /**
      * Remove a toast message
      */
     function removeToast(id: Toast['_id']) {
@@ -47,7 +52,7 @@ export function ToastProvider({ children }: any) {
 
     const context: ToastContextInterface = {
         toasts,
-        addToast,
+        addToast: memoisedToast,
         removeToast,
     };
 

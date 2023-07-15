@@ -1,17 +1,21 @@
+import { MdManageAccounts } from 'react-icons/md';
 import { Head } from '@inertiajs/react';
 import Layout from '@/Layouts/Layout';
 import { useAuth } from '@/lib/auth';
-import H1 from '@/Components/typography/H1';
 import Card from '@/Components/common/Card';
 import Button from '@/Components/common/Button';
 import PageHeader from '@/Components/common/PageHeader';
+import SetLocationForm from '@/Components/location/SetLocationForm';
+import { useMessage } from '@/lib/message';
+import Message from '@/Components/common/Message';
 
 interface Props {
     //
 }
 
 export default function Dashboard({}: Props) {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
+    const message = useMessage();
 
     return (
         <Layout>
@@ -19,6 +23,11 @@ export default function Dashboard({}: Props) {
 
             <div className="container mb-24 mt-12 flex flex-col gap-12">
                 <PageHeader heading="Kia ora!" />
+
+                <div className="flex flex-col gap-6">
+                    {message && <Message {...message} />}
+                    <SetLocationForm />
+                </div>
 
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {user.is_admin && (
@@ -55,10 +64,10 @@ export default function Dashboard({}: Props) {
 
                     <Card className="flex flex-col gap-8">
                         <Button
-                            method="post"
-                            href="/logout"
+                            type="button"
                             className="mt-auto"
                             theme="success"
+                            onClick={logout}
                         >
                             Log out
                         </Button>

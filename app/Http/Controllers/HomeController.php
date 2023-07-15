@@ -16,6 +16,10 @@ class HomeController extends Controller
             return inertia('Splash');
         }
 
+        if (auth()->user()->location_id === null) {
+            return to_route('dashboard')->withMessage('Please set your location to browse local listings.', 'warning');
+        }
+
         return inertia('Home');
     }
 }

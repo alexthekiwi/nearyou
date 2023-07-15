@@ -3,6 +3,7 @@ import { useForm } from '@inertiajs/react';
 import Button from '@/Components/common/Button';
 import { handleChange, useSubmit } from '@/lib/forms';
 import H2 from '@/Components/typography/H2';
+import { useToast } from '@/lib/toast';
 
 interface Props {
     className?: string;
@@ -15,8 +16,14 @@ export default function UpdatePasswordForm({ className }: Props) {
         password_confirmation: '',
     });
 
+    const { addToast } = useToast();
+
     function onSuccess() {
         reset();
+        addToast({
+            message: 'Password updated successfully!',
+            status: 'success',
+        });
     }
 
     function onError() {
@@ -48,8 +55,7 @@ export default function UpdatePasswordForm({ className }: Props) {
                 <H2>Update password</H2>
 
                 <p className="mt-2 text-sm text-gray-600">
-                    Ensure your account is using a long, random password to stay
-                    secure.
+                    Keep your account secure by never sharing your password.
                 </p>
             </header>
 

@@ -20,6 +20,17 @@ export function handleChange({ event, data, setData }: ChangeProps) {
         return;
     }
 
+    if (
+        'checked' in event.currentTarget &&
+        event.currentTarget.type === 'checkbox'
+    ) {
+        setData(
+            event.currentTarget.name,
+            event.currentTarget.checked ? true : null
+        );
+        return;
+    }
+
     setData(event.currentTarget.name, event.currentTarget.value);
 }
 
@@ -52,9 +63,9 @@ export function useSubmit({
         onSuccess: () => {
             if (onSuccess) {
                 onSuccess();
-            } else {
+            } else if (message) {
                 addToast({
-                    message: message ?? 'Success!',
+                    message,
                     status: 'success',
                 });
             }
