@@ -32,6 +32,6 @@ class LocationController extends Controller
             );
         }
 
-        return to_route('dashboard')->withMessage("Your location has been updated to {$location->name}", MessageStatus::SUCCESS);
+        return to_route('home')->withMessage("Your location has been updated to {$location->name}", MessageStatus::SUCCESS);
     }
 }

@@ -21,7 +21,7 @@ export default function Dashboard({}: Props) {
         <Layout>
             <Head title="Dashboard" />
 
-            <div className="container mb-24 mt-12 flex flex-col gap-12">
+            <div className="container mb-24 mt-12 flex flex-col gap-8">
                 <PageHeader heading="Kia ora!" />
 
                 <div className="flex flex-col gap-6">

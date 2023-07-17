@@ -9,10 +9,7 @@ interface Props {
 }
 
 export default function H4({ children, className, as = 'h4' }: Props) {
-    const classes = cn(
-        className,
-        'text-lg font-black !leading-tight lg:text-xl'
-    );
+    const classes = cn(className, 'text-lg !leading-tight lg:text-xl');
 
     return React.createElement(as, { className: classes }, children);
 }

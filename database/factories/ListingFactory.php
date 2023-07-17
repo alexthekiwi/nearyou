@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\ListingStatus;
 use App\Models\Location;
+use App\Models\Suburb;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,8 +24,9 @@ class ListingFactory extends Factory
             'seller_id' => User::inRandomOrder()->first()->id,
             'buyer_id' => User::inRandomOrder()->first()->id,
             'location_id' => Location::inRandomOrder()->first()->id,
+            'suburb_id' => Suburb::inRandomOrder()->first()->id,
             'title' => fake()->sentence,
-            'price' => fake()->numberBetween(10, 2000),
+            'price' => fake()->numberBetween(0, 2000),
             'status' => ListingStatus::random(),
             'description' => fake()->paragraph,
         ];

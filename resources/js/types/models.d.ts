@@ -13,8 +13,10 @@ export type App = {
             name: string;
             city_id: string;
             post_code_id: string;
+            listings?: Array<App['Models']['Listing']> | null;
             post_code?: App['Models']['PostCode'] | null;
             city?: App['Models']['City'] | null;
+            listings_count?: number | null;
         };
         PostCode: {
             id: string;
@@ -125,15 +127,20 @@ export type App = {
             id: string;
             created_at: string | null;
             updated_at: string | null;
+            location_id: string | null;
             seller_id: string | null;
             buyer_id: string | null;
             title: string;
-            price: number;
+            price: number | null;
             status: string;
             sold_at: string | null;
+            description: string | null;
+            suburb_id: string | null;
             images?: Array<App['Models']['ListingImage']> | null;
             seller?: App['Models']['User'] | null;
             buyer?: App['Models']['User'] | null;
+            suburb?: App['Models']['Suburb'] | null;
+            location?: App['Models']['Location'] | null;
             watchers?: Array<App['Models']['User']> | null;
             tags?: Array<App['Models']['Tag']> | null;
             images_count?: number | null;
@@ -146,8 +153,10 @@ export type App = {
             updated_at: string | null;
             name: string;
             users?: Array<App['Models']['User']> | null;
+            listings?: Array<App['Models']['Listing']> | null;
             post_codes?: Array<App['Models']['PostCode']> | null;
             users_count?: number | null;
+            listings_count?: number | null;
             post_codes_count?: number | null;
         };
         Faq: {

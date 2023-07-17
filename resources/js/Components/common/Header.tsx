@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { HiOutlineUser } from 'react-icons/hi2';
 import { useAuth } from '@/lib/auth';
 import NavLink from './NavLink';
 import Logo from './Logo';
@@ -14,7 +15,7 @@ export default function Header() {
     }
 
     return (
-        <header className="sticky top-0 z-[100] w-full bg-white py-4 shadow-sm">
+        <header className="md: relative z-[100] w-full bg-white py-2 shadow-sm">
             <nav className="container flex items-center justify-between gap-8">
                 <Link
                     href="/"
@@ -28,22 +29,9 @@ export default function Header() {
                     <NavLink href={route('dashboard')}>Dashboard</NavLink>
                     <Dropdown>
                         <Dropdown.Trigger>
-                            <button className="transition-colors hover:text-teal">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    className="h-6 w-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                                    />
-                                </svg>
-                            </button>
+                            <div className="transition-colors hover:cursor-pointer hover:text-teal">
+                                <HiOutlineUser className="h-6 w-6" />
+                            </div>
                         </Dropdown.Trigger>
                         <Dropdown.Content>
                             <ul className="flex flex-col items-start gap-3 p-4">

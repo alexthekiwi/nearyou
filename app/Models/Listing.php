@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Listing extends Model
 {
@@ -36,6 +37,16 @@ class Listing extends Model
         return $this->belongsTo(User::class, 'buyer_id', 'id');
     }
 
+    public function suburb(): BelongsTo
+    {
+        return $this->belongsTo(Suburb::class, 'suburb_id', 'id');
+    }
+
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class, 'location_id', 'id');
+    }
+
     public function watchers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_favourites', 'listing_id', 'user_id');
@@ -57,5 +68,18 @@ class Listing extends Model
     public function scopeForUser(Builder $query, User $user)
     {
         return $query->where('location_id', $user->location_id);
+    }
+
+    public function scopeSearch(Builder $query, ?string $search = null)
+    {
+        $lowerSearch = strtolower($search);
+
+        return $query->when(
+            $search,
+            fn ($query) => $query
+                ->where('id', '=', $search)
+                ->orWhere(DB::raw('lower(title)'), 'like', "%{$lowerSearch}%")
+                ->orWhere(DB::raw('lower(description)'), 'like', "%{$lowerSearch}%")
+        );
     }
 }

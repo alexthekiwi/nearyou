@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Listings\GetListings;
+use Illuminate\Http\Request;
 
 // use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (session()->has('verified_phone_number')) {
             return to_route('register');
@@ -23,7 +24,11 @@ class HomeController extends Controller
         }
 
         return inertia('Home', [
-            'listings' => (new GetListings)(auth()->user()),
+            'listings' => (new GetListings)(
+                paginate: true,
+                user: $request->user(),
+                request: $request
+            ),
         ]);
     }
 }

@@ -23,7 +23,7 @@ export default function PageHeader({
             <div
                 className={cn(
                     className,
-                    'mb-6 flex flex-col gap-6 border-b border-gray-300 pb-6'
+                    'flex flex-col gap-6 border-b border-gray-300 pb-6'
                 )}
             >
                 {breadcrumbs && showBreadcrumbs && (

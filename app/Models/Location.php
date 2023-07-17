@@ -16,6 +16,11 @@ class Location extends Model
         return $this->hasMany(User::class, 'location_id', 'id');
     }
 
+    public function listings(): HasMany
+    {
+        return $this->hasMany(Listing::class, 'location_id', 'id');
+    }
+
     public function postCodes(): HasMany
     {
         return $this->hasMany(PostCode::class, 'location_id', 'id');
