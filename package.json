@@ -39,6 +39,7 @@
         "lodash-es": "^4.17.21",
         "react-currency-input-field": "^3.6.11",
         "react-icons": "^4.10.1",
+        "usehooks-ts": "^2.9.1",
         "uuid": "^9.0.0"
     }
 }

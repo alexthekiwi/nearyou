@@ -21,13 +21,18 @@ class GetListings
         $query = Listing::query()
             ->forUser($user)
             ->search($request->input('search'))
-            ->with(['suburb']);
+            ->whereNotNull('location_id')
+            ->whereNotNull('seller_id')
+            ->with(['suburb', 'images']);
 
-        $listings = $paginate
-            ? $query->paginate($request->input('limit', 20))
-            : $query->get();
+        $listings = cache()->store()->remember("listings:{$user->id}:{$paginate}:{$request->page}:{$request->search}", 60, function () use ($paginate, $query, $request) {
+            return $paginate
+                ? $query->paginate($request->input('limit', 12))
+                : $query->get();
+        });
 
-        sleep(3);
+        // TODO: Remove this to make things faster 🙂 it's here to simulate a big database
+        sleep(1);
 
         return $listings;
     }

@@ -20,7 +20,7 @@ export default function ListingPreview({ listing }: Props) {
         <article>
             <Link
                 href={`/listings/${listing.id}`}
-                className="grid grid-cols-6 gap-6 md:grid-cols-12"
+                className="grid grid-cols-6 gap-x-6 gap-y-4 md:flex md:flex-col"
             >
                 <div className="col-span-2 md:col-span-4">
                     <img

@@ -14,17 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // Make a dev user if specified in `.env`
-        if (env('DEV_USER_EMAIL')) {
-            User::factory()->create([
-                'name' => env('DEV_USER_NAME' ?? 'Dev User'),
-                'username' => env('DEV_USER_USERNAME' ?? 'admin'),
-                'email' => env('DEV_USER_EMAIL'),
-                'password' => bcrypt(env('DEV_USER_PASSWORD') ?? 'password'),
-                'is_admin' => true,
-            ]);
-        }
-
         User::factory()->count(100)->create();
     }
 }

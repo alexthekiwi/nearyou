@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocalLoginController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PhoneNumberRegisterController;
 use App\Http\Controllers\PhoneNumberVerifyController;
@@ -47,5 +48,12 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::resource('/users', UserController::class);
     Route::post('/user-proxy', [UserProxyController::class, 'store'])->name('user-proxy.store');
 });
+
+/**
+ * Local only routes
+ */
+if (app()->environment('local')) {
+    Route::post('/local-login', [LocalLoginController::class, 'store'])->name('local-login.store');
+}
 
 require __DIR__.'/auth.php';

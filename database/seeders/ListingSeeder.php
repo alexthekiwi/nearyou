@@ -15,8 +15,8 @@ class ListingSeeder extends Seeder
     {
         Listing::query()->delete();
 
-        Listing::factory(600)
-            // ->has(ListingImage::factory(rand(1, 6)), 'images')
+        Listing::factory(1000)
+            ->has(ListingImage::factory(rand(1, 3)), 'images')
             ->create();
     }
 }

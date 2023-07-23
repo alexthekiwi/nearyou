@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ListingImage>
@@ -17,19 +19,22 @@ class ListingImageFactory extends Factory
      */
     public function definition(): array
     {
-        // TODO: Decide how to do this when I have better internet
+        $fileTitle = Uuid::uuid4();
+        $fileLocation = 'listing-images/'.str($fileTitle)->slug()->toString().'.jpg';
 
-        // $id = rand(0, 200);
-        // $image = "https://picsum.photos/id/{$id}/800/800";
-        $fileTitle = fake()->word().' '.fake()->word().' '.fake()->word();
-        // $fileName = "listing-images/{$id}.jpg";
+        // Get our locally saved directory of random Picsum images
+        $placeholdersDir = storage_path('fixtures/listing-images');
+        File::ensureDirectoryExists($placeholdersDir);
 
-        File::ensureDirectoryExists(storage_path('app/public/listing-images'));
-        $image = fake()->image(storage_path('app/public/listing-images'), 800, 800, null, false);
+        // Select a random image from the directory
+        $image = collect(File::files($placeholdersDir))->random();
+
+        // Store it in our public storage
+        Storage::disk('public')->put($fileLocation, File::get($image));
 
         return [
             'title' => $fileTitle,
-            'file' => 'listing-images/'.$image,
+            'file' => $fileLocation,
             'disk' => 'public',
         ];
     }
