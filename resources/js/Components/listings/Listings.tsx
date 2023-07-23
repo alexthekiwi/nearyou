@@ -7,6 +7,7 @@ import SetLocationForm from '@/Components/location/SetLocationForm';
 import ListingPreview from '@/Components/listings/ListingPreview';
 import { useSearch } from '@/lib/search';
 import Loader from '../common/Loader';
+import SearchBar from '../common/SearchBar';
 
 interface Props {
     data: PaginatedResults<App['Models']['Listing'][]>;
@@ -103,24 +104,7 @@ export default function Listings({ data: paginatedListings }: Props) {
             <div>
                 <div className="container flex flex-col gap-x-12 gap-y-4 md:flex-row md:items-center">
                     <SetLocationForm display="minimal" />
-                    <form
-                        onSubmit={handleSearch}
-                        className="flex flex-grow flex-row items-center justify-between rounded-lg bg-gray-100 px-4 py-4"
-                    >
-                        <input
-                            className="flex-grow !border-0 !bg-transparent !p-0 !transition-none [appearance:textfield] focus:!ring-transparent [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                            placeholder="Search"
-                            type="text"
-                            name="search"
-                            id="search"
-                            autoFocus
-                            value={search}
-                            onChange={(e) => setSearch(e.currentTarget.value)}
-                        />
-                        <button type="submit" title="Search" className="">
-                            <HiOutlineMagnifyingGlass className="h-6 w-6" />
-                        </button>
-                    </form>
+                    <SearchBar />
                 </div>
             </div>
 

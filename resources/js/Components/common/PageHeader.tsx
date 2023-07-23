@@ -16,10 +16,12 @@ export default function PageHeader({
     heading,
     children,
 }: Props) {
-    const { breadcrumbs } = usePage().props;
+    const { breadcrumbs } = usePage<{
+        breadcrumbs: BreadcrumbProps[];
+    }>().props;
 
     return (
-        <nav className="flex flex-col">
+        <nav className="flex flex-col gap-6">
             <div
                 className={cn(
                     className,
@@ -27,9 +29,7 @@ export default function PageHeader({
                 )}
             >
                 {breadcrumbs && showBreadcrumbs && (
-                    <Breadcrumbs
-                        breadcrumbs={breadcrumbs as BreadcrumbProps[]}
-                    />
+                    <Breadcrumbs breadcrumbs={breadcrumbs} />
                 )}
                 <H1>{heading}</H1>
             </div>

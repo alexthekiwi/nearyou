@@ -60,10 +60,23 @@ export function useSearch({
         setSearching(false);
     }
 
+    function handleClearSearch() {
+        setSearch('');
+
+        const searchParams = new URLSearchParams(window?.location.search);
+
+        searchParams.delete(param);
+
+        router.get(
+            `${path ?? window.location.pathname}?${searchParams.toString()}`
+        );
+    }
+
     return {
         search,
         setSearch,
         isSearching,
         handleSearch,
+        handleClearSearch,
     };
 }

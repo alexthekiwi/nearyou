@@ -1,4 +1,5 @@
 import { Head, Link, router } from '@inertiajs/react';
+import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import Layout from '@/Layouts/Layout';
 import Button from '@/Components/common/Button';
 import { PaginatedResults } from '@/types';
@@ -33,7 +34,7 @@ export default function UsersIndex({ users }: Props) {
         message: 'User deleted successfully.',
     });
 
-    function handleUserProxy(id: number) {
+    function handleUserProxy(id: string) {
         if (!isAdmin) {
             return;
         }
@@ -64,7 +65,7 @@ export default function UsersIndex({ users }: Props) {
                     </Button>
                 </PageHeader>
 
-                <SearchBar path={route('users.index')} />
+                <SearchBar clearable />
 
                 <Table>
                     <TableHeader>

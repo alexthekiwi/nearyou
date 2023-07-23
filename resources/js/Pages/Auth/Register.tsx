@@ -81,7 +81,6 @@ export default function Register({ phoneNumber }: Props) {
                                 name="username"
                                 className={errors.username ? 'error' : ''}
                                 value={data.username}
-                                className={errors.username ? 'error' : ''}
                                 onChange={(e) =>
                                     handleChange({
                                         event: e,
