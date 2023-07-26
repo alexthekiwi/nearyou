@@ -1,5 +1,6 @@
 import React from 'react';
 import { useToast } from './toast';
+import { PageProps } from '@/types';
 
 interface ChangeProps {
     event: React.SyntheticEvent<
@@ -43,8 +44,8 @@ export function handleFileInput({ event, data, setData }: FileInputProps) {
 
 interface UseSubmitOptions {
     message?: string;
-    onError?: () => void;
-    onSuccess?: () => void;
+    onError?: (errors: any) => void;
+    onSuccess?: (pageProps: any) => void;
     onFinish?: () => void;
     preserveScroll?: boolean;
 }
@@ -60,9 +61,9 @@ export function useSubmit({
 
     return {
         preserveScroll,
-        onSuccess: () => {
+        onSuccess: (pageProps: PageProps) => {
             if (onSuccess) {
-                onSuccess();
+                onSuccess(pageProps);
             } else if (message) {
                 addToast({
                     message,
@@ -70,9 +71,9 @@ export function useSubmit({
                 });
             }
         },
-        onError: () => {
+        onError: (errors: any) => {
             if (onError) {
-                onError();
+                onError(errors);
             } else {
                 addToast({
                     message: 'Oops! There was an error.',

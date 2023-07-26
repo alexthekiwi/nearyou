@@ -3,35 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Location\SetNewLocation;
-use App\Enums\MessageStatus;
+use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
-    public function store()
+    public function store(Request $request)
     {
-        $location = (new SetNewLocation)(auth()->user());
+        $request->validate([
+            'postCode' => ['required', 'size:4'],
+        ]);
+
+        $location = (new SetNewLocation)(user: auth()->user(), postCode: $request->postCode);
 
         if (! $location) {
-            return to_route('dashboard')->withMessage(
-                "Sorry! It looks like we're not available in your area yet. Please check back another time.",
-                MessageStatus::WARNING
-            );
+            return back()->withErrors([
+                'location' => "Sorry! It looks like we're not available in your area yet. Please check back another time.",
+            ]);
         }
 
-        return to_route('home')->withMessage("Your location has been set to {$location->name}", MessageStatus::SUCCESS);
-    }
-
-    public function update()
-    {
-        $location = (new SetNewLocation)(auth()->user());
-
-        if (! $location) {
-            return to_route('dashboard')->withMessage(
-                "Sorry! It looks like we're not available in your area yet. Please check back another time.",
-                MessageStatus::WARNING
-            );
-        }
-
-        return to_route('home')->withMessage("Your location has been updated to {$location->name}", MessageStatus::SUCCESS);
+        return back()->with(['success' => "Your location has been set to {$location->name}"]);
     }
 }

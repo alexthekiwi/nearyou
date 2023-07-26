@@ -1,5 +1,6 @@
 export * from './models';
 export * from './props';
+export * from './api';
 
 export interface User {
     id: number;
@@ -35,3 +36,5 @@ export type PaginatedResults<T = any> = {
     total: number;
     from: number;
 };
+
+export type Status = 'idle' | 'processing' | 'success' | 'error';

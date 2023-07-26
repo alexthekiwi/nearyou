@@ -42,6 +42,8 @@ class HandleInertiaRequests extends Middleware
             },
             'user_proxy_id' => session()->get('user_proxy_id'),
             'message' => session()->get('message'),
+            'success' => session()->get('success'),
+            'error' => session()->get('error'),
             'environment' => app()->environment(),
         ]);
     }

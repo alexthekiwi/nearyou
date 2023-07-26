@@ -27,7 +27,7 @@ class GetListings
 
         $listings = cache()->store()->remember("listings:{$user->id}:{$paginate}:{$request->page}:{$request->search}", 60, function () use ($paginate, $query, $request) {
             return $paginate
-                ? $query->paginate($request->input('limit', 12))
+                ? $query->paginate($request->input('limit', 24))
                 : $query->get();
         });
 
