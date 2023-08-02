@@ -31,9 +31,6 @@ class GetListings
                 : $query->get();
         });
 
-        // TODO: Remove this to make things faster 🙂 it's here to simulate a big database
-        sleep(1);
-
         return $listings;
     }
 }

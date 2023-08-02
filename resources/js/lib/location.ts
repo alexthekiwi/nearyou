@@ -4,6 +4,7 @@ export async function getCurrentLocation(): Promise<LocationResponse> {
     let coords: GeolocationPosition | undefined;
 
     try {
+        // @ts-ignore
         coords = (await getCoordinates()).coords;
     } catch (error) {
         // Permission denied by the browser to use Geolocation
@@ -19,6 +20,7 @@ export async function getCurrentLocation(): Promise<LocationResponse> {
         };
     }
 
+    // @ts-ignore
     const { latitude, longitude } = coords;
 
     const addressData = await geocodeLatLng(latitude, longitude);

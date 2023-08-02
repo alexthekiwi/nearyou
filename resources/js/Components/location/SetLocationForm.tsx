@@ -130,10 +130,7 @@ export default function SetLocationForm({ display = 'default' }: Props) {
                 <MdMyLocation className="h-8 w-8 text-teal" />
                 <h2 className="font-bold">{description}</h2>
             </div>
-            <Button
-                onClick={location ? handleUpdateLocation : handleSetLocation}
-                theme="primary"
-            >
+            <Button onClick={handleUpdateLocation} theme="primary">
                 {buttonText}
             </Button>
         </div>
