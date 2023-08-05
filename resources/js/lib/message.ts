@@ -12,7 +12,6 @@ export type Message = {
 
 export function useMessage() {
     const { props } = usePage<{ message?: Message }>();
-    console.log(props);
 
     return props.message;
 }

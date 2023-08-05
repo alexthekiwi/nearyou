@@ -1,7 +1,6 @@
 import React from 'react';
 import { router } from '@inertiajs/react';
 import { useIntersectionObserver } from 'usehooks-ts';
-import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import { App, PaginatedResults } from '@/types';
 import SetLocationForm from '@/Components/location/SetLocationForm';
 import ListingPreview from '@/Components/listings/ListingPreview';
@@ -103,7 +102,7 @@ export default function Listings({ data: paginatedListings }: Props) {
         <div className="flex flex-col gap-6 md:gap-10">
             <div>
                 <div className="container flex flex-col gap-x-12 gap-y-4 md:flex-row md:items-center">
-                    <SetLocationForm display="minimal" />
+                    <SetLocationForm />
                     <SearchBar />
                 </div>
             </div>

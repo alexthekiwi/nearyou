@@ -1,4 +1,3 @@
-import { MdManageAccounts } from 'react-icons/md';
 import { Head } from '@inertiajs/react';
 import Layout from '@/Layouts/Layout';
 import { useAuth } from '@/lib/auth';
@@ -24,7 +23,7 @@ export default function Dashboard({}: Props) {
             <div className="container mb-24 mt-12 flex flex-col gap-8">
                 <PageHeader heading="Kia ora!" />
 
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col items-start gap-6">
                     {message && <Message {...message} />}
                     <SetLocationForm />
                 </div>

@@ -1,6 +1,8 @@
-import { GeocodeResponse, LocationResponse } from '@/types';
+import { ErrorResponse, GeocodeResponse, LocationResponse } from '@/types';
 
-export async function getCurrentLocation(): Promise<LocationResponse> {
+export async function getCurrentLocation(): Promise<
+    LocationResponse | { error: string }
+> {
     let coords: GeolocationPosition | undefined;
 
     try {
@@ -23,23 +25,31 @@ export async function getCurrentLocation(): Promise<LocationResponse> {
     // @ts-ignore
     const { latitude, longitude } = coords;
 
-    const addressData = await geocodeLatLng(latitude, longitude);
+    let addressResponse: GeocodeResponse | undefined;
 
-    const suburb = addressData.address_components.find((component) =>
+    try {
+        addressResponse = await geocodeLatLng(latitude, longitude);
+    } catch (error) {
+        return {
+            error: 'Error calling the GeoCoding API. Please see the console for more details.',
+        };
+    }
+
+    const suburb = addressResponse.address_components.find((component) =>
         component.types.includes('sublocality')
     )?.long_name;
 
-    const city = addressData.address_components.find((component) =>
+    const city = addressResponse.address_components.find((component) =>
         component.types.includes('locality')
     )?.long_name;
 
-    const postCode = addressData.address_components.find((component) =>
+    const postCode = addressResponse.address_components.find((component) =>
         component.types.includes('postal_code')
     )?.long_name;
 
     const approximateLocation =
         (suburb && city && `${suburb}, ${city}`) ||
-        addressData.formatted_address;
+        addressResponse.formatted_address;
 
     if (!postCode) {
         return {
@@ -81,7 +91,17 @@ export async function geocodeLatLng(
         }),
     });
 
+    if (!res.ok) {
+        const trace = await res.text();
+
+        console.error(trace);
+
+        throw new Error(trace);
+    }
+
     const { data }: { data: GeocodeResponse } = await res.json();
+
+    console.log({ data });
 
     return data;
 }

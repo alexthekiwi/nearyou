@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\MissingEnvironmentVariableException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -10,6 +11,10 @@ class GeocodeController extends Controller
 {
     public function show(Request $request)
     {
+        if (! config('services.google.geocoding.key')) {
+            throw new MissingEnvironmentVariableException('GOOGLE_GEOCODING_API_KEY');
+        }
+
         $request->validate([
             'lat' => 'required|numeric',
             'lng' => 'required|numeric',
