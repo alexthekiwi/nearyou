@@ -23,7 +23,7 @@ class ListingImageFactory extends Factory
         $fileLocation = 'listing-images/'.str($fileTitle)->slug()->toString().'.jpg';
 
         // Get our locally saved directory of random Picsum images
-        $placeholdersDir = storage_path('fixtures/listing-images');
+        $placeholdersDir = database_path('fixtures/listing-images');
         File::ensureDirectoryExists($placeholdersDir);
 
         // Select a random image from the directory

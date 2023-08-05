@@ -1,94 +1,26 @@
-# Near You
+# NearYou
+This application is built with the [Laravel](https://laravel.com/) framework, using [React.js](https://react.dev/) and [TypeScript](https://www.typescriptlang.org/) for the front-end.
+
+It uses [Inertia.js](https://inertiajs.com/) as a routing and data layer to allow us to use standard Laravel routing, while using a JavaScript framework like React for user interfaces.
+It uses [Inertia.js](https://inertiajs.com/) as a routing and data layer to allow us to use standard Laravel routing, while using a JavaScript framework like React for user interfaces.
+- View [composer.json](composer.json) to see back-end dependencies
+- View [package.json](package.json) to see front-end dependencies
 
 ## Installation
-If using Laravel Valet, create a symlink to the project
-```sh
-valet link nearyou
+You have two options for local installation:
+- Option 1: [MacOS installation](/docs/local/README.md)
+- Option 2: [Docker](/docs/docker/README.md)
+
+## Developer user
+You can edit your `.env` file to change the `DEV_USER` variables however you like. By default you will be able to log in with "admin@nearyou.co.nz and a password of "pw". You can also click the "Admin login" button in the bottom right corner.
+
+## Useful commands
+You can run any of the below from the application root in your terminal. If you are using Docker (with Laravel Sail), replace any instances of `php` with `sail`.
+
+Refresh the database with seed data
+```
+php artisan migrate:fresh --seed
 ```
 
-Install PHP dependencies
-```sh
-composer install
-```
-
-Create environment variables (edit the file according to your environment)
-```sh
-cp .env.example .env
-```
-
-Generate an encryption key for the app
-```sh
-php artisan key:generate
-```
-
-Install front-end dependencies
-```sh
-npm install
-```
-
-Compile frontend dependencies
-```sh
-npm run build
-```
-
-## Development
-Start the development server
-```sh
-npm run dev
-```
-
-## Deployment
-Deploy to production
-```sh
-git push main
-```
-
-Deploy to test
-```sh
-git push test
-```
-
-## Hosting setup
-App deployment script for Laravel Forge
-```sh
-cd $FORGE_SITE_PATH
-git pull origin $FORGE_SITE_BRANCH
-
-# Install PHP dependencies
-$FORGE_COMPOSER install --no-interaction --prefer-dist --optimize-autoloader
-
-# Reload PHP-FPM
-( flock -w 10 9 || exit 1
-    echo 'Restarting FPM...'; sudo -S service $FORGE_PHP_FPM reload ) 9>/tmp/fpmlock
-
-if [ -f artisan ]; then
-    # Migrate the database
-    $FORGE_PHP artisan migrate --force
-
-    # Sync the schedule monitor
-    $FORGE_PHP artisan schedule-monitor:sync
-
-    # Restart Horizon (queues)
-    $FORGE_PHP artisan horizon:terminate
-
-    # Clear and re-cache the config
-    $FORGE_PHP artisan config:cache
-fi
-
-if [ -f package.json ]; then
-    # Install dependencies
-    npm install
-
-    # Compile front-end assets
-    npm run build
-fi
-```
-
-Cache static assets with Nginx (edit Nginx config)
-```nginx
-# Cache static assets
-location ~* \.(css|gif|jpg|js|png|ico|otf|ttf|woff|woff2|jpeg|webp)$ {
-    access_log off;
-    expires max;
-}
-```
+## Deployment and hosting
+View the [README](/docs/deployment/README.md) for CI/CD information and hosting infrastructure.
