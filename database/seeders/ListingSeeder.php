@@ -13,8 +13,6 @@ class ListingSeeder extends Seeder
      */
     public function run(): void
     {
-        Listing::query()->delete();
-
         Listing::factory(100)
             ->has(ListingImage::factory(rand(1, 3)), 'images')
             ->create();
