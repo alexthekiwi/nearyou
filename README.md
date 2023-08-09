@@ -8,7 +8,7 @@ It uses [Inertia.js](https://inertiajs.com/) as a routing and data layer to allo
 
 ## Installation
 You have two options for local installation:
-- Option 1: [MacOS installation](/docs/local/README.md)
+- Option 1: [MacOS installation](/docs/macos/README.md)
 - Option 2: [Docker](/docs/docker/README.md)
 
 ## Developer user
