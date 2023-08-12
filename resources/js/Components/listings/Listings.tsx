@@ -105,6 +105,7 @@ export default function Listings({ data: paginatedListings, children }: Props) {
                                 <ListingPreview
                                     key={listing.id}
                                     listing={listing}
+                                    showTags
                                 />
                             ))}
                         </div>
@@ -118,7 +119,7 @@ export default function Listings({ data: paginatedListings, children }: Props) {
                 <div id="end" ref={endOfResultsRef} />
 
                 {listings.length === 0 && (
-                    <p className="text-sm font-bold">
+                    <p className="text-center text-lg font-bold">
                         No results found. Please try another search.
                     </p>
                 )}

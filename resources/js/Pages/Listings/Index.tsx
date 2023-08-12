@@ -1,4 +1,5 @@
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
+import { HiPlus } from 'react-icons/hi';
 import Layout from '@/Layouts/Layout';
 import H1 from '@/Components/typography/H1';
 import { App, PaginatedResults } from '@/types';
@@ -25,12 +26,24 @@ export default function ListingsIndex({ listings }: Props) {
                 </div>
 
                 <Listings data={listings}>
-                    <div className="container flex flex-col gap-x-12 gap-y-4 md:flex-row md:items-center">
-                        <SetLocationForm onSuccess={handleSetLocation} />
-                        <SearchBar name="search" id="search" clearable />
-                        <NavBar />
+                    <div className="container flex flex-col gap-y-4">
+                        <div className="flex flex-col gap-x-12 gap-y-4 md:flex-row md:items-center">
+                            <SetLocationForm onSuccess={handleSetLocation} />
+                            <SearchBar name="search" id="search" clearable />
+                        </div>
+                        <div className="flex w-full justify-center">
+                            <NavBar className="max-w-lg flex-grow" />
+                        </div>
                     </div>
                 </Listings>
+
+                <Link
+                    title="Create a new listing"
+                    href={route('listings.create')}
+                    className="fixed bottom-4 right-4 flex rounded-full bg-teal p-3 text-white shadow transition-colors hover:bg-teal-600 focus:outline-none focus:ring focus:ring-teal focus:ring-offset-2 md:bottom-6 md:right-6"
+                >
+                    <HiPlus className="h-10 w-10" />
+                </Link>
             </div>
         </Layout>
     );

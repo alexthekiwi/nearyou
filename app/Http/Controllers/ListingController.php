@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Listings\GetListings;
 use App\Models\Listing;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ListingController extends Controller
@@ -25,14 +26,28 @@ class ListingController extends Controller
     {
         $this->authorize('create', Listing::class);
 
-        // TODO
+        $tags = Tag::query()
+            ->select(['id', 'title', 'slug'])
+            ->get();
+
+        return inertia('Listings/Create', [
+            'tags' => $tags,
+        ]);
     }
 
     public function store(Request $request)
     {
         $this->authorize('create', Listing::class);
 
-        // TODO
+        $request->validate([
+            // TODO
+        ]);
+
+        // TODO: Create listing
+        // TODO: Process images (compress, resize, etc.)
+        // TODO: Associate tags
+
+        return redirect()->route('listings.index');
     }
 
     public function show(Listing $listing)
@@ -54,6 +69,25 @@ class ListingController extends Controller
         ]);
     }
 
+    public function edit(Listing $listing)
+    {
+        $this->authorize('view', $listing);
+
+        // Attach relationships
+        $listing->loadMissing([
+            'seller',
+            'buyer',
+            'images',
+            'tags',
+            'location',
+            'watchers',
+        ]);
+
+        return inertia('Listings/Edit', [
+            'listing' => $listing,
+        ]);
+    }
+
     public function update(Listing $listing)
     {
         $this->authorize('update', $listing);
@@ -65,6 +99,8 @@ class ListingController extends Controller
     {
         $this->authorize('delete', $listing);
 
-        // TODO
+        $listing->delete();
+
+        return redirect()->route('listings.index');
     }
 }

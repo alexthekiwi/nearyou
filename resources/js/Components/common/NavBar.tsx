@@ -20,7 +20,10 @@ const links = [
 export default function NavBar({ className = '' }: NavBarProps) {
     return (
         <nav
-            className={cn(`flex items-start gap-8 overflow-x-auto`, className)}
+            className={cn(
+                `flex justify-between gap-8 overflow-x-auto`,
+                className
+            )}
         >
             {links.map((link) => (
                 <NavBarLink href={link.href} key={link.href}>
@@ -38,7 +41,7 @@ function NavBarLink({ href, children }: NavBarLinkProps) {
         <Link
             href={href}
             className={cn(
-                'flex flex-col items-center gap-y-1 whitespace-nowrap font-bold',
+                'flex flex-col items-center gap-y-1 whitespace-nowrap py-2 font-bold transition-colors hover:text-gray-600',
                 {
                     'text-gray-700': isActive,
                     'text-gray-400': !isActive,

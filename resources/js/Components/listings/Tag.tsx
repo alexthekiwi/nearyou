@@ -6,7 +6,9 @@ interface Props {
 }
 
 export default function Tag({ tag }: Props) {
-    const searchLink = `/?search=${tag.title}`;
+    const searchLink = route('listings.index', {
+        search: tag.title,
+    });
 
     return (
         <Link

@@ -6,9 +6,10 @@ import Tags from './Tags';
 
 interface Props {
     listing: App['Models']['Listing'];
+    showTags?: boolean;
 }
 
-export default function ListingPreview({ listing }: Props) {
+export default function ListingPreview({ listing, showTags }: Props) {
     const thumbnail =
         listing.images?.[0].file || '/img/placeholders/thumbnail.png';
 
@@ -47,7 +48,8 @@ export default function ListingPreview({ listing }: Props) {
                     {formatDateRelative(listing.created_at)}
                 </p>
             </div>
-            {listing.tags && (
+
+            {listing.tags && showTags && (
                 <Tags tags={listing.tags} className="col-span-full" max={3} />
             )}
         </article>

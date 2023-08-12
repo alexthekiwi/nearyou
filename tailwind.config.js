@@ -20,8 +20,10 @@ export default {
             },
             colors: {
                 teal: {
+                    ...defaultTheme.colors.teal,
                     'light': '#D2E8E8',
                     'xlight': '#F0F8F7',
+                    'dark': '#0ABAB5',
                     DEFAULT: '#0ABAB5',
                 },
                 gray: {
