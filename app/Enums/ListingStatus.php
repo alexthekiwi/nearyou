@@ -4,11 +4,12 @@ namespace App\Enums;
 
 use App\Traits\GeneratesRandomEnumValue;
 
-enum ListingStatus: string
+enum ListingStatus: int
 {
     use GeneratesRandomEnumValue;
 
-    case AVAILABLE = 'available';
-    case RESERVED = 'reserved';
-    case SOLD = 'sold';
+    case AVAILABLE = 1;
+    case PROCESSING = 2;
+    case RESERVED = 3;
+    case SOLD = 4;
 }

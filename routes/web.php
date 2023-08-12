@@ -11,6 +11,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PhoneNumberRegisterController;
 use App\Http\Controllers\PhoneNumberVerifyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RandomListingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProxyController;
 use App\Http\Middleware\IsAdmin;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('/listings', ListingController::class);
+Route::get('/random', RandomListingController::class)->name('listings.random');
 Route::resource('/chat', ChatController::class);
 Route::get('/about', AboutController::class)->name('about');
 Route::get('/community', CommunityController::class)->name('community');

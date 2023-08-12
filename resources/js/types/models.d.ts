@@ -132,7 +132,7 @@ export type App = {
             buyer_id: string | null;
             title: string;
             price: number | null;
-            status: string;
+            status: number;
             sold_at: string | null;
             description: string | null;
             suburb_id: string | null;
@@ -188,6 +188,5 @@ export type App = {
             chat?: App['Models']['Chat'] | null;
             user?: App['Models']['User'] | null;
         };
-};
-
+    };
 };

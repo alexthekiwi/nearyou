@@ -4,6 +4,7 @@ import { formatMoney } from '@/lib/money';
 import { App } from '@/types';
 import { formatDateRelative } from '@/lib/dates';
 import Tags from './Tags';
+import { getListingStatus } from '@/lib/listings';
 
 interface Props {
     listing: App['Models']['Listing'];
@@ -18,15 +19,21 @@ export default function ListingPreview({ listing, showTags }: Props) {
     const isFree = !listing.price;
     const hasSuburb = Boolean(listing.suburb);
 
+    const suburbLink = listing.suburb
+        ? route('listings.index', {
+              search: listing.suburb?.name,
+          })
+        : '#0';
+
     return (
         <article className="group grid grid-cols-6 gap-x-6 gap-y-4 focus:outline-none md:flex md:flex-col">
             <Link
                 href={listingLink}
                 className="relative col-span-2 overflow-hidden rounded-lg ring-teal ring-offset-2 transition-opacity hover:opacity-75 group-focus:ring-2 md:col-span-4"
             >
-                {listing.status !== 'available' && (
+                {listing.status !== 1 && (
                     <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black bg-opacity-50 font-bold text-white">
-                        {upperFirst(listing.status)}
+                        {getListingStatus(listing)}
                     </div>
                 )}
                 <img
@@ -47,7 +54,9 @@ export default function ListingPreview({ listing, showTags }: Props) {
                 <p className="mt-auto flex flex-wrap gap-1 text-xs text-gray-500">
                     {hasSuburb && (
                         <>
-                            {listing.suburb?.name}
+                            <Link href={suburbLink}>
+                                {listing.suburb?.name}
+                            </Link>
                             <span>•</span>
                         </>
                     )}

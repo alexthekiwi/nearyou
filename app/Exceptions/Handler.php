@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Meilisearch\Exceptions\CommunicationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -23,6 +24,13 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        // Give a better error message for Meilisearch connection errors
+        $this->reportable(function (CommunicationException $e) {
+            throw new \Exception(
+                'Meilisearch is not running. Start it with `meilisearch --master-key="masterKey"`. Or change your "SCOUT_DRIVER" to "database".'
+            );
+        });
+
         $this->reportable(function (Throwable $e) {
             //
         });
