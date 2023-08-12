@@ -26,11 +26,13 @@ class GetListings
                     ->with(['suburb', 'images'])
             );
 
-        $listings = cache()->store()->remember("listings:{$user->id}:{$user->location_id}:{$paginate}:{$request->page}:{$request->search}", 60, function () use ($paginate, $query, $request) {
-            return $paginate
+        $listings = cache()->store()->remember(
+            "listings:{$user->id}:{$user->location_id}:{$paginate}:{$request->page}:{$request->search}",
+            app()->environment('local') ? 0 : 60,
+            fn () => $paginate
                 ? $query->paginate($request->input('limit', 24))
-                : $query->get();
-        });
+                : $query->get()
+        );
 
         return $listings;
     }

@@ -132,17 +132,11 @@ return [
     */
 
     'meilisearch' => [
-        'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+        'host' => env('MEILISEARCH_HOST', 'http://127.0.0.1:7700'),
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             Listing::class => [
-                'filterableAttributes' => [
-                    'id',
-                    'title',
-                    'description',
-                    'price',
-                    'location_id',
-                ],
+                'filterableAttributes' => Listing::$searchable,
                 'sortableAttributes' => [
                     'created_at',
                     'title',

@@ -27,7 +27,7 @@ php artisan migrate:fresh --seed
 The below command will update search indexes and settings.
 See `app/Console/Commands/RefreshSearch.php`.
 ```
-php artisan app:search:refresh
+php artisan search:refresh
 ```
 
 ## Deployment and hosting

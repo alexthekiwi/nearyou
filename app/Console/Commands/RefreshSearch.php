@@ -12,7 +12,7 @@ class RefreshSearch extends Command
      *
      * @var string
      */
-    protected $signature = 'app:search:refresh';
+    protected $signature = 'search:refresh';
 
     /**
      * The console command description.
@@ -27,7 +27,9 @@ class RefreshSearch extends Command
     public function handle()
     {
         // Reset the settings
-        $this->call('scout:sync-index-settings');
+        if (config('scout.driver') === 'meilisearch') {
+            $this->call('scout:sync-index-settings');
+        }
 
         // Reset the search indexes for each model
         $models = collect([Listing::class]);

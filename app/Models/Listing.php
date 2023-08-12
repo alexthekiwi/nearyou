@@ -39,6 +39,7 @@ use Laravel\Scout\Searchable;
  * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $watchers
  * @property-read int|null $watchers_count
+ *
  * @method static \Database\Factories\ListingFactory factory($count = null, $state = [])
  * @method static Builder|Listing forUser(\App\Models\User $user)
  * @method static Builder|Listing newModelQuery()
@@ -57,11 +58,14 @@ use Laravel\Scout\Searchable;
  * @method static Builder|Listing whereSuburbId($value)
  * @method static Builder|Listing whereTitle($value)
  * @method static Builder|Listing whereUpdatedAt($value)
+ *
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ *
  * @method static Builder|Listing onlyTrashed()
  * @method static Builder|Listing whereDeletedAt($value)
  * @method static Builder|Listing withTrashed()
  * @method static Builder|Listing withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Listing extends Model
@@ -71,6 +75,14 @@ class Listing extends Model
     protected $casts = [
         'sold_at' => 'datetime',
         'status' => ListingStatus::class,
+    ];
+
+    public static $searchable = [
+        'id',
+        'title',
+        'description',
+        'price',
+        'location_id',
     ];
 
     public function images(): HasMany
@@ -123,10 +135,9 @@ class Listing extends Model
      */
     public function toSearchableArray(): array
     {
-        $array = $this->toArray();
-
-        // TODO: Customise search fields
-
-        return $array;
+        return collect(static::$searchable)
+            ->mapWithKeys(fn ($property) => [
+                $property => $this->{$property},
+            ])->toArray();
     }
 }

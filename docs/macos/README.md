@@ -61,7 +61,12 @@ npm run build
 ```
 
 ### Meilisearch
-This app uses Meilisearch to add full-text index search functionality. You will need to install this locally with the following command.
+This app uses Meilisearch to add full-text index search functionality. You will need to install this locally (using Homebrew) with the following command.
+```sh
+brew update && brew install meilisearch
+```
+
+If you'd prefer the simplicity of "where like" database searching, you can set `SCOUT_DRIVER=database` in your `.env` file.
 
 ## Development
 Start the development server
@@ -69,7 +74,7 @@ Start the development server
 npm run dev
 ```
 
-Start the Meilisearch process
+Start the Meilisearch process (if using the Meilisearch driver)
 ```sh
 meilisearch --master-key="masterKey"
 ```
