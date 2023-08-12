@@ -142,6 +142,7 @@ return [
                     'created_at',
                     'title',
                     'price',
+                    'status',
                 ],
             ],
             Tag::class => [

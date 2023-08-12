@@ -21,6 +21,7 @@ class GetListings
 
         $query = Listing::search(trim($request->input('search', '')))
             ->where('location_id', $user->location_id)
+            ->orderBy('status', 'asc')
             ->query(
                 fn (Builder $query) => $query
                     ->with([

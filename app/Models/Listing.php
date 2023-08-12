@@ -83,6 +83,7 @@ class Listing extends Model
         'description',
         'price',
         'location_id',
+        'status',
     ];
 
     public function images(): HasMany

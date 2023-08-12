@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { upperFirst } from 'lodash-es';
 import { formatMoney } from '@/lib/money';
 import { App } from '@/types';
 import { formatDateRelative } from '@/lib/dates';
@@ -21,13 +22,18 @@ export default function ListingPreview({ listing, showTags }: Props) {
         <article className="group grid grid-cols-6 gap-x-6 gap-y-4 focus:outline-none md:flex md:flex-col">
             <Link
                 href={listingLink}
-                className="col-span-2 overflow-hidden rounded-lg ring-teal ring-offset-2 transition-opacity hover:opacity-75 group-focus:ring-2 md:col-span-4"
+                className="relative col-span-2 overflow-hidden rounded-lg ring-teal ring-offset-2 transition-opacity hover:opacity-75 group-focus:ring-2 md:col-span-4"
             >
+                {listing.status !== 'available' && (
+                    <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black bg-opacity-50 font-bold text-white">
+                        {upperFirst(listing.status)}
+                    </div>
+                )}
                 <img
                     src={thumbnail}
                     width="120"
                     height="120"
-                    className="aspect-square h-full w-full object-cover"
+                    className="relative z-[1] aspect-square h-full w-full object-cover"
                     alt=""
                 />
             </Link>
