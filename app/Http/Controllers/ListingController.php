@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Listings\GetListings;
+use App\Actions\Tags\GetTags;
 use App\Models\Listing;
-use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ListingController extends Controller
@@ -26,12 +26,8 @@ class ListingController extends Controller
     {
         $this->authorize('create', Listing::class);
 
-        $tags = Tag::query()
-            ->select(['id', 'title', 'slug'])
-            ->get();
-
         return inertia('Listings/Create', [
-            'tags' => $tags,
+            'tags' => (new GetTags)(),
         ]);
     }
 
@@ -85,6 +81,7 @@ class ListingController extends Controller
 
         return inertia('Listings/Edit', [
             'listing' => $listing,
+            'tags' => (new GetTags)(),
         ]);
     }
 
