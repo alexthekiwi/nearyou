@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $seller_archived_at
  * @property-read \App\Models\User|null $buyer
  * @property-read \App\Models\User|null $seller
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Chat newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Chat newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Chat query()
@@ -31,7 +30,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Chat whereSellerArchivedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Chat whereSellerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Chat whereUpdatedAt($value)
- *
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat withoutTrashed()
  * @mixin \Eloquent
  */
 class Chat extends Model
