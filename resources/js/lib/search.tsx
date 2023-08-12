@@ -1,7 +1,7 @@
 import React from 'react';
 import { router } from '@inertiajs/react';
 
-type Props = {
+type UseSearchProps = {
     param?: string;
     path?: string;
     limit?: number;
@@ -14,7 +14,7 @@ export function useSearch({
     param = 'search',
     path = undefined,
     limit = undefined,
-}: Props = {}) {
+}: UseSearchProps = {}) {
     const [search, setSearch] = React.useState<string>('');
     const [isSearching, setSearching] = React.useState(false);
 

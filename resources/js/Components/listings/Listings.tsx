@@ -1,26 +1,23 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { router } from '@inertiajs/react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { App, PaginatedResults } from '@/types';
-import SetLocationForm from '@/Components/location/SetLocationForm';
 import ListingPreview from '@/Components/listings/ListingPreview';
-import { useSearch } from '@/lib/search';
 import Loader from '../common/Loader';
-import SearchBar from '../common/SearchBar';
 
-interface Props {
+interface Props extends PropsWithChildren {
     data: PaginatedResults<App['Models']['Listing'][]>;
 }
 
-export default function Listings({ data: paginatedListings }: Props) {
+export default function Listings({ data: paginatedListings, children }: Props) {
     const [listings, setListings] = React.useState<App['Models']['Listing'][]>(
         paginatedListings.data
     );
 
-    const [isProcessing, setProcessing] = React.useState(false);
+    const [isLoadingMore, setIsLoadingMore] = React.useState(false);
 
     function loadMore() {
-        if (!paginatedListings.next_page_url || isProcessing) {
+        if (!paginatedListings.next_page_url || isLoadingMore) {
             return;
         }
 
@@ -31,7 +28,7 @@ export default function Listings({ data: paginatedListings }: Props) {
                 preserveScroll: true,
                 preserveState: true,
                 onStart() {
-                    setProcessing(true);
+                    setIsLoadingMore(true);
                 },
                 onSuccess() {
                     const searchParams = new URLSearchParams(
@@ -67,7 +64,7 @@ export default function Listings({ data: paginatedListings }: Props) {
                 },
                 onFinish() {
                     window.setTimeout(() => {
-                        setProcessing(false);
+                        setIsLoadingMore(false);
                     }, 500);
                 },
             }
@@ -77,10 +74,8 @@ export default function Listings({ data: paginatedListings }: Props) {
     const memoisedLoadMore = React.useCallback(loadMore, [
         paginatedListings.next_page_url,
         paginatedListings.data,
-        isProcessing,
+        isLoadingMore,
     ]);
-
-    const { search, setSearch, isSearching, handleSearch } = useSearch();
 
     const endOfResultsRef = React.useRef<HTMLDivElement | null>(null);
     const endOfResults = useIntersectionObserver(endOfResultsRef, {
@@ -93,19 +88,14 @@ export default function Listings({ data: paginatedListings }: Props) {
      * Infinite scroll intersection observer
      */
     React.useEffect(() => {
-        if (endOfResults?.isIntersecting && !isProcessing) {
+        if (endOfResults?.isIntersecting && !isLoadingMore) {
             memoisedLoadMore();
         }
-    }, [endOfResults?.isIntersecting, memoisedLoadMore, isProcessing]);
+    }, [endOfResults?.isIntersecting, memoisedLoadMore, isLoadingMore]);
 
     return (
         <div className="flex flex-col gap-6 md:gap-10">
-            <div>
-                <div className="container flex flex-col gap-x-12 gap-y-4 md:flex-row md:items-center">
-                    <SetLocationForm />
-                    <SearchBar />
-                </div>
-            </div>
+            {children && <div>{children}</div>}
 
             <div className="container flex flex-col">
                 {listings.length > 0 && (
@@ -121,13 +111,13 @@ export default function Listings({ data: paginatedListings }: Props) {
                     </div>
                 )}
 
-                {isProcessing && (
+                {isLoadingMore && (
                     <Loader className="mx-auto my-8 inline-flex text-teal" />
                 )}
 
                 <div id="end" ref={endOfResultsRef} />
 
-                {listings.length === 0 && !isSearching && (
+                {listings.length === 0 && (
                     <p className="text-sm font-bold">
                         No results found. Please try another search.
                     </p>

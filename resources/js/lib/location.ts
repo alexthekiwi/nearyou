@@ -101,7 +101,5 @@ export async function geocodeLatLng(
 
     const { data }: { data: GeocodeResponse } = await res.json();
 
-    console.log({ data });
-
     return data;
 }

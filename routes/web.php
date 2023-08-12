@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ListingController;
 use App\Http\Controllers\LocalLoginController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PhoneNumberRegisterController;
@@ -16,6 +17,13 @@ use Illuminate\Support\Facades\Route;
  * Public routes
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::resource('/listings', ListingController::class);
+
+// TODO: Build these routes
+Route::get('/chat', fn () => abort(404))->name('chat.index');
+Route::get('/about', fn () => abort(404))->name('about.show');
+Route::get('/community', fn () => abort(404))->name('community.index');
+
 Route::delete('/user-proxy', [UserProxyController::class, 'destroy'])->name('user-proxy.destroy');
 
 /**

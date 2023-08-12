@@ -21,6 +21,8 @@ class LocationController extends Controller
             ]);
         }
 
-        return back()->with(['success' => "Your location has been set to {$location->name}"]);
+        return redirect()
+            ->route('home')
+            ->with(['success' => "Your location has been set to {$location->name}"]);
     }
 }

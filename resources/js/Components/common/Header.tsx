@@ -15,18 +15,28 @@ export default function Header() {
     }
 
     return (
-        <header className="md: relative z-[100] w-full bg-white py-2 shadow-sm">
+        <header className="md: relative z-[100] w-full bg-white py-4 shadow-sm">
             <nav className="container flex items-center justify-between gap-8">
                 <Link
                     href="/"
                     className="font-bold text-white transition-all hover:opacity-50"
                 >
-                    <Logo className="h-12" />
+                    <Logo className="h-10 md:h-12" />
                 </Link>
 
                 <div className="flex items-center gap-6 font-bold text-black">
-                    <NavLink href={route('home')}>Browse</NavLink>
-                    <NavLink href={route('dashboard')}>Dashboard</NavLink>
+                    <NavLink
+                        href={route('home')}
+                        className="hidden md:inline-flex"
+                    >
+                        Browse listings
+                    </NavLink>
+                    <NavLink
+                        href={route('dashboard')}
+                        className="hidden md:inline-flex"
+                    >
+                        Dashboard
+                    </NavLink>
                     <Dropdown>
                         <Dropdown.Trigger>
                             <div className="transition-colors hover:cursor-pointer hover:text-teal">
@@ -35,6 +45,14 @@ export default function Header() {
                         </Dropdown.Trigger>
                         <Dropdown.Content>
                             <ul className="flex flex-col items-start gap-3 p-4">
+                                <li>
+                                    <Link
+                                        href={route('dashboard')}
+                                        className="transition-colors hover:text-teal"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                </li>
                                 <li>
                                     <Link
                                         href={route('profile.edit')}

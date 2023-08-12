@@ -11,6 +11,14 @@ class SetNewLocation
     public function __invoke(string $postCode, ?User $user): Location|null
     {
         $user ??= auth()->user();
+        $location = null;
+
+        if (config('settings.location.use_random_location')) {
+            // If we're using a random location (for development), get a random one
+            $location = Location::query()
+                ->inRandomOrder()
+                ->first();
+        }
 
         // Match the postcode to one of our stored locations
         $postCodeObject = PostCode::query()
@@ -18,12 +26,12 @@ class SetNewLocation
             ->with('location')
             ->first();
 
-        if (! $postCodeObject) {
+        if (! $postCodeObject && ! $location) {
             // Not an area we're available in, advise the customer
             return null;
         }
 
-        $location = $postCodeObject->location;
+        $location = $location ?: $postCodeObject->location;
 
         if (! $location) {
             // We don't have a location with this postcode

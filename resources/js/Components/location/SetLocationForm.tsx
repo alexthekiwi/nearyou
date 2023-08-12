@@ -11,10 +11,10 @@ import Loader from '../common/Loader';
 import { useToast } from '@/lib/toast';
 
 interface Props {
-    //
+    onSuccess?: () => void;
 }
 
-export default function SetLocationForm({}: Props) {
+export default function SetLocationForm({ onSuccess }: Props) {
     const { location } = useAuth().user;
     const { addToast } = useToast();
 
@@ -39,6 +39,9 @@ export default function SetLocationForm({}: Props) {
             });
 
             setStatus('idle');
+
+            // Call the onSuccess prop if it exists
+            onSuccess?.();
         },
     });
 

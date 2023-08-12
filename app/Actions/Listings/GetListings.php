@@ -38,6 +38,10 @@ class GetListings
                 : $query->get()
         );
 
+        if (config('settings.listings.simulate_slow_search') && $request->input('search', '')) {
+            sleep(rand(2, 4));
+        }
+
         return $listings;
     }
 }
