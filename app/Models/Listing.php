@@ -142,11 +142,11 @@ class Listing extends Model
             ->mapWithKeys(fn ($property) => [
                 $property => $this->{$property},
             ])
-            ->merge([
+            ->merge(config('scout.driver') === 'meilisearch' ? [
                 'tags' => $this->tags->pluck('title')->toArray(),
                 'suburb' => $this->suburb?->name,
                 'location' => $this->location?->name,
-            ])
+            ] : [])
             ->toArray();
     }
 }
