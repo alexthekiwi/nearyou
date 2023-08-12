@@ -17,9 +17,17 @@ You can edit your `.env` file to change the `DEV_USER` variables however you lik
 ## Useful commands
 You can run any of the below from the application root in your terminal. If you are using Docker (with Laravel Sail), replace any instances of `php` with `sail`.
 
+### Data
 Refresh the database with seed data
 ```
 php artisan migrate:fresh --seed
+```
+
+### Search
+The below command will update search indexes and settings.
+See `app/Console/Commands/RefreshSearch.php`.
+```
+php artisan app:search:refresh
 ```
 
 ## Deployment and hosting

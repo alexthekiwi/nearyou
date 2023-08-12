@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignUuid('buyer_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignUuid('seller_id')->nullable()->constrained('users')->nullOnDelete();
             $table->unsignedTinyInteger('stars');

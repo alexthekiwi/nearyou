@@ -60,8 +60,16 @@ Compile frontend dependencies
 npm run build
 ```
 
+### Meilisearch
+This app uses Meilisearch to add full-text index search functionality. You will need to install this locally with the following command.
+
 ## Development
 Start the development server
 ```sh
 npm run dev
+```
+
+Start the Meilisearch process
+```sh
+meilisearch --master-key="masterKey"
 ```

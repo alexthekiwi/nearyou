@@ -11,11 +11,59 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
+/**
+ * App\Models\Listing
+ *
+ * @property string $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $location_id
+ * @property string|null $seller_id
+ * @property string|null $buyer_id
+ * @property string $title
+ * @property int|null $price
+ * @property ListingStatus $status
+ * @property \Illuminate\Support\Carbon|null $sold_at
+ * @property string|null $description
+ * @property string|null $suburb_id
+ * @property-read \App\Models\User|null $buyer
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ListingImage> $images
+ * @property-read int|null $images_count
+ * @property-read \App\Models\Location|null $location
+ * @property-read \App\Models\User|null $seller
+ * @property-read \App\Models\Suburb|null $suburb
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read int|null $tags_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $watchers
+ * @property-read int|null $watchers_count
+ *
+ * @method static \Database\Factories\ListingFactory factory($count = null, $state = [])
+ * @method static Builder|Listing forUser(\App\Models\User $user)
+ * @method static Builder|Listing newModelQuery()
+ * @method static Builder|Listing newQuery()
+ * @method static Builder|Listing query()
+ * @method static Builder|Listing search(?string $search = null)
+ * @method static Builder|Listing whereBuyerId($value)
+ * @method static Builder|Listing whereCreatedAt($value)
+ * @method static Builder|Listing whereDescription($value)
+ * @method static Builder|Listing whereId($value)
+ * @method static Builder|Listing whereLocationId($value)
+ * @method static Builder|Listing wherePrice($value)
+ * @method static Builder|Listing whereSellerId($value)
+ * @method static Builder|Listing whereSoldAt($value)
+ * @method static Builder|Listing whereStatus($value)
+ * @method static Builder|Listing whereSuburbId($value)
+ * @method static Builder|Listing whereTitle($value)
+ * @method static Builder|Listing whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 class Listing extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, Searchable, SoftDeletes;
 
     protected $casts = [
         'sold_at' => 'datetime',
@@ -65,21 +113,17 @@ class Listing extends Model
         );
     }
 
-    public function scopeForUser(Builder $query, User $user)
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
     {
-        return $query->where('location_id', $user->location_id);
-    }
+        $array = $this->toArray();
 
-    public function scopeSearch(Builder $query, ?string $search = null)
-    {
-        $lowerSearch = strtolower($search);
+        // TODO: Customise search fields
 
-        return $query->when(
-            $search,
-            fn ($query) => $query
-                ->where('id', '=', $search)
-                ->orWhere(DB::raw('lower(title)'), 'like', "%{$lowerSearch}%")
-                ->orWhere(DB::raw('lower(description)'), 'like', "%{$lowerSearch}%")
-        );
+        return $array;
     }
 }

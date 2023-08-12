@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('listings', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignUuid('location_id')->nullable()->constrained('locations', 'id')->nullOnDelete();
             $table->foreignUuid('seller_id')->nullable()->constrained('users', 'id')->nullOnDelete();
             $table->foreignUuid('buyer_id')->nullable()->constrained('users', 'id')->nullOnDelete();
