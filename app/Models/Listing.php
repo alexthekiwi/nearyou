@@ -117,7 +117,7 @@ class Listing extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'listings', 'listing_id', 'tag_id');
+        return $this->belongsToMany(Tag::class, 'listing_tag', 'listing_id', 'tag_id');
     }
 
     public function price(): Attribute
@@ -138,6 +138,12 @@ class Listing extends Model
         return collect(static::$searchable)
             ->mapWithKeys(fn ($property) => [
                 $property => $this->{$property},
-            ])->toArray();
+            ])
+            ->merge([
+                'tags' => $this->tags->pluck('title')->toArray(),
+                'suburb' => $this->suburb->name,
+                'location' => $this->location->name,
+            ])
+            ->toArray();
     }
 }

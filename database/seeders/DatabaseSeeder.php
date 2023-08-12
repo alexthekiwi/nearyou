@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PostCodeAndSuburbSeeder::class,
             DevUserSeeder::class,
             UserSeeder::class,
+            TagSeeder::class,
             ListingSeeder::class,
         ]);
     }

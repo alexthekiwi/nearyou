@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Listing;
+use App\Models\Tag;
 
 return [
 
@@ -137,6 +138,14 @@ return [
         'index-settings' => [
             Listing::class => [
                 'filterableAttributes' => Listing::$searchable,
+                'sortableAttributes' => [
+                    'created_at',
+                    'title',
+                    'price',
+                ],
+            ],
+            Tag::class => [
+                'filterableAttributes' => Tag::$searchable,
                 'sortableAttributes' => [
                     'created_at',
                     'title',

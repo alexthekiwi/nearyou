@@ -19,11 +19,15 @@ class GetListings
         $user ??= auth()->user();
         $request ??= request();
 
-        $query = Listing::search($request->input('search'))
+        $query = Listing::search(trim($request->input('search', '')))
             ->where('location_id', $user->location_id)
             ->query(
                 fn (Builder $query) => $query
-                    ->with(['suburb', 'images'])
+                    ->with([
+                        'suburb',
+                        'images',
+                        'tags:title,slug',
+                    ])
             );
 
         $listings = cache()->store()->remember(

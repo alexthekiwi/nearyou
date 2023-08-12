@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Models\Listing;
+use App\Models\Tag;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
 
 class RefreshSearch extends Command
 {
@@ -26,13 +28,19 @@ class RefreshSearch extends Command
      */
     public function handle()
     {
+        // Disable our lazy loading protection for this generation
+        Model::preventLazyLoading(false);
+
         // Reset the settings
         if (config('scout.driver') === 'meilisearch') {
             $this->call('scout:sync-index-settings');
         }
 
         // Reset the search indexes for each model
-        $models = collect([Listing::class]);
+        $models = collect([
+            Listing::class,
+            Tag::class,
+        ]);
 
         $models->each(function ($class) {
             $this->call('scout:flush', ['model' => $class]);
