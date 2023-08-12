@@ -11,6 +11,12 @@ class ListingController extends Controller
 {
     public function index(Request $request)
     {
+        if (! auth()->check()) {
+            return to_route('login', [
+                'intended' => route('listings.index'),
+            ]);
+        }
+
         $this->authorize('viewAny', Listing::class);
 
         return inertia('Listings/Index', [
