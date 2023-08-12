@@ -21,7 +21,7 @@ export default function ListingPreview({ listing, showTags }: Props) {
 
     const suburbLink = listing.suburb
         ? route('listings.index', {
-              search: listing.suburb?.name,
+              query: listing.suburb?.name,
           })
         : '#0';
 

@@ -23,7 +23,7 @@ class GetListings
         $user ??= auth()->user();
         $request ??= request();
 
-        $search = trim($request->input('search', ''));
+        $search = trim($request->input('query', ''));
         $sort = trim($request->input('sort', 'status'));
         $sortDir = trim($request->input('sortDir', 'asc'));
 
@@ -60,10 +60,10 @@ class GetListings
             $user->id,
             $user->location_id,
             $paginate,
-            $request->page,
-            $request->search,
-            $request->sort,
-            $request->sortDir,
+            $request->input('page', 1),
+            $request->input('query', ''),
+            $request->input('sort', 'status'),
+            $request->input('sortDir', 'asc'),
         ])->join(':');
 
         $listings = cache()->store()->remember(

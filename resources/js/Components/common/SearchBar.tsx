@@ -16,7 +16,9 @@ export default function SearchBar({
     clearable = false,
     autoFocus = false,
 }: Props) {
-    const { search, setSearch, handleSearch, handleClearSearch } = useSearch();
+    const { search, setSearch, handleSearch, handleClearSearch } = useSearch({
+        param: name,
+    });
 
     return (
         <form

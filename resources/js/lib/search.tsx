@@ -43,7 +43,7 @@ export function useSearch({
         const searchParams = new URLSearchParams(window?.location.search);
 
         // Set the search term
-        searchParams.set('search', search);
+        searchParams.set(param, search);
 
         // Reset the page back to 1
         searchParams.set('page', '1');

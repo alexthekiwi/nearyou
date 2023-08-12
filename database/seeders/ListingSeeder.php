@@ -16,7 +16,7 @@ class ListingSeeder extends Seeder
     {
         $possibleTitles = $this->getTitles();
 
-        $listings = collect(range(1, 100))->map(fn ($i) => Listing::factory()
+        $listings = collect(range(1, 200))->map(fn ($i) => Listing::factory()
             ->has(ListingImage::factory(rand(1, 3)), 'images')
             ->create([
                 'title' => $possibleTitles[$i],
@@ -176,6 +176,16 @@ class ListingSeeder extends Seeder
             'Sleek Smartphone Wallet Case',
             'Digital Drawing Tablet',
             "Men's Classic Leather Belt",
+            'Gourmet Artisanal Chocolate Bars',
+            'Wireless Noise-Canceling Headphones',
+            'Indoor Plant Care Kit',
+            'Gourmet Coffee Grinder',
+            'Creative DIY Pottery Kit',
+            'Yoga and Meditation Cushion',
+            'Vintage Retro Record Player',
+            'Complete Dumbbell Weight Set',
+            'Professional Makeup Vanity Mirror',
+            'Smart Home Smart Plug',
             'Gourmet Artisanal Chocolate Bars',
             'Wireless Noise-Canceling Headphones',
             'Indoor Plant Care Kit',
