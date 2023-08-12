@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignUuid('location_id')->nullable()->constrained('locations', 'id')->nullOnDelete();
             $table->foreignUuid('seller_id')->nullable()->constrained('users', 'id')->nullOnDelete();
             $table->foreignUuid('buyer_id')->nullable()->constrained('users', 'id')->nullOnDelete();
-            $table->string('title', 255);
+            $table->string('title', 255)->index();
             $table->bigInteger('price')->nullable();
             $table->string('status')->default(ListingStatus::AVAILABLE->value);
             $table->dateTime('sold_at')->nullable();
