@@ -84,6 +84,8 @@ class Listing extends Model
         'price',
         'location_id',
         'status',
+        'buyer_id',
+        'seller_id',
     ];
 
     public function images(): HasMany
@@ -142,8 +144,8 @@ class Listing extends Model
             ])
             ->merge([
                 'tags' => $this->tags->pluck('title')->toArray(),
-                'suburb' => $this->suburb->name,
-                'location' => $this->location->name,
+                'suburb' => $this->suburb?->name,
+                'location' => $this->location?->name,
             ])
             ->toArray();
     }

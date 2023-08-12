@@ -26,6 +26,7 @@ class GetListings
                 fn (Builder $query) => $query
                     ->with([
                         'suburb',
+                        'location',
                         'images',
                         'tags:title,slug',
                     ])
