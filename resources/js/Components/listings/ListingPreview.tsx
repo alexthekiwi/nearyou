@@ -1,9 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { formatMoney } from '@/lib/money';
 import { App } from '@/types';
-import H3 from '../typography/H3';
-import H4 from '../typography/H4';
-import { formatDateNice, formatDateRelative } from '@/lib/dates';
+import { formatDateRelative } from '@/lib/dates';
 
 interface Props {
     listing: App['Models']['Listing'];
@@ -20,14 +18,14 @@ export default function ListingPreview({ listing }: Props) {
         <article>
             <Link
                 href={`/listings/${listing.id}`}
-                className="grid grid-cols-6 gap-x-6 gap-y-4 md:flex md:flex-col"
+                className="group grid grid-cols-6 gap-x-6 gap-y-4 focus:outline-none md:flex md:flex-col"
             >
-                <div className="col-span-2 md:col-span-4">
+                <div className="col-span-2 overflow-hidden rounded-lg ring-teal ring-offset-2 group-focus:ring-2 md:col-span-4">
                     <img
                         src={thumbnail}
                         width="120"
                         height="120"
-                        className="aspect-square h-full w-full rounded-lg object-cover"
+                        className="aspect-square h-full w-full object-cover"
                         alt=""
                     />
                 </div>
