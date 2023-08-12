@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListingController;
@@ -17,12 +20,11 @@ use Illuminate\Support\Facades\Route;
  * Public routes
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::resource('/listings', ListingController::class);
 
-// TODO: Build these routes
-Route::get('/chat', fn () => abort(404))->name('chat.index');
-Route::get('/about', fn () => abort(404))->name('about.show');
-Route::get('/community', fn () => abort(404))->name('community.index');
+Route::resource('/listings', ListingController::class);
+Route::resource('/chat', ChatController::class);
+Route::get('/about', AboutController::class)->name('about');
+Route::get('/community', CommunityController::class)->name('community');
 
 Route::delete('/user-proxy', [UserProxyController::class, 'destroy'])->name('user-proxy.destroy');
 

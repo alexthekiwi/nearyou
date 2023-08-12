@@ -13,8 +13,8 @@ interface NavBarLinkProps extends PropsWithChildren {
 const links = [
     { href: route('listings.index'), label: 'Browse' },
     { href: route('chat.index'), label: 'Chat' },
-    { href: route('about.show'), label: 'About' },
-    { href: route('community.index'), label: 'Community' },
+    { href: route('about'), label: 'About' },
+    { href: route('community'), label: 'Community' },
 ];
 
 export default function NavBar({ className = '' }: NavBarProps) {

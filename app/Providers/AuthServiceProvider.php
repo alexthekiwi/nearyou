@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Chat;
 use App\Models\Listing;
 use App\Models\User;
+use App\Policies\ChatPolicy;
 use App\Policies\ListingPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         User::class => UserPolicy::class,
         Listing::class => ListingPolicy::class,
+        Chat::class => ChatPolicy::class,
     ];
 
     /**
