@@ -35,7 +35,7 @@ export default function ListingPreview({ listing }: Props) {
                     <h3 className="font-bold leading-snug">{listing.title}</h3>
                 </Link>
                 <p className="font-bold text-teal">
-                    {isFree ? '🌎 Freecycle' : formatMoney(listing.price)}
+                    {isFree ? '🌎 Freecycle' : formatMoney(listing.price, 0)}
                 </p>
                 <p className="mt-auto flex flex-wrap gap-1 text-xs text-gray-500">
                     {hasSuburb && (
