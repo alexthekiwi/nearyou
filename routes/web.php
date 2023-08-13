@@ -16,7 +16,9 @@ use App\Http\Controllers\RandomListingController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\TermsAndConditionsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserListingController;
 use App\Http\Controllers\UserProxyController;
+use App\Http\Controllers\UserReviewController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +54,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/location', [LocationController::class, 'store'])->name('location.store');
     Route::put('/location', [LocationController::class, 'update'])->name('location.update');
+
+    Route::get('/{user}/listings', [UserListingController::class, 'index'])->name('user-listings.index');
+    Route::get('/{user}/reviews', [UserReviewController::class, 'index'])->name('user-reviews.index');
 
     Route::resource('/listings', ListingController::class);
     Route::get('/random', RandomListingController::class)->name('listings.random');

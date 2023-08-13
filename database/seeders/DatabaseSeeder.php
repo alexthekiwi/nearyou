@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TagSeeder::class,
             ListingSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

@@ -19,7 +19,8 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return false;
+        // Users in the same location can view each other
+        return $user->location_id == $model->location_id;
     }
 
     /**

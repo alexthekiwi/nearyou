@@ -40,6 +40,18 @@ export default function ListingsShow({ listing }: Props) {
                     {canModify && (
                         <div className="flex items-center gap-4">
                             <Button
+                                href={
+                                    listing.seller_id
+                                        ? route('users.show', {
+                                              user: listing.seller_id,
+                                          })
+                                        : '#0'
+                                }
+                                theme="primary"
+                            >
+                                View seller
+                            </Button>
+                            <Button
                                 href={route('listings.edit', {
                                     listing: listing.id,
                                 })}

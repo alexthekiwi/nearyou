@@ -1,5 +1,4 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import Layout from '@/Layouts/Layout';
 import Button from '@/Components/common/Button';
 import { PaginatedResults } from '@/types';
@@ -87,6 +86,13 @@ export default function UsersIndex({ users }: Props) {
                                     {user.email}
                                 </TableData>
                                 <TableActions>
+                                    <Link
+                                        href={`/users/${user.id}`}
+                                        className="underline"
+                                    >
+                                        View profile
+                                    </Link>
+
                                     <Link
                                         href={`/users/${user.id}/edit`}
                                         className="underline"

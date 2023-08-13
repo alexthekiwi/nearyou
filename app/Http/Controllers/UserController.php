@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Reviews\GetGreenScore;
 use App\Actions\Users\GenerateUsername;
+use App\Models\Review;
 use App\Models\User;
 use App\Notifications\UserActivation;
 use Illuminate\Http\Request;
@@ -84,7 +86,28 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-        return redirect()->route('users.edit', $user);
+        // Get their latest 4 listings
+        $listings = $user->listings()
+            // Make sure the auth user is in the same location
+            ->where('location_id', auth()->user()->location_id)
+            ->orderBy('created_at', 'desc')
+            ->limit(4)
+            ->get();
+
+        // Get their latest 3 reviews (as either seller or buyer)
+        $reviews = Review::query()
+            ->where('seller_id', $user->id)
+            ->orWhere('buyer_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        return inertia('Users/Show', [
+            'user' => $user->toPublicArray(),
+            'listings' => $listings,
+            'reviews' => $reviews,
+            'greenScore' => (new GetGreenScore)($user),
+        ]);
     }
 
     /**
@@ -94,8 +117,15 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
+        $listings = $user->listings()
+            ->where('location_id', auth()->user()->location_id)
+            ->orderBy('created_at', 'desc')
+            ->paginate($request->input('limit', 5))
+            ->withQueryString();
+
         return inertia('Users/Edit', [
-            'user' => $user,
+            'user' => $user->toPublicArray(),
+            'listings' => $listings,
         ]);
     }
 

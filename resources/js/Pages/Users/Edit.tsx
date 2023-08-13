@@ -2,7 +2,6 @@ import { Head } from '@inertiajs/react';
 import Layout from '@/Layouts/Layout';
 import UserForm from '@/Components/forms/UserForm';
 import Button from '@/Components/common/Button';
-import Card from '@/Components/common/Card';
 import type { App } from '@/types';
 import PageHeader from '@/Components/common/PageHeader';
 
