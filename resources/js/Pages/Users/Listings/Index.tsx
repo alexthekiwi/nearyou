@@ -40,7 +40,10 @@ export default function UserListingsIndex({ user, listings }: Props) {
                             ))}
                         </div>
 
-                        <Pagination results={listings} />
+                        <Pagination
+                            results={listings}
+                            showPerPageSelector={false}
+                        />
                     </div>
                 </div>
             </div>

@@ -34,7 +34,7 @@ export default function UserReviewsIndex({ user, listings, reviews }: Props) {
                             <Review key={review.id} review={review} />
                         ))}
                     </div>
-                    <Pagination results={reviews} />
+                    <Pagination results={reviews} showPerPageSelector={false} />
                 </div>
             </div>
         </Layout>

@@ -10,6 +10,7 @@ interface Props {
     results: PaginatedResults;
     sortOptions?: SortOptions;
     perPageOptions?: PerPageOptions;
+    showPerPageSelector?: boolean;
 }
 
 const defaultPerPageOptions = [
@@ -35,6 +36,7 @@ export default function Pagination({
     results,
     sortOptions,
     perPageOptions = defaultPerPageOptions,
+    showPerPageSelector = true,
 }: Props) {
     const { data, setData } = useForm({
         limit: '25',
@@ -107,7 +109,7 @@ export default function Pagination({
                     </select>
                 )}
 
-                {perPageOptions && (
+                {showPerPageSelector && perPageOptions && (
                     <select
                         name="limit"
                         id="limit"
