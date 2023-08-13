@@ -65,7 +65,7 @@ export default function Button({
     }
 
     if (href) {
-        if (href.includes('http') || target === '_blank' || as === 'a') {
+        if (target === '_blank' || as === 'a') {
             return (
                 <a href={href} target={target ?? '_self'} className={classes}>
                     {children}

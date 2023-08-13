@@ -45,7 +45,6 @@ export default function Register({ phoneNumber }: Props) {
             <Head title="Register" />
 
             <div className="container flex flex-col gap-8">
-                <Logo className="mx-auto h-12" />
                 <div className="mx-auto w-full max-w-lg">
                     <H2 className="mb-6">Create your account</H2>
 

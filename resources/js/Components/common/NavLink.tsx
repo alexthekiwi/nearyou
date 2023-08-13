@@ -8,10 +8,14 @@ interface Props extends React.PropsWithChildren {
 }
 
 export default function NavLink({ href, className = '', children }: Props) {
+    const isActive = window?.location.pathname === new URL(href).pathname;
+
     return (
         <Link
             href={href}
-            className={cn(className, 'transition-colors hover:text-teal')}
+            className={cn(className, 'transition-colors hover:text-teal', {
+                'text-teal': isActive,
+            })}
         >
             {children}
         </Link>

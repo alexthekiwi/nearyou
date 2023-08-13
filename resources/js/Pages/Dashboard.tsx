@@ -7,6 +7,7 @@ import PageHeader from '@/Components/common/PageHeader';
 import SetLocationForm from '@/Components/location/SetLocationForm';
 import { useMessage } from '@/lib/message';
 import Message from '@/Components/common/Message';
+import H2 from '@/Components/typography/H2';
 
 interface Props {
     //
@@ -29,18 +30,6 @@ export default function Dashboard({}: Props) {
                 </div>
 
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {user.is_admin && (
-                        <Card className="flex flex-col gap-8">
-                            <Button
-                                href={route('users.index')}
-                                className="mt-auto"
-                                theme="success"
-                            >
-                                Users
-                            </Button>
-                        </Card>
-                    )}
-
                     <Card className="flex flex-col gap-8">
                         <Button
                             href={route('home')}
@@ -63,6 +52,16 @@ export default function Dashboard({}: Props) {
 
                     <Card className="flex flex-col gap-8">
                         <Button
+                            href={route('support')}
+                            className="mt-auto"
+                            theme="success"
+                        >
+                            Support
+                        </Button>
+                    </Card>
+
+                    <Card className="flex flex-col gap-8">
+                        <Button
                             type="button"
                             className="mt-auto"
                             theme="success"
@@ -72,6 +71,25 @@ export default function Dashboard({}: Props) {
                         </Button>
                     </Card>
                 </div>
+
+                {user.is_admin && (
+                    <div className="flex flex-col gap-4">
+                        <H2 className="col-span-full">
+                            Administrators only 🔒
+                        </H2>
+                        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            <Card className="flex flex-col gap-8">
+                                <Button
+                                    href={route('users.index')}
+                                    className="mt-auto"
+                                    theme="success"
+                                >
+                                    Users
+                                </Button>
+                            </Card>
+                        </div>
+                    </div>
+                )}
             </div>
         </Layout>
     );

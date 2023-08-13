@@ -6,7 +6,7 @@ import Logo from './Logo';
 import Dropdown from '../Dropdown';
 
 export default function Header() {
-    const { logout } = useAuth();
+    const { logout, isAuth } = useAuth();
 
     function handleLogout(e: React.FormEvent) {
         e.preventDefault();
@@ -15,7 +15,7 @@ export default function Header() {
     }
 
     return (
-        <header className="md: relative z-[100] w-full bg-white py-4 shadow-sm">
+        <header className="relative z-[100] w-full border-b border-gray-200 bg-white py-4">
             <nav className="container flex items-center justify-between gap-8">
                 <Link
                     href="/"
@@ -25,55 +25,86 @@ export default function Header() {
                 </Link>
 
                 <div className="flex items-center gap-6 font-bold text-black">
-                    <NavLink
-                        href={route('home')}
-                        className="hidden md:inline-flex"
-                    >
-                        Browse listings
-                    </NavLink>
-                    <NavLink
-                        href={route('dashboard')}
-                        className="hidden md:inline-flex"
-                    >
-                        Dashboard
-                    </NavLink>
-                    <Dropdown>
-                        <Dropdown.Trigger>
-                            <div className="transition-colors hover:cursor-pointer hover:text-teal">
-                                <HiOutlineUser className="h-6 w-6" />
-                            </div>
-                        </Dropdown.Trigger>
-                        <Dropdown.Content>
-                            <ul className="flex flex-col items-start gap-3 p-4">
-                                <li>
-                                    <Link
-                                        href={route('dashboard')}
-                                        className="transition-colors hover:text-teal"
-                                    >
-                                        Dashboard
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href={route('profile.edit')}
-                                        className="transition-colors hover:text-teal"
-                                    >
-                                        My profile
-                                    </Link>
-                                </li>
-                                <li>
-                                    <form onSubmit={handleLogout}>
-                                        <button
-                                            type="submit"
-                                            className="flex transition-colors hover:text-teal"
-                                        >
-                                            Logout
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </Dropdown.Content>
-                    </Dropdown>
+                    {isAuth ? (
+                        <>
+                            <NavLink
+                                href={route('listings.index')}
+                                className="hidden md:inline-flex"
+                            >
+                                Browse listings
+                            </NavLink>
+                            <NavLink
+                                href={route('about')}
+                                className="hidden md:inline-flex"
+                            >
+                                About
+                            </NavLink>
+                            <NavLink
+                                href={route('dashboard')}
+                                className="hidden md:inline-flex"
+                            >
+                                Dashboard
+                            </NavLink>
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <div className="transition-colors hover:cursor-pointer hover:text-teal">
+                                        <HiOutlineUser className="h-6 w-6" />
+                                    </div>
+                                </Dropdown.Trigger>
+                                <Dropdown.Content>
+                                    <ul className="flex flex-col items-start gap-3 p-4">
+                                        <li>
+                                            <Link
+                                                href={route('dashboard')}
+                                                className="transition-colors hover:text-teal"
+                                            >
+                                                Dashboard
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                href={route('profile.edit')}
+                                                className="transition-colors hover:text-teal"
+                                            >
+                                                My profile
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <form onSubmit={handleLogout}>
+                                                <button
+                                                    type="submit"
+                                                    className="flex transition-colors hover:text-teal"
+                                                >
+                                                    Logout
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </Dropdown.Content>
+                            </Dropdown>
+                        </>
+                    ) : (
+                        <>
+                            <NavLink
+                                href={route('about')}
+                                className="hidden md:inline-flex"
+                            >
+                                About
+                            </NavLink>
+                            <NavLink
+                                href={route('home', { signup: true })}
+                                className="hidden md:inline-flex"
+                            >
+                                Sign up
+                            </NavLink>
+                            <NavLink
+                                href={route('login')}
+                                className="hidden md:inline-flex"
+                            >
+                                Login
+                            </NavLink>
+                        </>
+                    )}
                 </div>
             </nav>
         </header>

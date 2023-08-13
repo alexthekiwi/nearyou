@@ -10,8 +10,11 @@ use App\Http\Controllers\LocalLoginController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PhoneNumberRegisterController;
 use App\Http\Controllers\PhoneNumberVerifyController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RandomListingController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\TermsAndConditionsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProxyController;
 use App\Http\Middleware\IsAdmin;
@@ -21,12 +24,10 @@ use Illuminate\Support\Facades\Route;
  * Public routes
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::resource('/listings', ListingController::class);
-Route::get('/random', RandomListingController::class)->name('listings.random');
-Route::resource('/chat', ChatController::class);
 Route::get('/about', AboutController::class)->name('about');
-Route::get('/community', CommunityController::class)->name('community');
+Route::get('/terms-and-conditions', TermsAndConditionsController::class)->name('terms-and-conditions');
+Route::get('/privacy-policy', PrivacyPolicyController::class)->name('privacy-policy');
+Route::get('/support', SupportController::class)->name('support');
 
 Route::delete('/user-proxy', [UserProxyController::class, 'destroy'])->name('user-proxy.destroy');
 
@@ -51,6 +52,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/location', [LocationController::class, 'store'])->name('location.store');
     Route::put('/location', [LocationController::class, 'update'])->name('location.update');
+
+    Route::resource('/listings', ListingController::class);
+    Route::get('/random', RandomListingController::class)->name('listings.random');
+    Route::resource('/chat', ChatController::class);
+    Route::get('/community', CommunityController::class)->name('community');
 });
 
 /**

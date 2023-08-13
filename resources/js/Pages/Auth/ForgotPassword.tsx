@@ -1,5 +1,4 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
 import Button from '@/Components/common/Button';
 import { handleChange } from '@/lib/forms';
 import GuestLayout from '@/Layouts/GuestLayout';
@@ -23,7 +22,6 @@ export default function ForgotPassword({ status }: { status?: string }) {
             <Head title="Forgot Password" />
 
             <div className="flex flex-col gap-8">
-                <Logo className="mx-auto h-12" />
                 <div className="mx-auto w-full max-w-lg">
                     <H2 className="mb-6">Reset your password</H2>
 

@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import React from 'react';
 import Button from '@/Components/common/Button';
 import Logo from '@/Components/common/Logo';
@@ -11,7 +11,11 @@ interface Props {
 }
 
 export default function Splash({}: Props) {
-    const [isSignupModalActive, setSignupModalActive] = React.useState(false);
+    const { url } = usePage();
+
+    const [isSignupModalActive, setSignupModalActive] = React.useState(
+        !!url.includes('signup')
+    );
 
     return (
         <GuestLayout>
@@ -39,7 +43,7 @@ export default function Splash({}: Props) {
                             Sign up
                         </Button>
                         <Link
-                            href="/login"
+                            href={route('login')}
                             className="font-bold text-teal transition-opacity hover:opacity-50"
                         >
                             Login
@@ -56,19 +60,19 @@ export default function Splash({}: Props) {
             <nav className="mt-auto flex flex-col items-start gap-x-12 gap-y-4 font-bold text-gray md:flex-row md:justify-center">
                 <Link
                     className="transition-colors hover:text-teal"
-                    href="/terms-and-conditions"
+                    href={route('terms-and-conditions')}
                 >
                     Terms &amp; Conditions
                 </Link>
                 <Link
                     className="transition-colors hover:text-teal"
-                    href="/privacy-policy"
+                    href={route('privacy-policy')}
                 >
                     Privacy Policy
                 </Link>
                 <Link
                     className="transition-colors hover:text-teal"
-                    href="/support"
+                    href={route('support')}
                 >
                     Support
                 </Link>

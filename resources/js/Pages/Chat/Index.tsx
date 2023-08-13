@@ -3,6 +3,7 @@ import Layout from '@/Layouts/Layout';
 import H1 from '@/Components/typography/H1';
 import { App, PaginatedResults } from '@/types';
 import NavBar from '@/Components/common/NavBar';
+import { primaryLinks } from '@/lib/nav';
 
 interface Props {
     chats: PaginatedResults<App['Models']['Chat'][]>;
@@ -20,9 +21,7 @@ export default function ChatIndex({ chats }: Props) {
                 </div>
 
                 <div className="container flex flex-col gap-y-4">
-                    <div className="flex w-full justify-center">
-                        <NavBar className="max-w-lg flex-grow" />
-                    </div>
+                    <NavBar links={primaryLinks} />
                 </div>
             </div>
         </Layout>

@@ -1,9 +1,7 @@
-import { useEffect, FormEventHandler } from 'react';
+import { useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
-import Card from '@/Components/common/Card';
 import { handleChange } from '@/lib/forms';
 import Button from '@/Components/common/Button';
-import Layout from '@/Layouts/Layout';
 import GuestLayout from '@/Layouts/GuestLayout';
 import Logo from '@/Components/common/Logo';
 import H2 from '@/Components/typography/H2';
@@ -40,7 +38,6 @@ export default function Login({
             <Head title="Log in" />
 
             <div className="flex flex-col gap-8">
-                <Logo className="mx-auto h-12" />
                 <div className="mx-auto w-full max-w-lg">
                     <H2 className="mb-6">Login</H2>
 

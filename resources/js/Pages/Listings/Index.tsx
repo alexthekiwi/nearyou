@@ -8,6 +8,7 @@ import SetLocationForm from '@/Components/location/SetLocationForm';
 import SearchBar from '@/Components/common/SearchBar';
 import NavBar from '@/Components/common/NavBar';
 import Button from '@/Components/common/Button';
+import { primaryLinks } from '@/lib/nav';
 
 interface Props {
     listings: PaginatedResults<App['Models']['Listing'][]>;
@@ -28,9 +29,7 @@ export default function ListingsIndex({ listings }: Props) {
 
                 <Listings data={listings}>
                     <div className="container flex flex-col gap-y-4">
-                        <div className="flex w-full justify-center">
-                            <NavBar className="max-w-lg flex-grow" />
-                        </div>
+                        <NavBar links={primaryLinks} />
                         <div className="flex flex-col gap-x-8 gap-y-4 md:flex-row">
                             <SetLocationForm onSuccess={handleSetLocation} />
                             <SearchBar name="query" id="query" clearable />

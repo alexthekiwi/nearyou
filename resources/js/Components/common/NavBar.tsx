@@ -1,35 +1,31 @@
 import { PropsWithChildren } from 'react';
 import { Link } from '@inertiajs/react';
 import cn from 'classnames';
+import { LinkItem } from '@/types';
 
 interface NavBarProps extends PropsWithChildren {
     className?: string;
+    links?: LinkItem[];
 }
 
 interface NavBarLinkProps extends PropsWithChildren {
     href: string;
 }
 
-const links = [
-    { href: route('listings.index'), label: 'Browse' },
-    { href: route('chat.index'), label: 'Chat' },
-    { href: route('about'), label: 'About' },
-    { href: route('community'), label: 'Community' },
-];
+export default function NavBar({ links = [], className = '' }: NavBarProps) {
+    if (links.length === 0) {
+        return null;
+    }
 
-export default function NavBar({ className = '' }: NavBarProps) {
     return (
-        <nav
-            className={cn(
-                `flex justify-between gap-8 overflow-x-auto`,
-                className
-            )}
-        >
-            {links.map((link) => (
-                <NavBarLink href={link.href} key={link.href}>
-                    {link.label}
-                </NavBarLink>
-            ))}
+        <nav className={cn('flex w-full justify-center', className)}>
+            <div className="flex max-w-lg flex-grow justify-between gap-8 overflow-x-auto">
+                {links.map((link) => (
+                    <NavBarLink href={link.href} key={link.href}>
+                        {link.label}
+                    </NavBarLink>
+                ))}
+            </div>
         </nav>
     );
 }
