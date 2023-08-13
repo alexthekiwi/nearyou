@@ -29,10 +29,25 @@ class AppRefresh extends Command
             return $this->line('Command aborted.');
         }
 
+        // Clear config
+        $this->call('config:clear');
+
+        // Migrate and seed the database
         $this->call('migrate:fresh', ['--force' => true, '--seed' => true]);
+
+        // Symlink paths
         $this->call('storage:link');
+
+        // Refresh search indexes
         $this->call('search:refresh');
+
+        // Generate TypeScript interfaces
         // TODO: Fix this composer package
         // $this->call('typescript:generate');
+
+        // Cache config (only in production)
+        if (! app()->environment('local')) {
+            $this->call('config:cache');
+        }
     }
 }
