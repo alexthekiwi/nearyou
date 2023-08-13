@@ -30,6 +30,7 @@ class AppRefresh extends Command
         }
 
         $this->call('migrate:fresh', ['--force' => true, '--seed' => true]);
+        $this->call('storage:link');
         $this->call('search:refresh');
         // TODO: Fix this composer package
         // $this->call('typescript:generate');
