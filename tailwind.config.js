@@ -37,6 +37,15 @@ export default {
             transitionDuration: {
                 DEFAULT: '300ms',
             },
+            animation: {
+                'slow-spin': 'slow-spin 12s infinite linear',
+            },
+            keyframes: {
+                'slow-spin': {
+                  '0%, 100%': { transform: 'rotate(0deg)' },
+                  '100%': { transform: 'rotate(360deg)' },
+                }
+              }
         },
     },
 

@@ -6,6 +6,7 @@ import { primaryLinks } from '@/lib/nav';
 import { useAuth } from '@/lib/auth';
 import H2 from '@/Components/typography/H2';
 import H3 from '@/Components/typography/H3';
+import Stamp from '@/Components/common/Stamp';
 
 interface Props {
     //
@@ -24,11 +25,12 @@ export default function About({}: Props) {
 
                 <div className="container flex flex-col gap-y-4">
                     {isAuth && <NavBar links={primaryLinks} />}
-                    <section className="prose mx-auto">
-                        <div>
-                            <H2>Our ethos.</H2>
+                    <section className="mx-auto grid max-w-3xl gap-x-16 gap-y-8 lg:grid-cols-4">
+                        <div className="lg:mt-10">
+                            <Stamp animate />
                         </div>
-                        <div>
+                        <section className="prose mx-auto max-w-full lg:col-span-3 lg:pt-8">
+                            <H2>Our ethos.</H2>
                             <H3 className="text-teal">Trade local.</H3>
                             <p>
                                 Near You enables you to trade with nearby
@@ -37,8 +39,6 @@ export default function About({}: Props) {
                                 local community, we strengthen connections
                                 within our neighborhood.
                             </p>
-                        </div>
-                        <div>
                             <H3 className="text-teal">Save money.</H3>
                             <p>
                                 Near you eliminates fees to promote local
@@ -47,15 +47,11 @@ export default function About({}: Props) {
                                 affordable prices without the need to purchase
                                 new.
                             </p>
-                        </div>
-                        <div>
                             <H3 className="text-teal">Freecycle.</H3>
                             <p>
                                 Give away once loved items that may be valuable
                                 to someone else in your neighborhood.
                             </p>
-                        </div>
-                        <div>
                             <H3 className="text-teal">Reduce waste.</H3>
                             <p>
                                 By promoting the reuse of products through
@@ -63,7 +59,7 @@ export default function About({}: Props) {
                                 conservation and waste reduction, thereby aiding
                                 in the protection of our environment.
                             </p>
-                        </div>
+                        </section>
                     </section>
                 </div>
             </div>
