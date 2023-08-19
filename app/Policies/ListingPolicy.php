@@ -62,4 +62,14 @@ class ListingPolicy
     {
         return false;
     }
+
+    public function addFavourite(User $user, Listing $listing)
+    {
+        return $user->location_id === $listing->location_id;
+    }
+
+    public function removeFavourite(User $user, Listing $listing)
+    {
+        return $user->location_id === $listing->location_id;
+    }
 }

@@ -146,7 +146,9 @@ class User extends Authenticatable
 
     public function favourites(): BelongsToMany
     {
-        return $this->belongsToMany(Listing::class, 'user_favourites', 'user_id', 'listing_id');
+        return $this
+            ->belongsToMany(Listing::class, 'user_favourites', 'user_id', 'listing_id')
+            ->withTimestamps();
     }
 
     public function scopeSearch(Builder $query, string $search)

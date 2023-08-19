@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Listings\GetFavouriteListingIds;
 use App\Actions\Listings\GetListings;
 use App\Actions\Tags\GetTags;
 use App\Models\Listing;
@@ -25,6 +26,7 @@ class ListingController extends Controller
                 user: $request->user(),
                 request: $request
             ),
+            'favouriteListings' => (new GetFavouriteListingIds)(),
         ]);
     }
 
@@ -68,6 +70,7 @@ class ListingController extends Controller
 
         return inertia('Listings/Show', [
             'listing' => $listing,
+            'favouriteListings' => (new GetFavouriteListingIds)(),
         ]);
     }
 

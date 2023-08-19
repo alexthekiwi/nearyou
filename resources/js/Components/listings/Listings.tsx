@@ -7,9 +7,14 @@ import Loader from '../common/Loader';
 
 interface Props extends PropsWithChildren {
     data: PaginatedResults<App['Models']['Listing'][]>;
+    favouriteListings?: App['Models']['Listing']['id'][];
 }
 
-export default function Listings({ data: paginatedListings, children }: Props) {
+export default function Listings({
+    data: paginatedListings,
+    favouriteListings,
+    children,
+}: Props) {
     const [listings, setListings] = React.useState<App['Models']['Listing'][]>(
         paginatedListings.data
     );
@@ -106,6 +111,7 @@ export default function Listings({ data: paginatedListings, children }: Props) {
                                     key={listing.id}
                                     listing={listing}
                                     showTags
+                                    favouriteListings={favouriteListings}
                                 />
                             ))}
                         </div>

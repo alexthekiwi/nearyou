@@ -42,11 +42,21 @@ export default function Dashboard({}: Props) {
 
                     <Card className="flex flex-col gap-8">
                         <Button
+                            href={route('favourites.index')}
+                            className="mt-auto"
+                            theme="success"
+                        >
+                            My favourites
+                        </Button>
+                    </Card>
+
+                    <Card className="flex flex-col gap-8">
+                        <Button
                             href={route('profile.edit')}
                             className="mt-auto"
                             theme="success"
                         >
-                            My Account
+                            Edit profile
                         </Button>
                     </Card>
 

@@ -5,12 +5,14 @@ import { App } from '@/types';
 import Button from '@/Components/common/Button';
 import { useAuth } from '@/lib/auth';
 import { useSubmit } from '@/lib/forms';
+import FavouriteButton from '@/Components/listings/FavouriteButton';
 
 interface Props {
     listing: App['Models']['Listing'];
+    favouriteListings: App['Models']['Listing']['id'][];
 }
 
-export default function ListingsShow({ listing }: Props) {
+export default function ListingsShow({ listing, favouriteListings }: Props) {
     const { user } = useAuth();
 
     const canModify = user.is_admin || user.id === listing.seller_id;
@@ -40,18 +42,6 @@ export default function ListingsShow({ listing }: Props) {
                     {canModify && (
                         <div className="flex items-center gap-4">
                             <Button
-                                href={
-                                    listing.seller_id
-                                        ? route('users.show', {
-                                              user: listing.seller_id,
-                                          })
-                                        : '#0'
-                                }
-                                theme="primary"
-                            >
-                                View seller
-                            </Button>
-                            <Button
                                 href={route('listings.edit', {
                                     listing: listing.id,
                                 })}
@@ -66,6 +56,26 @@ export default function ListingsShow({ listing }: Props) {
                             </form>
                         </div>
                     )}
+
+                    <Button
+                        href={
+                            listing.seller_id
+                                ? route('users.show', {
+                                      user: listing.seller_id,
+                                  })
+                                : '#0'
+                        }
+                        theme="primary"
+                    >
+                        View seller
+                    </Button>
+
+                    <FavouriteButton
+                        listing={listing}
+                        favouriteListings={favouriteListings}
+                        showText
+                        iconClassName="text-teal"
+                    />
                 </div>
             </div>
         </Layout>

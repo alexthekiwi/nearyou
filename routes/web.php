@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\LocalLoginController;
@@ -57,6 +58,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/{user}/listings', [UserListingController::class, 'index'])->name('user-listings.index');
     Route::get('/{user}/reviews', [UserReviewController::class, 'index'])->name('user-reviews.index');
+
+    Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites.index');
+    Route::post('/favourites/{listing}', [FavouriteController::class, 'store'])->name('favourites.store');
+    Route::delete('/favourites/{listing}', [FavouriteController::class, 'destroy'])->name('favourites.destroy');
 
     Route::resource('/listings', ListingController::class);
     Route::get('/random', RandomListingController::class)->name('listings.random');

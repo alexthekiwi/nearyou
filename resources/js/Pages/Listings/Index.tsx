@@ -7,14 +7,14 @@ import Listings from '@/Components/listings/Listings';
 import SetLocationForm from '@/Components/location/SetLocationForm';
 import SearchBar from '@/Components/common/SearchBar';
 import NavBar from '@/Components/common/NavBar';
-import Button from '@/Components/common/Button';
 import { primaryLinks } from '@/lib/nav';
 
 interface Props {
     listings: PaginatedResults<App['Models']['Listing'][]>;
+    favouriteListings: App['Models']['Listing']['id'][];
 }
 
-export default function ListingsIndex({ listings }: Props) {
+export default function ListingsIndex({ listings, favouriteListings }: Props) {
     function handleSetLocation() {
         window.location.reload();
     }
@@ -27,7 +27,7 @@ export default function ListingsIndex({ listings }: Props) {
                     <H1>Your local listings.</H1>
                 </div>
 
-                <Listings data={listings}>
+                <Listings data={listings} favouriteListings={favouriteListings}>
                     <div className="container flex flex-col gap-y-4">
                         <NavBar links={primaryLinks} />
                         <div className="flex flex-col gap-x-8 gap-y-4 md:flex-row">
