@@ -40,7 +40,6 @@ export type PaginatedResults<T = any> = {
 export type Status = 'idle' | 'processing' | 'success' | 'error';
 
 export type LinkItem = {
+    href: string;
     label: string;
-    href?: string;
-    onClick?: () => void;
 };
