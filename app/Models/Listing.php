@@ -131,6 +131,20 @@ class Listing extends Model
         );
     }
 
+    public function isAvailable(?bool $includeReserved = true): Attribute
+    {
+        $statuses = collect($includeReserved ? [ListingStatus::AVAILABLE, ListingStatus::RESERVED] : [ListingStatus::AVAILABLE]);
+
+        return Attribute::get(fn () => $statuses->contains($this->status));
+    }
+
+    public function scopeWhereNotSold(Builder $query, ?bool $includeReserved = true): Builder
+    {
+        $statuses = $includeReserved ? [ListingStatus::AVAILABLE, ListingStatus::RESERVED] : [ListingStatus::AVAILABLE];
+
+        return $query->whereIn('status', $statuses);
+    }
+
     /**
      * Get the indexable data array for the model.
      *

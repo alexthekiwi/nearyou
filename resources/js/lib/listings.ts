@@ -1,4 +1,3 @@
-import { router } from '@inertiajs/react';
 import { App } from '@/types';
 
 const listingStatuses = {
@@ -14,4 +13,13 @@ export function getListingStatus(input: number | App['Models']['Listing']) {
     ) as keyof typeof listingStatuses;
 
     return listingStatuses[status] || 'Unknown';
+}
+
+export function isAvailable(
+    listing: App['Models']['Listing'],
+    includeReserved = true
+) {
+    const statuses = includeReserved ? [1, 3] : [1];
+
+    return statuses.includes(listing.status);
 }

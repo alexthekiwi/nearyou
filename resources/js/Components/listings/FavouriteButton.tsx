@@ -2,6 +2,7 @@ import cn from 'classnames';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi2';
 import { App } from '@/types';
 import { useFavourites } from '@/lib/favourites';
+import { isAvailable } from '@/lib/listings';
 
 interface Props {
     className?: string;
@@ -23,6 +24,12 @@ export default function FavouriteButton({
     const { addFavourite, removeFavourite } = useFavourites();
 
     if (!listing) {
+        return null;
+    }
+
+    const canFavourite = isAvailable(listing, true);
+
+    if (!canFavourite) {
         return null;
     }
 

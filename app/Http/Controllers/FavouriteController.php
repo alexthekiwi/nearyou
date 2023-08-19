@@ -12,6 +12,7 @@ class FavouriteController extends Controller
     public function index(Request $request)
     {
         $listings = User::find(auth()->id())->favourites()
+            ->whereNotSold()
             ->orderByPivot('created_at', 'desc')
             ->with([
                 'suburb',
@@ -33,6 +34,10 @@ class FavouriteController extends Controller
     public function store(Listing $listing)
     {
         $this->authorize('addFavourite', ListingPolicy::class);
+
+        if (! $listing->is_available) {
+            return redirect()->back();
+        }
 
         $favourites = User::find(auth()->id())->favourites();
 
