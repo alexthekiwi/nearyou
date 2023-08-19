@@ -12,7 +12,9 @@ export default function Review({ review, user }: Props) {
     const wasBuyer = user?.id === review.buyer_id;
 
     const bgClass =
+        // @ts-ignore
         (review.stars >= 4 && 'bg-teal-xlight') ||
+        // @ts-ignore
         (review.stars >= 3 && 'bg-white') ||
         'bg-red-50';
 
