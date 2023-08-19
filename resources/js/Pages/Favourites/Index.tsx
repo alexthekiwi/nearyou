@@ -28,7 +28,7 @@ export default function FavouritesIndex({
         <Layout>
             <Head title="Favourite Listings" />
 
-            <div className="container mb-24 mt-12 flex flex-col gap-8">
+            <div className="container mb-24 mt-6 flex flex-col gap-8">
                 <PageHeader heading="My favourites" />
 
                 <div className="flex flex-col gap-y-4">

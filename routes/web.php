@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListingController;
@@ -30,6 +31,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', AboutController::class)->name('about');
 Route::get('/terms-and-conditions', TermsAndConditionsController::class)->name('terms-and-conditions');
 Route::get('/privacy-policy', PrivacyPolicyController::class)->name('privacy-policy');
+Route::get('/faq', FaqController::class)->name('faq');
 Route::get('/support', SupportController::class)->name('support');
 
 Route::delete('/user-proxy', [UserProxyController::class, 'destroy'])->name('user-proxy.destroy');

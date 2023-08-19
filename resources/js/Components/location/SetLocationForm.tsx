@@ -1,6 +1,7 @@
+import React, { PropsWithChildren } from 'react';
 import { router } from '@inertiajs/react';
 import { MdMyLocation } from 'react-icons/md';
-import React from 'react';
+import cn from 'classnames';
 import Button from '../common/Button';
 import { useSubmit } from '@/lib/forms';
 import { useAuth } from '@/lib/auth';
@@ -10,11 +11,16 @@ import Modal from '../Modal';
 import Loader from '../common/Loader';
 import { useToast } from '@/lib/toast';
 
-interface Props {
+interface Props extends PropsWithChildren {
     onSuccess?: () => void;
+    className?: string;
 }
 
-export default function SetLocationForm({ onSuccess }: Props) {
+export default function SetLocationForm({
+    onSuccess,
+    className = '',
+    children,
+}: Props) {
     const { location } = useAuth().user;
     const { addToast } = useToast();
 
@@ -71,7 +77,7 @@ export default function SetLocationForm({ onSuccess }: Props) {
 
     return (
         <button
-            className="flex items-center gap-3"
+            className={cn('flex items-center gap-3', className)}
             onClick={handleUpdateLocation}
         >
             {status === 'processing' ? (
@@ -79,7 +85,10 @@ export default function SetLocationForm({ onSuccess }: Props) {
             ) : (
                 <MdMyLocation className="h-6 w-6 text-teal" />
             )}
+
             {locationName}
+
+            {children}
 
             <Modal
                 show={status === 'success' || status === 'error'}

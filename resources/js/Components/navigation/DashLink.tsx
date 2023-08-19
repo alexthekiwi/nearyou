@@ -1,23 +1,13 @@
-import React from 'react';
 import cn from 'classnames';
 import { Link } from '@inertiajs/react';
 import Card from '../common/Card';
-
-export interface DashLinkProps {
-    href?: string;
-    target?: '_blank' | '_self';
-    onClick?: Function;
-    title: string;
-    description?: string;
-    disabled?: boolean;
-    icon?: React.ReactNode;
-}
+import { DashLinkProps } from '@/types';
 
 export default function DashLink(props: DashLinkProps) {
     if (props.onClick) {
         return (
             <button onClick={() => props.onClick?.()}>
-                <Card>
+                <Card className="h-full">
                     <DashLinkContent {...props} />
                 </Card>
             </button>
@@ -27,7 +17,7 @@ export default function DashLink(props: DashLinkProps) {
     if (props.href && props.target !== '_blank') {
         return (
             <Link href={props.href}>
-                <Card>
+                <Card className="h-full">
                     <DashLinkContent {...props} />
                 </Card>
             </Link>
@@ -37,7 +27,7 @@ export default function DashLink(props: DashLinkProps) {
     if (props.href && props.target === '_blank') {
         return (
             <a href={props.href}>
-                <Card>
+                <Card className="h-full">
                     <DashLinkContent {...props} />
                 </Card>
             </a>
@@ -45,7 +35,7 @@ export default function DashLink(props: DashLinkProps) {
     }
 
     return (
-        <Card>
+        <Card className="h-full">
             <DashLinkContent {...props} />
         </Card>
     );
@@ -56,7 +46,12 @@ function DashLinkContent({
     title,
     description,
     disabled,
+    hidden,
 }: DashLinkProps) {
+    if (hidden) {
+        return null;
+    }
+
     return (
         <div
             className={cn('group flex flex-col gap-6', {

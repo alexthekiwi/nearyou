@@ -7,6 +7,7 @@ import { useAuth } from '@/lib/auth';
 import H2 from '@/Components/typography/H2';
 import H3 from '@/Components/typography/H3';
 import Stamp from '@/Components/common/Stamp';
+import PageHeader from '@/Components/common/PageHeader';
 
 interface Props {
     //
@@ -20,7 +21,7 @@ export default function About({}: Props) {
             <Head title="About Near You" />
             <div className="my-6 flex flex-col gap-4 md:gap-8">
                 <div className="container">
-                    <H1>About Near You</H1>
+                    <PageHeader heading="About Near You" />
                 </div>
 
                 <div className="container flex flex-col gap-y-4">

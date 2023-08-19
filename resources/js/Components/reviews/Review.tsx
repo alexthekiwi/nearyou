@@ -1,5 +1,5 @@
+import cn from 'classnames';
 import { App } from '@/types';
-import H3 from '../typography/H3';
 import { formatDateNice } from '@/lib/dates';
 
 interface Props {
@@ -11,8 +11,18 @@ export default function Review({ review, user }: Props) {
     const starsArray = Array.from(Array(review.stars)).map((_, i) => i);
     const wasBuyer = user?.id === review.buyer_id;
 
+    const bgClass =
+        (review.stars >= 4 && 'bg-teal-xlight') ||
+        (review.stars >= 3 && 'bg-white') ||
+        'bg-red-50';
+
     return (
-        <article className="flex flex-col gap-3 rounded-lg border border-gray-300 p-4">
+        <article
+            className={cn(
+                'flex flex-col gap-3 rounded-lg border border-gray-300 p-4',
+                bgClass
+            )}
+        >
             <div className="flex flex-col gap-4 md:flex-row md:justify-between">
                 {user ? (
                     <p className="text-sm font-bold text-gray-400">

@@ -1,6 +1,7 @@
 export * from './models';
 export * from './props';
 export * from './api';
+export * from './navigation';
 
 export interface User {
     id: number;
@@ -38,8 +39,3 @@ export type PaginatedResults<T = any> = {
 };
 
 export type Status = 'idle' | 'processing' | 'success' | 'error';
-
-export type LinkItem = {
-    href: string;
-    label: string;
-};

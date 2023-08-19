@@ -27,7 +27,7 @@ export default function Button({
     method = 'get',
 }: ButtonProps) {
     const baseClasses =
-        'inline-flex items-center gap-3 font-bold justify-center text-center rounded-xl transition-all py-3 px-6 xl:py-4 xl:px-12 hover:opacity-75';
+        'inline-flex items-center gap-3 font-bold justify-center text-center rounded-xl transition-all py-2 px-4 xl:py-3 xl:px-8 hover:opacity-75';
 
     const themeClass =
         (theme === 'primary' && 'bg-teal text-white') ||

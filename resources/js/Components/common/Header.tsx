@@ -4,7 +4,7 @@ import { useAuth } from '@/lib/auth';
 import NavLink from './NavLink';
 import Logo from './Logo';
 import Dropdown from '../Dropdown';
-import LogoMark from './LogoMark';
+import NavMenu from '../navigation/NavMenu';
 
 export default function Header() {
     const { logout, isAuth } = useAuth();
@@ -16,7 +16,7 @@ export default function Header() {
     }
 
     return (
-        <header className="relative z-[100] w-full border-b border-gray-200 bg-white py-4">
+        <header className="sticky top-0 z-[100] flex h-[80px] w-full items-center border-b border-gray-200 bg-white py-4">
             <nav className="container flex items-center justify-between gap-8">
                 <Link
                     href="/"
@@ -46,43 +46,8 @@ export default function Header() {
                             >
                                 Dashboard
                             </NavLink>
-                            <Dropdown>
-                                <Dropdown.Trigger>
-                                    <div className="transition-colors hover:cursor-pointer hover:text-teal">
-                                        <HiOutlineUser className="h-6 w-6" />
-                                    </div>
-                                </Dropdown.Trigger>
-                                <Dropdown.Content>
-                                    <ul className="flex flex-col items-start gap-3 p-4">
-                                        <li>
-                                            <Link
-                                                href={route('dashboard')}
-                                                className="transition-colors hover:text-teal"
-                                            >
-                                                Dashboard
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                href={route('profile.edit')}
-                                                className="transition-colors hover:text-teal"
-                                            >
-                                                My profile
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <form onSubmit={handleLogout}>
-                                                <button
-                                                    type="submit"
-                                                    className="flex transition-colors hover:text-teal"
-                                                >
-                                                    Logout
-                                                </button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </Dropdown.Content>
-                            </Dropdown>
+
+                            <NavMenu />
                         </>
                     ) : (
                         <>

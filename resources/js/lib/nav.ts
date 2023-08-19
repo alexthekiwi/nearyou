@@ -9,12 +9,14 @@ export const primaryLinks: LinkItem[] = [
 
 export const helpLinks: LinkItem[] = [
     { href: route('support'), label: 'Support' },
-    { href: route('privacy-policy'), label: 'Privacy Policy' },
-    { href: route('terms-and-conditions'), label: 'Terms & Conditions' },
+    { href: route('faq'), label: 'FAQ' },
+    { href: route('privacy-policy'), label: 'Privacy policy' },
+    { href: route('terms-and-conditions'), label: 'Terms of use' },
 ];
 
 export const footerLinks: LinkItem[] = [
     { href: route('support'), label: 'Support' },
-    { href: route('privacy-policy'), label: 'Privacy Policy' },
-    { href: route('terms-and-conditions'), label: 'Terms & Conditions' },
+    { href: route('faq'), label: 'FAQ' },
+    { href: route('privacy-policy'), label: 'Privacy policy' },
+    { href: route('terms-and-conditions'), label: 'Terms of use' },
 ];
