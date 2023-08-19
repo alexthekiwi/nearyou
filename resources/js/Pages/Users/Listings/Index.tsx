@@ -25,7 +25,7 @@ export default function UserListingsIndex({ user, listings }: Props) {
             <div className="container mb-24 mt-12 flex flex-col gap-8">
                 <PageHeader heading={`Listings by ${user.username}`} />
 
-                <div className="container flex flex-col gap-y-4">
+                <div className="flex flex-col gap-y-4">
                     <NavBar links={links} />
 
                     <div className="flex flex-col gap-6">

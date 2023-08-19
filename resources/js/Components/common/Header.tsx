@@ -21,7 +21,7 @@ export default function Header() {
                     href="/"
                     className="font-bold text-white transition-all hover:opacity-50"
                 >
-                    <Logo className="h-10 md:h-12" />
+                    <Logo className="h-10 md:h-12" showTagline />
                 </Link>
 
                 <div className="flex items-center gap-6 font-bold text-black">

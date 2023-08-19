@@ -37,7 +37,7 @@ export default function UsersShow({
             <div className="container mb-24 mt-12 flex flex-col gap-8">
                 <PageHeader heading={`${user.username}`} />
 
-                <div className="container flex flex-col gap-y-4">
+                <div className="flex flex-col gap-y-4">
                     <NavBar links={links} />
 
                     <div className="grid gap-12">
