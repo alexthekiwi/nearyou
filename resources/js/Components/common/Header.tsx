@@ -4,6 +4,7 @@ import { useAuth } from '@/lib/auth';
 import NavLink from './NavLink';
 import Logo from './Logo';
 import Dropdown from '../Dropdown';
+import LogoMark from './LogoMark';
 
 export default function Header() {
     const { logout, isAuth } = useAuth();
