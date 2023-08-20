@@ -23,6 +23,11 @@ Completely wipe the application, generate seed data and refresh search indexes.
 php artisan app:refresh
 ```
 
+Generate TypeScript types for application models
+```
+php artisan typescript:generate
+```
+
 ### Data
 
 Refresh the database with seed data

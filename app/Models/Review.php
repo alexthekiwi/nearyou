@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $description
  * @property-read \App\Models\User|null $buyer
  * @property-read \App\Models\User|null $seller
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review query()
@@ -31,14 +30,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereSellerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereStars($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereUpdatedAt($value)
- *
  * @property \Illuminate\Support\Carbon|null $deleted_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Review onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Review withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Review withoutTrashed()
- *
+ * @method static \Database\Factories\ReviewFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 class Review extends Model

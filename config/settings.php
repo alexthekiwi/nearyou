@@ -15,4 +15,11 @@ return [
         'simulate_slow_search' => env('SIMULATE_SLOW_SEARCH', false),
     ],
 
+    /**
+     * Notification settings
+     */
+    'notifications' => [
+        'sms_active' => env('SMS_ACTIVE', false),
+    ],
+
 ];

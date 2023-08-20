@@ -46,9 +46,9 @@ Route::middleware(['guest'])->group(function () {
 });
 
 /**
- * Auth routes
+ * Authenticated and email-verified routes
  */
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -57,7 +57,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/location', [LocationController::class, 'store'])->name('location.store');
     Route::put('/location', [LocationController::class, 'update'])->name('location.update');
+});
 
+/**
+ * Authenticated and email-verified routes
+ */
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/{user}/listings', [UserListingController::class, 'index'])->name('user-listings.index');
     Route::get('/{user}/reviews', [UserReviewController::class, 'index'])->name('user-reviews.index');
 
@@ -72,10 +78,13 @@ Route::middleware('auth')->group(function () {
 });
 
 /**
- * Admin rotues
+ * Admin routes
  */
 Route::middleware(['auth', IsAdmin::class])->group(function () {
-    Route::resource('/users', UserController::class);
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::put('/users', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users', [UserController::class, 'destroy'])->name('users.destroy');
     Route::post('/user-proxy', [UserProxyController::class, 'store'])->name('user-proxy.store');
 });
 

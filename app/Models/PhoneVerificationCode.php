@@ -44,4 +44,9 @@ class PhoneVerificationCode extends Model
     {
         return Attribute::get(fn () => '+'.$this->country_code.$this->phone_number);
     }
+
+    public function message(): Attribute
+    {
+        return Attribute::get(fn () => "Near You code: {$this->code}. Expires in 30 minutes.");
+    }
 }

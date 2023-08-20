@@ -60,6 +60,11 @@ sail npm run build
 ```
 
 ## Development
+Generate TypeScript types for your models
+```sh
+sail artisan typescript:generate
+```
+
 Start the development server
 ```sh
 sail npm run dev

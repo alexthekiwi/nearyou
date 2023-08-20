@@ -84,6 +84,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        dd($user);
         $this->authorize('view', $user);
 
         // Get their latest 4 listings

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\PhoneVerificationCode;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\VonageMessage;
 use Illuminate\Notifications\Notification;
@@ -13,7 +14,7 @@ class VerifyPhoneNumber extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(public PhoneVerificationCode $phoneVerificationCode)
     {
         //
     }
@@ -30,9 +31,12 @@ class VerifyPhoneNumber extends Notification
 
     public function toVonage(object $notifiable): VonageMessage
     {
+        $code = $this->phoneVerificationCode->code;
+        $message = "Your verification code for Near You is {$code}";
+
         return (new VonageMessage)
-            ->clientReference((string) $notifiable->id)
-            ->content('Test SMS'.now()->toDateTimeString());
+            ->clientReference((string) $this->phoneVerificationCode->id)
+            ->content($message);
     }
 
     /**

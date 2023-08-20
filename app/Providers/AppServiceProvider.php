@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         // Add a "withMessage" function to RedirectResponses
-        RedirectResponse::macro('withMessage', function (string $message, MessageStatus|string|null $status = null) {
+        RedirectResponse::macro('withMessage', function (string $message, MessageStatus|string $status = null) {
             return $this->with(['message' => (new CreateMessage)(...func_get_args())]);
         });
     }

@@ -42,8 +42,7 @@ class AppRefresh extends Command
         $this->call('search:refresh');
 
         // Generate TypeScript interfaces
-        // TODO: Fix this composer package
-        // $this->call('typescript:generate');
+        $this->call('typescript:generate');
 
         // Cache config (only in production)
         if (! app()->environment('local')) {

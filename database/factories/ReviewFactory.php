@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +18,8 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            'buyer_id' => null,
-            'seller_id' => null,
+            'buyer_id' => User::factory(),
+            'seller_id' => User::factory(),
             'stars' => $this->faker->numberBetween(1, 5),
             'description' => $this->faker->paragraph,
         ];

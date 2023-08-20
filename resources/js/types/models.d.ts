@@ -32,6 +32,7 @@ export type App = {
             id: string;
             created_at: string | null;
             updated_at: string | null;
+            deleted_at: string | null;
             buyer_id: string | null;
             seller_id: string | null;
             stars: boolean;
@@ -72,7 +73,9 @@ export type App = {
             id: string;
             created_at: string | null;
             updated_at: string | null;
+            deleted_at: string | null;
             title: string;
+            slug: string;
             listings?: Array<App['Models']['Listing']> | null;
             listings_count?: number | null;
         };
@@ -87,6 +90,7 @@ export type App = {
             id: string;
             created_at: string | null;
             updated_at: string | null;
+            deleted_at: string | null;
             name: string;
             username: string;
             email: string;
@@ -127,12 +131,13 @@ export type App = {
             id: string;
             created_at: string | null;
             updated_at: string | null;
+            deleted_at: string | null;
             location_id: string | null;
             seller_id: string | null;
             buyer_id: string | null;
             title: string;
-            price: number | null;
             status: number;
+            price: number | null;
             sold_at: string | null;
             description: string | null;
             suburb_id: string | null;
@@ -170,6 +175,7 @@ export type App = {
             id: string;
             created_at: string | null;
             updated_at: string | null;
+            deleted_at: string | null;
             buyer_id: string | null;
             seller_id: string | null;
             buyer_archived_at: string | null;
@@ -188,5 +194,6 @@ export type App = {
             chat?: App['Models']['Chat'] | null;
             user?: App['Models']['User'] | null;
         };
-    };
+};
+
 };

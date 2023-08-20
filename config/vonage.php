@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'api_key'    => function_exists('env') ? env('VONAGE_KEY', '') : '',
+    'api_key' => function_exists('env') ? env('VONAGE_KEY', '') : '',
     'api_secret' => function_exists('env') ? env('VONAGE_SECRET', '') : '',
 
     /*
@@ -53,7 +53,7 @@ return [
     */
 
     'app' => ['name' => function_exists('env') ? env('VONAGE_APP_NAME', 'VonageLaravel') : 'VonageLaravel',
-              'version' => function_exists('env') ? env('VONAGE_APP_VERSION', '0.0.1') : '0.0.1'],
+        'version' => function_exists('env') ? env('VONAGE_APP_VERSION', '0.0.1') : '0.0.1'],
 
     /*
     |--------------------------------------------------------------------------
@@ -66,4 +66,15 @@ return [
     */
 
     'http_client' => function_exists('env') ? env('VONAGE_HTTP_CLIENT', '') : '',
+
+    /*
+    |--------------------------------------------------------------------------
+    | From number
+    |--------------------------------------------------------------------------
+    |
+    | Override the default from number for SMS messages here.
+    | Ensure this number is in your Vonage account.
+    |
+    */
+    'sms_from' => env('VONAGE_FROM', ''),
 ];

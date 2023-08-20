@@ -69,6 +69,11 @@ brew update && brew install meilisearch
 If you'd prefer the simplicity of "where like" database searching, you can set `SCOUT_DRIVER=database` in your `.env` file.
 
 ## Development
+Generate TypeScript types for your models
+```sh
+php artisan typescript:generate
+```
+
 Start the development server
 ```sh
 npm run dev

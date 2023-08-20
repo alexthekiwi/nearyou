@@ -18,7 +18,7 @@ export default function Splash({}: Props) {
 
     return (
         <GuestLayout>
-            <Head title="No Fees - No Fakes - Trade Local" />
+            <Head title="No Fees - No Scams - Trade Local" />
 
             <div className="grid gap-x-12 gap-y-4 md:grid-cols-12 md:items-center">
                 <div className="flex flex-col items-start gap-12 md:col-span-4 lg:col-span-6">

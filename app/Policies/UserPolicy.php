@@ -11,7 +11,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,8 +19,10 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        // Users in the same location can view each other
-        return $user->location_id == $model->location_id;
+        // Users can view themselves
+        return $user->id === $model->id
+            // Users in the same location can view each other
+            || ($user->location_id == $model->location_id);
     }
 
     /**

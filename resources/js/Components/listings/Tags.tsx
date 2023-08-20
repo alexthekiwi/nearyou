@@ -16,7 +16,6 @@ export default function Tags({ tags, className = '', max = 5 }: Props) {
     return (
         <nav className={cn('flex flex-wrap gap-2', className)}>
             {tagsToDisplay.map((tag) => (
-                // @ts-ignore TODO: Fix TS generator package
                 <Tag key={tag.slug} tag={tag} />
             ))}
         </nav>
