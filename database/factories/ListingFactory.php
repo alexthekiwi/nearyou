@@ -23,8 +23,8 @@ class ListingFactory extends Factory
         return [
             'seller_id' => User::inRandomOrder()->first()->id,
             'buyer_id' => User::inRandomOrder()->first()->id,
-            'location_id' => Location::inRandomOrder()->first()->id,
-            'suburb_id' => Suburb::inRandomOrder()->first()->id,
+            'location_id' => Location::inRandomOrder()->first()?->id,
+            'suburb_id' => Suburb::inRandomOrder()->first()?->id,
             'title' => fake()->sentence,
             'price' => fake()->numberBetween(0, 2000),
             'status' => ListingStatus::random(),
