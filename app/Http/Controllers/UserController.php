@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Listings\GetFavouriteListingIds;
 use App\Actions\Reviews\GetGreenScore;
 use App\Actions\Users\GenerateUsername;
 use App\Models\Review;
@@ -107,6 +108,7 @@ class UserController extends Controller
             'listings' => $listings,
             'reviews' => $reviews,
             'greenScore' => (new GetGreenScore)($user),
+            'favouriteListings' => (new GetFavouriteListingIds)(),
         ]);
     }
 

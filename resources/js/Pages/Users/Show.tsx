@@ -16,6 +16,7 @@ interface Props {
     listings: App['Models']['Listing'][];
     reviews: App['Models']['Review'][];
     greenScore: number;
+    favouriteListings: App['Models']['Listing']['id'][];
 }
 
 export default function UsersShow({
@@ -23,6 +24,7 @@ export default function UsersShow({
     listings,
     reviews,
     greenScore,
+    favouriteListings,
 }: Props) {
     const { user: authUser } = useAuth();
 
@@ -83,6 +85,9 @@ export default function UsersShow({
                                             key={listing.id}
                                             listing={listing}
                                             showTags
+                                            favouriteListings={
+                                                favouriteListings
+                                            }
                                         />
                                     ))}
                                 </div>
