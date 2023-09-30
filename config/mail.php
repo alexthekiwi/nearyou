@@ -115,8 +115,7 @@ return [
     */
 
     'to' => [
-        'admin' => env('MAIL_TO_ADMIN', 'info@housingfoundation.co.nz'),
-        'developer' => env('MAIL_TO_DEVELOPER', 'support@intuitcreative.com'),
+        'admin' => env('MAIL_TO_ADMIN', 'hello@nearyou.co.nz'),
     ],
 
     /*

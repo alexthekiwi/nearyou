@@ -50,6 +50,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $seller_reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
@@ -67,11 +68,14 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
+ *
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -146,6 +150,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this
             ->belongsToMany(Listing::class, 'user_favourites', 'user_id', 'listing_id')
             ->withTimestamps();
+    }
+
+    public function supportRequests(): HasMany
+    {
+        return $this->hasMany(SupportRequest::class, 'user_id', 'id');
     }
 
     public function scopeSearch(Builder $query, string $search)
