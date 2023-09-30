@@ -119,7 +119,7 @@ export default function DashNav({ className = '' }: Props) {
                     },
                     {
                         title: 'FAQ',
-                        href: route('privacy-policy'),
+                        href: route('faq'),
                         description: 'Frequently asked questions',
                         icon: (
                             <HiOutlineQuestionMarkCircle

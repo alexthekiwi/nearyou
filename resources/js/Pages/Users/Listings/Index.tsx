@@ -22,8 +22,6 @@ export default function UserListingsIndex({
 }: Props) {
     const { user: authUser } = useAuth();
 
-    console.log(favouriteListings);
-
     const links: LinkItem[] = [
         { label: 'Profile', href: route('users.show', user.id) },
         { label: 'Listings', href: route('user-listings.index', user.id) },
