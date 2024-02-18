@@ -23,14 +23,14 @@ class ListingSeeder extends Seeder
             ]));
 
         // Get a list of tags from the database
-        $tags = Tag::query()->get();
+        // $tags = Tag::query()->get();
 
-        // Add some tags to listings
-        $listings->each(function (Listing $listing) use ($tags) {
-            $listing->tags()->attach(
-                $tags->random(rand(1, 5))
-            );
-        });
+        // // Add some tags to listings
+        // $listings->each(function (Listing $listing) use ($tags) {
+        //     $listing->tags()->attach(
+        //         $tags->random(rand(1, 5))
+        //     );
+        // });
     }
 
     public function getTitles(): array

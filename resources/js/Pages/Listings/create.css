@@ -1,0 +1,37 @@
+input, textarea {
+    border: 0;
+    border-radius: 0 !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #C7C7C7;
+}
+
+input {
+    height: 100%;
+    width: 100%;
+    padding: 0 1.5rem !important;
+}
+
+input:focus {
+    position: relative;
+    z-index: 1;
+}
+
+input:disabled {
+    background-color: revert;
+}
+
+textarea {
+    resize: none;
+}
+
+textarea + p > ul > li::before {
+    content: '•';
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+div[contenteditable] {
+    outline: none;
+}

@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Builder as ScoutBuilder;
 use Meilisearch\Endpoints\Indexes;
 
@@ -24,8 +26,12 @@ class GetListings
         $request ??= request();
 
         $search = trim($request->input('query', ''));
-        $sort = trim($request->input('sort', 'status'));
-        $sortDir = trim($request->input('sortDir', 'asc'));
+        // $sort = trim($request->input('sort', 'status'));
+        // $sortDir = trim($request->input('sortDir', 'asc'));
+        $sort = 'created_at';
+        $sortDir = 'desc';
+
+        DB::connection()->enableQueryLog();
 
         $query = Listing::search($search, function (Indexes|EloquentBuilder $builder, string|ScoutBuilder $query, array|string $options) use ($user) {
             // If we're using the database Scout driver, we can use the normal EloquentBuilder
@@ -51,8 +57,10 @@ class GetListings
                     ->with([
                         'suburb',
                         'location',
-                        'images',
-                        'tags:title,slug',
+                        // 'images'
+                        'images' => fn ($query) => $query->orderBy('created_at', 'asc'),
+                        // 'images' => fn ($query) => $query->orderBy('created_at', 'asc')->groupBy('listing_id')->first(),
+                        // 'tags:tag',
                     ])
             );
 
@@ -65,6 +73,8 @@ class GetListings
             $request->input('sort', 'status'),
             $request->input('sortDir', 'asc'),
         ])->join(':');
+
+        $storage = \Cache::getStore();
 
         $listings = cache()->store()->remember(
             $cacheKey,

@@ -1,8 +1,6 @@
-import { ErrorResponse, GeocodeResponse, LocationResponse } from '@/types';
+import { GeocodeResponse, LocationResponse } from '@/types';
 
-export async function getCurrentLocation(): Promise<
-    LocationResponse | { error: string }
-> {
+export async function getCurrentLocation(): Promise<LocationResponse> {
     let coords: GeolocationPosition | undefined;
 
     try {
@@ -59,7 +57,8 @@ export async function getCurrentLocation(): Promise<
 
     return {
         address: approximateLocation,
-        postCode,
+        postCode: '0600',
+        suburb,
     };
 }
 
@@ -67,9 +66,11 @@ export function getCoordinates(): Promise<GeolocationPosition> {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
+                console.log('..?', position);
                 resolve(position);
             },
             (error) => {
+                console.error(error);
                 reject(error);
             }
         );

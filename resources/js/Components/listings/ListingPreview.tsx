@@ -5,6 +5,7 @@ import { formatDateRelative } from '@/lib/dates';
 import Tags from './Tags';
 import { getListingStatus } from '@/lib/listings';
 import FavouriteButton from './FavouriteButton';
+import Picture from '../common/Picture';
 
 interface Props {
     listing: App['Models']['Listing'];
@@ -17,28 +18,11 @@ export default function ListingPreview({
     showTags,
     favouriteListings,
 }: Props) {
-    const thumbnail =
-        listing.images?.[0].file || '/img/placeholders/thumbnail.png';
-
     const listingLink = `/listings/${listing.id}`;
     const isFree = !listing.price;
-    const hasSuburb = Boolean(listing.suburb);
-
-    const suburbLink = listing.suburb
-        ? route('listings.index', {
-              query: listing.suburb?.name,
-          })
-        : '#0';
 
     return (
         <article className="group relative grid grid-cols-6 gap-x-6 gap-y-4 focus:outline-none md:flex md:flex-col">
-            <FavouriteButton
-                listing={listing}
-                favouriteListings={favouriteListings}
-                className="hidden md:absolute md:right-4 md:top-4 md:z-[3] md:block"
-                iconClassName="text-white drop-shadow-md"
-            />
-
             <Link
                 href={listingLink}
                 className="relative col-span-2 overflow-hidden rounded-lg ring-teal ring-offset-2 transition-opacity hover:opacity-75 group-focus:ring-2 md:col-span-4"
@@ -48,43 +32,43 @@ export default function ListingPreview({
                         {getListingStatus(listing)}
                     </div>
                 )}
-                <img
-                    src={thumbnail}
+                <Picture
+                    src={listing.images[0]}
+                    alt=""
                     width="120"
                     height="120"
-                    className="relative z-[1] aspect-square h-full w-full object-cover"
-                    alt=""
+                    imgClassName="relative z-[1] aspect-square h-full w-full object-cover"
                 />
             </Link>
             <div className="col-span-4 flex flex-col gap-2 text-sm md:col-span-8">
                 <div className="flex justify-between gap-4">
                     <Link href={listingLink}>
-                        <h3 className="font-bold leading-snug">
-                            {listing.title}
-                        </h3>
+                        <h3 className="leading-snug">{listing.title}</h3>
                     </Link>
-                    <FavouriteButton
-                        listing={listing}
-                        favouriteListings={favouriteListings}
-                        className="md:hidden"
-                        iconClassName="text-teal"
-                    />
                 </div>
+
                 <p className="font-bold text-teal">
-                    {isFree ? '🌎 Freecycle' : formatMoney(listing.price, 0)}
+                    {formatMoney(listing.price, 0)}
                 </p>
 
                 <p className="mt-auto flex flex-wrap gap-1 text-xs text-gray-500">
-                    {hasSuburb && (
+                    {listing.suburb && (
                         <>
-                            <Link href={suburbLink}>
-                                {listing.suburb?.name}
-                            </Link>
-                            <span>•</span>
+                            <span>{listing.suburb}</span>
+
+                            <i className="mx-1">·</i>
                         </>
                     )}
-                    {formatDateRelative(listing.created_at)}
+
+                    <span>{formatDateRelative(listing.created_at)}</span>
                 </p>
+
+                <FavouriteButton
+                    listing={listing}
+                    favouriteListings={favouriteListings}
+                    className="absolute right-0 top-0 md:hidden"
+                    iconClassName="text-teal"
+                />
             </div>
 
             {listing.tags && showTags && (

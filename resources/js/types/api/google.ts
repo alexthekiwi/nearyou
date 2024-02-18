@@ -33,5 +33,6 @@ export type GeocodeResponse = {
 export type LocationResponse = {
     address?: string;
     postCode?: string;
+    suburb?: string;
     error?: string;
 };

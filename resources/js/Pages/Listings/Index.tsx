@@ -35,10 +35,6 @@ export default function ListingsIndex({ listings, favouriteListings }: Props) {
                         <div className="flex flex-col gap-x-8 gap-y-4 md:flex-row">
                             <SetLocationForm onSuccess={handleSetLocation} />
                             <SearchBar name="query" id="query" clearable />
-                            {/* TODO: Uncomment when we have a decent amount of listings */}
-                            {/* <Button href="/random" theme="primary">
-                                I'm feeling lucky
-                            </Button> */}
                         </div>
                     </div>
                 </Listings>

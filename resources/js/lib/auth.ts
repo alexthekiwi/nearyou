@@ -7,6 +7,7 @@ type AuthContext = {
     isAuth: boolean;
     can: (ability: string) => boolean;
     logout: () => void;
+    sessionID: string;
 };
 
 type AppPage = {
@@ -16,11 +17,14 @@ type AppPage = {
 type SharedProps = {
     auth: AuthContext;
     errors: Errors & ErrorBag;
+    session_id: string;
 };
 
 export function useAuth(): AuthContext {
     const { props } = usePage() as AppPage;
     const isAuth = Boolean(props.auth.user);
+
+    const sessionID = props.session_id;
 
     function can(ability: string): boolean {
         if (!isAuth) {
@@ -39,5 +43,6 @@ export function useAuth(): AuthContext {
         isAuth,
         can,
         logout,
+        sessionID,
     };
 }

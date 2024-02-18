@@ -129,28 +129,17 @@ export type App = {
         };
         Listing: {
             id: string;
-            created_at: string | null;
-            updated_at: string | null;
-            deleted_at: string | null;
-            location_id: string | null;
-            seller_id: string | null;
-            buyer_id: string | null;
             title: string;
-            status: number;
-            price: number | null;
-            sold_at: string | null;
-            description: string | null;
-            suburb_id: string | null;
-            images?: Array<App['Models']['ListingImage']> | null;
-            seller?: App['Models']['User'] | null;
-            buyer?: App['Models']['User'] | null;
-            suburb?: App['Models']['Suburb'] | null;
-            location?: App['Models']['Location'] | null;
-            watchers?: Array<App['Models']['User']> | null;
-            tags?: Array<App['Models']['Tag']> | null;
-            images_count?: number | null;
-            watchers_count?: number | null;
-            tags_count?: number | null;
+            images: string[];
+            description: string;
+            tags: string[];
+            location: string;
+            seller: string;
+            seller_id: string;
+            price: number;
+            status: 1 | 2 | 3 | 4;
+            created_at: string;
+            suburb: string;
         };
         Location: {
             id: string;
@@ -182,6 +171,13 @@ export type App = {
             seller_archived_at: string | null;
             seller?: App['Models']['User'] | null;
             buyer?: App['Models']['User'] | null;
+            listing?: App['Models']['Listing'] | null;
+            oppositeUserId: string | null;
+            thumbnail: string;
+            title: string;
+            price: number | null;
+            listing_id: string;
+            status: 1 | 2 | 3 | 4;
         };
         ChatMessage: {
             id: string;
@@ -194,6 +190,5 @@ export type App = {
             chat?: App['Models']['Chat'] | null;
             user?: App['Models']['User'] | null;
         };
-};
-
+    };
 };

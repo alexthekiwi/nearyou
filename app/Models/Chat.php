@@ -41,13 +41,18 @@ class Chat extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    public function seller(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'seller_id', 'id');
-    }
+    // public function seller(): BelongsTo
+    // {
+    //     return $this->belongsTo(User::class, 'seller_id', 'id');
+    // }
 
     public function buyer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'buyer_id', 'id');
+    }
+
+    public function listing(): BelongsTo
+    {
+        return $this->belongsTo(Listing::class, 'listing_id', 'id');
     }
 }

@@ -21,6 +21,7 @@ export default {
             colors: {
                 teal: {
                     ...defaultTheme.colors.teal,
+                    'semi-light': '#5FD7D3',
                     'light': '#D2E8E8',
                     'xlight': '#F0F8F7',
                     'dark': '#0ABAB5',
@@ -28,7 +29,23 @@ export default {
                 },
                 gray: {
                     ...defaultTheme.colors.gray,
+                    'input-border': '#E3E3E3',
+                    'light': '#989DAE',
                     DEFAULT: '#56555B',
+                },
+                black: {
+                    ...defaultTheme.colors.black,
+                    light: '#272728',
+                    DEFAULT: '#000'
+                },
+                white: {
+                    ...defaultTheme.colors.white,
+                    dirty: '#E7E7E8',
+                    DEFAULT: '#fff'
+                },
+                green: {
+                    ...defaultTheme.colors.green,
+                    'semi-dark': '#559B8A',
                 },
             },
             transitionTimingFunction: {

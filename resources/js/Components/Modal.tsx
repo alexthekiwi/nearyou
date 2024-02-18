@@ -7,11 +7,13 @@ export default function Modal({
     maxWidth = '2xl',
     closeable = true,
     onClose = () => {},
+    isFull = false,
 }: PropsWithChildren<{
     show: boolean;
     maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
     closeable?: boolean;
-    onClose: CallableFunction;
+    onClose?: CallableFunction;
+    isFull?: boolean;
 }>) {
     const close = () => {
         if (closeable) {
@@ -26,6 +28,8 @@ export default function Modal({
         xl: 'sm:max-w-xl',
         '2xl': 'sm:max-w-2xl',
     }[maxWidth];
+
+    const fullClass = isFull ? 'w-full' : '';
 
     return (
         <Transition show={show} as={Fragment} leave="duration-200">
@@ -57,7 +61,7 @@ export default function Modal({
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                     <Dialog.Panel
-                        className={`mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full ${maxWidthClass}`}
+                        className={`mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full ${maxWidthClass} ${fullClass}`}
                     >
                         {children}
                     </Dialog.Panel>

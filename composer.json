@@ -7,10 +7,12 @@
     "require": {
         "php": "^8.1",
         "alexthekiwi/laravel-typescript": "^0.1",
+        "aws/aws-sdk-php": "^3.283",
         "diglactic/laravel-breadcrumbs": "^8.1",
-        "guzzlehttp/guzzle": "^7.7",
+        "guzzlehttp/guzzle": "^7.8",
         "http-interop/http-factory-guzzle": "^1.2",
         "inertiajs/inertia-laravel": "^0.6.3",
+        "kreait/firebase-php": "^7.0",
         "laravel/breeze": "^1.21",
         "laravel/framework": "^10.10",
         "laravel/horizon": "^5.17",

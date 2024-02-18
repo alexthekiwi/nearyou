@@ -74,16 +74,11 @@ class Listing extends Model
         'status' => ListingStatus::class,
     ];
 
-    public static $searchable = [
-        'id',
-        'title',
-        'description',
-        'price',
-        'location_id',
-        'status',
-        'buyer_id',
-        'seller_id',
-    ];
+    public static $filterable = ['title', 'tags', 'description', 'price', 'location_id', 'status', 'buyer_id', 'seller_id'];
+
+    public static $searchable = ['title', 'tags', 'description'];
+
+    public static $sortable = ['created_at', 'title', 'price', 'status'];
 
     public function images(): HasMany
     {
@@ -115,9 +110,9 @@ class Listing extends Model
         return $this->belongsToMany(User::class, 'user_favourites', 'listing_id', 'user_id');
     }
 
-    public function tags(): BelongsToMany
+    public function tags(): HasMany
     {
-        return $this->belongsToMany(Tag::class, 'listing_tag', 'listing_id', 'tag_id');
+        return $this->hasMany(ListingTag::class, 'listing_id');
     }
 
     public function price(): Attribute
@@ -154,8 +149,9 @@ class Listing extends Model
                 $property => $this->{$property},
             ])
             ->merge(config('scout.driver') === 'meilisearch' ? [
-                'tags' => $this->tags->pluck('title')->toArray(),
-                'suburb' => $this->suburb?->name,
+                // 'sadasdsa' => [],
+                'tags' => $this->tags,
+                // 'suburb' => $this->suburb?->name,
                 'location' => $this->location?->name,
             ] : [])
             ->toArray();

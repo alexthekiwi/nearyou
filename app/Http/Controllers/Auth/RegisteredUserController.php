@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Cookie;
 
 class RegisteredUserController extends Controller
 {
@@ -53,6 +55,11 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         session()->forget('verified_phone_number');
+
+        // Redis::publish('channel', json_encode($user));
+        // Redis::publish('channel', json_encode(session()->all()));
+        // Redis::publish('channel', session()->getName());
+        // Redis::publish('channel', Cookie::get(session()->getName()));
 
         return redirect(RouteServiceProvider::HOME);
     }

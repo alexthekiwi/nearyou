@@ -3,7 +3,7 @@ import { App } from '@/types';
 import Tag from './Tag';
 
 interface Props {
-    tags?: App['Models']['Tag'][];
+    tags?: App['Models']['Listing']['tags'];
     className?: string;
     max?: number;
 }
@@ -16,7 +16,7 @@ export default function Tags({ tags, className = '', max = 5 }: Props) {
     return (
         <nav className={cn('flex flex-wrap gap-2', className)}>
             {tagsToDisplay.map((tag) => (
-                <Tag key={tag.slug} tag={tag} />
+                <Tag key={tag} tag={tag} />
             ))}
         </nav>
     );

@@ -22,8 +22,7 @@ createServer((page) =>
                 route(name, params, absolute, {
                     // @ts-expect-error
                     ...page.props.ziggy,
-                    // @ts-expect-error
-                    location: new URL(page.props.ziggy.location),
+                    location: 'http://test.com/',
                 });
 
             return (

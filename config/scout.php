@@ -137,21 +137,9 @@ return [
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             Listing::class => [
-                'filterableAttributes' => Listing::$searchable,
-                'sortableAttributes' => [
-                    'created_at',
-                    'title',
-                    'price',
-                    'status',
-                ],
-            ],
-            Tag::class => [
-                'filterableAttributes' => Tag::$searchable,
-                'sortableAttributes' => [
-                    'created_at',
-                    'title',
-                    'price',
-                ],
+                'filterableAttributes' => Listing::$filterable,
+                'searchableAttributes' => Listing::$searchable,
+                'sortableAttributes' => Listing::$sortable,
             ],
         ],
     ],
