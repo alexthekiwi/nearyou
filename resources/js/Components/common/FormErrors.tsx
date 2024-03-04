@@ -12,7 +12,7 @@ export default function FormErrors({
     }
 
     return (
-        <aside className="border-red max-w-2xl rounded-lg border bg-white p-6 text-red-500">
+        <aside className="max-w-2xl rounded-lg border border-red-500 bg-red-50 p-6 text-red-500">
             <p className="mb-4 text-xl font-bold">{title}</p>
             <ul className="ml-4 flex list-disc flex-col gap-2">
                 {Object.values(errors).map((err, i) => (

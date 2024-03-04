@@ -16,6 +16,7 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RandomListingController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\SupportRequestController;
 use App\Http\Controllers\TermsAndConditionsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserListingController;
@@ -32,7 +33,13 @@ Route::get('/about', AboutController::class)->name('about');
 Route::get('/terms-and-conditions', TermsAndConditionsController::class)->name('terms-and-conditions');
 Route::get('/privacy-policy', PrivacyPolicyController::class)->name('privacy-policy');
 Route::get('/faq', FaqController::class)->name('faq');
+
+/**
+ * Support
+ */
 Route::get('/support', SupportController::class)->name('support');
+Route::get('/support-requests/create', [SupportRequestController::class, 'create'])->name('support-requests.create');
+Route::post('/support-requests', [SupportRequestController::class, 'store'])->name('support-requests.store');
 
 Route::delete('/user-proxy', [UserProxyController::class, 'destroy'])->name('user-proxy.destroy');
 

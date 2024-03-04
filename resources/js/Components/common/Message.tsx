@@ -28,7 +28,7 @@ export default function Message({
         'bg-gray-100 border-black text-black': status === 'default',
     });
 
-    if (!(children || message) || !show) return null;
+    if ((!children && !message) || !show) return null;
 
     return (
         <div className={className}>

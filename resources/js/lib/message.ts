@@ -11,7 +11,15 @@ export type Message = {
 };
 
 export function useMessage() {
-    const { props } = usePage<{ message?: Message }>();
+    const { props } = usePage<{ message?: Message | string }>();
 
-    return props.message;
+    if (typeof props.message === 'string') {
+        const defaultStatus: MessageStatus = 'success';
+        return { status: defaultStatus, message: props.message };
+    }
+
+    return {
+        status: props.message?.status ?? 'success',
+        message: props.message?.message ?? '',
+    };
 }

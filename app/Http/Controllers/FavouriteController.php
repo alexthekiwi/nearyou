@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use App\Models\User;
-use App\Policies\ListingPolicy;
 use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
@@ -33,7 +32,7 @@ class FavouriteController extends Controller
 
     public function store(Listing $listing)
     {
-        $this->authorize('addFavourite', ListingPolicy::class);
+        $this->authorize('addFavourite', $listing);
 
         if (! $listing->is_available) {
             return redirect()->back();
@@ -50,9 +49,9 @@ class FavouriteController extends Controller
         return redirect()->back();
     }
 
-    public function destroy(Request $request, User $user, Listing $listing)
+    public function destroy(Listing $listing)
     {
-        $this->authorize('removeFavourite', ListingPolicy::class);
+        $this->authorize('removeFavourite', $listing);
 
         $favourites = User::find(auth()->id())->favourites();
 

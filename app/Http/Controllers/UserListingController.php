@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Listings\GetFavouriteListingIds;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,7 @@ class UserListingController extends Controller
         return inertia('Users/Listings/Index', [
             'user' => $user->toPublicArray(),
             'listings' => $listings,
+            'favouriteListings' => (new GetFavouriteListingIds)(),
         ]);
     }
 }

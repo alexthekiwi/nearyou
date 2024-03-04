@@ -12,9 +12,14 @@ import CreateListingLink from '@/Components/listings/CreateListingLink';
 interface Props {
     user: App['Models']['User'];
     listings: PaginatedResults<App['Models']['Listing'][]>;
+    favouriteListings: App['Models']['Listing']['id'][];
 }
 
-export default function UserListingsIndex({ user, listings }: Props) {
+export default function UserListingsIndex({
+    user,
+    listings,
+    favouriteListings,
+}: Props) {
     const { user: authUser } = useAuth();
 
     const links: LinkItem[] = [
@@ -50,6 +55,9 @@ export default function UserListingsIndex({ user, listings }: Props) {
                                             key={listing.id}
                                             listing={listing}
                                             showTags
+                                            favouriteListings={
+                                                favouriteListings
+                                            }
                                         />
                                     ))}
                                 </div>
