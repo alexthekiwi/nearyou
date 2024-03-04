@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('file');
             $table->string('disk');
             $table->tinyInteger('order')->default(0);
+            $table->index('listing_id');
         });
     }
 

@@ -1,11 +1,12 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { ToastProvider } from '@/lib/toast';
-import { FavouriteProvider } from '@/lib/favourites';
+import store from '@/store';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
     return (
-        <ToastProvider>
-            <FavouriteProvider>{children}</FavouriteProvider>
-        </ToastProvider>
+        <Provider store={store}>
+            <ToastProvider>{children}</ToastProvider>
+        </Provider>
     );
 }

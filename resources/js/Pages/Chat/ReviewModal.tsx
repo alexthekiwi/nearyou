@@ -1,15 +1,73 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Transition } from '@headlessui/react';
+import type { Socket } from 'socket.io-client';
 import Modal from '@/Components/Modal';
+import { SOCKET_EVENT_NAME } from '@/lib/socket';
 
-export default function ReviewModal({ listingId }: { listingId: string }) {
-    const [leafCount, setLeafCount] = useState(0);
+interface Props {
+    show: boolean;
+    chatId: string;
+    socket: Socket | null;
+    onClose: () => void;
+}
 
-    const [review, setReview] = useState('');
+const textareaPlaceholder = `Please leave an honest review!
 
-    const send = () => {};
+* Selecting five leaves gifts one tree
+to your neighbor.`;
+
+export default function ReviewModal({ show, chatId, socket, onClose }: Props) {
+    let isSending = false;
+
+    const [isSocketConnected, setIsSocketConnected] = useState(false);
+
+    const [leavesCount, setLeavesCount] = useState(0);
+
+    const [description, setDescription] = useState('');
+
+    useEffect(
+        () => () => {
+            if (socket) {
+                socket.off(SOCKET_EVENT_NAME.CHAT_REVIEW_SUCCESS);
+            }
+        },
+        []
+    );
+
+    useEffect(() => {
+        if (socket && !isSocketConnected) {
+            setIsSocketConnected(true);
+
+            socket.on(SOCKET_EVENT_NAME.CHAT_REVIEW_SUCCESS, onClose);
+        }
+    }, [socket, onClose, isSocketConnected]);
+
+    const send = () => {
+        if (socket) {
+            if (!leavesCount) {
+                alert('Please select the number of leaves');
+                return;
+            }
+
+            if (!description.trim()) {
+                alert('Please write a review');
+                return;
+            }
+
+            if (isSending) return;
+
+            isSending = true;
+
+            socket.emit(SOCKET_EVENT_NAME.CHAT_REVIEW, {
+                chatId,
+                description,
+                stars: leavesCount,
+            });
+        }
+    };
 
     return (
-        <Modal show closeable={false} isFull>
+        <Modal show={show} closeable isFull onClose={onClose}>
             <div className="p-5">
                 <h1 className="mb-8 text-center text-lg font-semibold text-gray-400">
                     Review
@@ -20,29 +78,51 @@ export default function ReviewModal({ listingId }: { listingId: string }) {
                         .fill(null)
                         .map((_, i) => (
                             <button
-                                className="h-6 w-6 bg-cover bg-center bg-no-repeat"
-                                style={{
-                                    backgroundImage: `url(/img/leaf_${
-                                        leafCount > i ? 'on' : 'off'
-                                    }.png)`,
-                                }}
-                                onClick={() => setLeafCount(i + 1)}
-                            />
+                                className="relative h-6 w-6"
+                                key={i}
+                                onClick={() => setLeavesCount(i + 1)}
+                            >
+                                <i
+                                    className="absolute bottom-0 left-0 right-0 top-0 bg-cover bg-center bg-no-repeat"
+                                    style={{
+                                        backgroundImage:
+                                            'url("/img/leaf_off.png")',
+                                    }}
+                                />
+
+                                <Transition
+                                    appear={leavesCount > i}
+                                    show={leavesCount > i}
+                                    className="absolute bottom-0 left-0 right-0"
+                                    enter="transition-height duration-500"
+                                    enterFrom="h-0"
+                                    enterTo="h-full"
+                                    leave="transition-height duration-300"
+                                    leaveFrom="h-full"
+                                    leaveTo="h-0"
+                                >
+                                    <i
+                                        className="block h-full bg-[length:1.5rem_1.5rem] bg-bottom bg-no-repeat"
+                                        style={{
+                                            backgroundImage:
+                                                'url("/img/leaf_on.png")',
+                                        }}
+                                    />
+                                </Transition>
+                            </button>
                         ))}
                 </div>
 
-                <div className="relative h-64 w-full">
-                    <textarea
-                        className="h-full w-full rounded-lg border border-gray-input-border bg-gray-100 p-3 text-sm focus:bg-white"
-                        placeholder="Please leave an honest review!"
-                        maxLength={500}
-                        value={review}
-                        onChange={(e) => setReview(e.target.value)}
-                    />
+                <textarea
+                    className="h-64 w-full resize-none rounded-lg border border-gray-input-border bg-gray-100 p-3 text-sm placeholder:text-[#c7c7c7] focus:bg-white"
+                    placeholder={textareaPlaceholder}
+                    maxLength={500}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
 
-                    <div className="absolute bottom-4 right-4 text-sm text-gray-400">
-                        {review.length}/500
-                    </div>
+                <div className="mb-8 text-right text-xs text-gray-400">
+                    {description.length}/500
                 </div>
 
                 <button

@@ -70,4 +70,5 @@ export default {
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
     ],
+    mode: 'jit'
 };

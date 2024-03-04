@@ -11,15 +11,16 @@ import {
 } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaRegMessage } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
 import { App } from '@/types';
 import { useAuth } from '@/lib/auth';
-import { getSocket } from '@/lib/socket';
 import { formatDateChat1, formatDateChat2, formatDateNice } from '@/lib/dates';
 import Picture from '@/Components/common/Picture';
 import { formatMoney } from '@/lib/money';
-import Modal from '@/Components/Modal';
 import SoldItFirstModal from './SoldItFirstModal';
 import ReviewModal from './ReviewModal';
+import { SOCKET_EVENT_NAME, getSocket } from '@/lib/socket';
+import { getListingStatus } from '@/lib/listings';
 
 interface Props {
     chat: App['Models']['Chat'];
@@ -45,9 +46,8 @@ type ChatJoin = {
 };
 
 export default function ChatShow({ chat }: Props) {
-    const { user } = useAuth();
-
-    console.log({ chat });
+    const dispatch = useDispatch();
+    const { user } = useAuth(dispatch);
 
     const isBuyer = chat.buyer_id === user.id;
     const isSeller = !isBuyer;
@@ -59,8 +59,6 @@ export default function ChatShow({ chat }: Props) {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     const [isSending, setIsSending] = useState(false);
-
-    const [tmpMessage, setTmpMessage] = useState('');
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -145,8 +143,8 @@ export default function ChatShow({ chat }: Props) {
 
             if (_socket) {
                 // 채팅방 연결
-                _socket.on(
-                    'chat-join',
+                _socket.once(
+                    SOCKET_EVENT_NAME.CHAT_JOIN,
                     ({ chatId, chatArr: _chatArr }: ChatJoin) => {
                         if (chatId === chat.id) {
                             setIsJoined(true);
@@ -158,12 +156,14 @@ export default function ChatShow({ chat }: Props) {
                             if (_chatArr.length < 30) {
                                 setIsNoMoreChat(true);
                             }
+
+                            _socket?.emit(SOCKET_EVENT_NAME.CHAT_READ, chat.id);
                         }
                     }
                 );
 
                 // 채팅 메세지 수신
-                _socket.on('chat-message', (_chat: Chat) => {
+                _socket.on(SOCKET_EVENT_NAME.CHAT_MESSAGE, (_chat: Chat) => {
                     if (chatContainerRef.current) {
                         const { scrollHeight, offsetHeight, scrollTop } =
                             chatContainerRef.current;
@@ -219,49 +219,52 @@ export default function ChatShow({ chat }: Props) {
 
                         newChatArr.push(_chat);
 
-                        _socket?.emit('chat-read', chat.id);
+                        _socket?.emit(SOCKET_EVENT_NAME.CHAT_READ, chat.id);
 
                         return newChatArr;
                     });
                 });
 
                 // 채팅 메세지 전송 성공
-                _socket.on('chat-message-success', () => {
+                _socket.on(SOCKET_EVENT_NAME.CHAT_MESSAGE_SUCCESS, () => {
                     setIsSending(false);
                 });
 
                 // 채팅 메세지 더 불러오기 완료
-                _socket.on('chat-more-load', (_chatArr: Chat[]) => {
-                    if (_chatArr.length === 0) {
-                        setIsNoMoreChat(true);
-                    } else {
-                        if (_chatArr.length < 30) {
+                _socket.on(
+                    SOCKET_EVENT_NAME.CHAT_MORE_LOAD,
+                    (_chatArr: Chat[]) => {
+                        if (_chatArr.length === 0) {
                             setIsNoMoreChat(true);
+                        } else {
+                            if (_chatArr.length < 30) {
+                                setIsNoMoreChat(true);
+                            }
+
+                            setChatArr((prevChatArr) => [
+                                ...addCharArrTimestamp(_chatArr),
+                                ...prevChatArr,
+                            ]);
                         }
 
-                        setChatArr((prevChatArr) => [
-                            ...addCharArrTimestamp(_chatArr),
-                            ...prevChatArr,
-                        ]);
+                        setIsLoading(false);
+                        setIsPauseScrollEvt(false);
                     }
-
-                    setIsLoading(false);
-                    setIsPauseScrollEvt(false);
-                });
+                );
 
                 // 채팅 예약 완료
-                _socket.on('chat-reserved', () => {
+                _socket.on(SOCKET_EVENT_NAME.CHAT_RESERVED, () => {
                     chat.status = 3;
                     setStatus(3);
                 });
 
                 // 채팅 판매 완료
-                _socket.on('chat-sold', () => {
+                _socket.on(SOCKET_EVENT_NAME.CHAT_SOLD, () => {
                     chat.status = 4;
                     setStatus(4);
                 });
 
-                _socket.emit('chat-join', chat.id);
+                _socket.emit(SOCKET_EVENT_NAME.CHAT_JOIN, chat.id);
             } else {
                 console.log('socket is null');
             }
@@ -269,11 +272,13 @@ export default function ChatShow({ chat }: Props) {
 
         return () => {
             if (_socket) {
-                _socket.emit('chat-leave');
-                _socket.removeListener('chat-join');
-                _socket.removeListener('chat-message');
-                _socket.removeListener('chat-message-success');
-                _socket.removeListener('chat-more-load');
+                _socket.emit(SOCKET_EVENT_NAME.CHAT_LEAVE);
+                _socket.off(SOCKET_EVENT_NAME.CHAT_JOIN);
+                _socket.off(SOCKET_EVENT_NAME.CHAT_MESSAGE);
+                _socket.off(SOCKET_EVENT_NAME.CHAT_MESSAGE_SUCCESS);
+                _socket.off(SOCKET_EVENT_NAME.CHAT_MORE_LOAD);
+                _socket.off(SOCKET_EVENT_NAME.CHAT_RESERVED);
+                _socket.off(SOCKET_EVENT_NAME.CHAT_SOLD);
             }
         };
     }, []);
@@ -281,9 +286,7 @@ export default function ChatShow({ chat }: Props) {
     // 메세지 보내기
     const sendMessage = () => {
         if (!isSending && socket && inputMessage.trim()) {
-            setTmpMessage(inputMessage);
-
-            socket.emit('chat-message', chat.id, inputMessage);
+            socket.emit(SOCKET_EVENT_NAME.CHAT_MESSAGE, chat.id, inputMessage);
 
             setInputMessage('');
 
@@ -315,7 +318,7 @@ export default function ChatShow({ chat }: Props) {
                 setIsPauseScrollEvt(true);
 
                 socket?.emit(
-                    'chat-more-load',
+                    SOCKET_EVENT_NAME.CHAT_MORE_LOAD,
                     chat.id,
                     new Date(topChat.createdAt).getTime()
                 );
@@ -348,11 +351,11 @@ export default function ChatShow({ chat }: Props) {
     }, [chatArr]);
 
     const reserved = () => {
-        socket?.emit('chat-reserved', chat.id);
+        socket?.emit(SOCKET_EVENT_NAME.CHAT_RESERVED, chat.id);
     };
 
     const sold = () => {
-        socket?.emit('chat-sold', chat.id);
+        socket?.emit(SOCKET_EVENT_NAME.CHAT_SOLD, chat.id);
     };
 
     return (
@@ -387,12 +390,18 @@ export default function ChatShow({ chat }: Props) {
                         gridTemplateRows: '0.8fr 1fr',
                     }}
                 >
-                    <Picture
-                        src={chat.thumbnail}
-                        alt={chat.title}
-                        imgClassName="aspect-square h-full rounded-lg object-cover"
-                        pictureClassName="row-start-1 row-end-3"
-                    />
+                    <div className="relative row-start-1 row-end-3 overflow-hidden rounded-lg">
+                        {status !== 1 && (
+                            <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black bg-opacity-50 text-[0.7rem] font-bold text-white">
+                                {getListingStatus(status)}
+                            </div>
+                        )}
+                        <Picture
+                            src={chat.thumbnail}
+                            alt={chat.title}
+                            imgClassName="aspect-square h-full object-cover"
+                        />
+                    </div>
 
                     <p className="flex items-center text-xs">{chat.title}</p>
 
@@ -550,7 +559,12 @@ export default function ChatShow({ chat }: Props) {
                 />
             )}
 
-            {isShowReviewModal && <ReviewModal listingId={chat.listing_id} />}
+            <ReviewModal
+                show={isShowReviewModal}
+                chatId={chat.id}
+                socket={socket}
+                onClose={() => setIsShowReviewModal(false)}
+            />
         </main>
     );
 }

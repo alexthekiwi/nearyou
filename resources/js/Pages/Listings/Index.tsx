@@ -1,7 +1,5 @@
-import { Head, Link } from '@inertiajs/react';
-import { HiPlus } from 'react-icons/hi';
+import { Head } from '@inertiajs/react';
 import Layout from '@/Layouts/Layout';
-import H1 from '@/Components/typography/H1';
 import { App, PaginatedResults } from '@/types';
 import Listings from '@/Components/listings/Listings';
 import SetLocationForm from '@/Components/location/SetLocationForm';

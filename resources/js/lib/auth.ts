@@ -1,6 +1,8 @@
 import { router, usePage } from '@inertiajs/react';
 import type { ErrorBag, Errors, Page, PageProps } from '@inertiajs/core';
+import { Dispatch } from '@reduxjs/toolkit';
 import { App } from '@/types';
+import socket, { closeSocket } from './socket';
 
 type AuthContext = {
     user: App['Models']['User'];
@@ -20,7 +22,7 @@ type SharedProps = {
     session_id: string;
 };
 
-export function useAuth(): AuthContext {
+export function useAuth(dispatch?: Dispatch): AuthContext {
     const { props } = usePage() as AppPage;
     const isAuth = Boolean(props.auth.user);
 
@@ -37,6 +39,9 @@ export function useAuth(): AuthContext {
     function logout() {
         router.post(route('logout'));
     }
+
+    if (isAuth) socket({ dispatch, sessionID });
+    else closeSocket();
 
     return {
         user: props.auth.user,

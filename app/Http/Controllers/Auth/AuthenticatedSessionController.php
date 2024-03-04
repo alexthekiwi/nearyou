@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Cookie;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -35,9 +36,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $token = auth()->user()->createToken('access_token')->plainTextToken;
+
         Redis::set('user:'.$request->session()->getId(), json_encode($request->user()));
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(RouteServiceProvider::HOME)->withCookie(Cookie::make('access_token', $token, 60 * 24 * 30));
     }
 
     /**
@@ -51,6 +54,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        Redis::del('user:'.$request->session()->getId());
+
+        return redirect('/')->withCookie(Cookie::forget('access_token'));
     }
 }

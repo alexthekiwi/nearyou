@@ -1,7 +1,10 @@
 import { PropsWithChildren } from 'react';
 import { Link } from '@inertiajs/react';
 import cn from 'classnames';
+import { useSelector } from 'react-redux';
 import { LinkItem } from '@/types';
+import { selectSomeUnread } from '@/lib/chatStore';
+import NewIcon from './NewIcon';
 
 interface NavBarProps extends PropsWithChildren {
     className?: string;
@@ -13,6 +16,8 @@ interface NavBarLinkProps extends PropsWithChildren {
 }
 
 export default function NavBar({ links = [], className = '' }: NavBarProps) {
+    const someUnread = useSelector(selectSomeUnread);
+
     if (links.length === 0) {
         return null;
     }
@@ -23,6 +28,10 @@ export default function NavBar({ links = [], className = '' }: NavBarProps) {
                 {links.map((link) => (
                     <NavBarLink href={link.href} key={link.href}>
                         {link.label}
+
+                        {link.label === 'Chat' && someUnread && (
+                            <NewIcon className="absolute right-[-1rem] top-0" />
+                        )}
                     </NavBarLink>
                 ))}
             </div>
@@ -37,7 +46,7 @@ function NavBarLink({ href, children }: NavBarLinkProps) {
         <Link
             href={href}
             className={cn(
-                'flex flex-col items-center gap-y-1 whitespace-nowrap py-2 font-bold transition-colors hover:text-gray-600',
+                'relative flex flex-col items-center gap-y-1 whitespace-nowrap py-3 font-bold transition-colors hover:text-gray-600',
                 {
                     'text-gray-700': isActive,
                     'text-gray-400': !isActive,

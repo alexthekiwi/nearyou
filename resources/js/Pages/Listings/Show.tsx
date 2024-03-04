@@ -8,6 +8,8 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import FavouriteButton from '@/Components/listings/FavouriteButton';
 import { formatMoney } from '@/lib/money';
 import Picture from '@/Components/common/Picture';
+import { LISTING_STATUS } from '@/constants';
+import { getListingStatus } from '@/lib/listings';
 
 interface Props {
     listing: App['Models']['Listing'];
@@ -47,9 +49,16 @@ export default function ListingsShow({
         });
     };
 
+    const isSold = listing.status === LISTING_STATUS.SOLD;
+
     return (
         <ProductLayout title="Product" canModify={canModify}>
-            <div className="mb-9 px-4">
+            <div className="relative mb-9 px-4">
+                {listing.status !== 1 && (
+                    <div className="pointer-events-none absolute left-4 top-0 z-[2] flex h-full w-[calc(100%_-_2rem)] items-center justify-center rounded-lg bg-black bg-opacity-50 text-2xl font-bold text-white">
+                        {getListingStatus(listing)}
+                    </div>
+                )}
                 <Carousel
                     showThumbs={false}
                     showStatus={false}
@@ -130,17 +139,19 @@ export default function ListingsShow({
                     (chatId ? (
                         <Link
                             href={route('chat.show', { chat: chatId })}
-                            className="flex h-10 w-1/2 items-center justify-center rounded-xl bg-teal font-semibold text-white"
+                            className="flex h-10 w-fit items-center justify-center rounded-xl bg-teal px-4 font-semibold text-white"
                         >
-                            Deal with neighbor
+                            Go to chat
                         </Link>
                     ) : (
-                        <button
-                            className="h-10 w-1/2 rounded-xl bg-teal font-semibold text-white"
-                            onClick={createChat}
-                        >
-                            Deal with neighbor
-                        </button>
+                        !isSold && (
+                            <button
+                                className="h-10 w-1/2 rounded-xl bg-teal font-semibold text-white"
+                                onClick={createChat}
+                            >
+                                Deal with neighbor
+                            </button>
+                        )
                     ))}
             </div>
         </ProductLayout>

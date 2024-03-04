@@ -41,7 +41,7 @@ export default function ProductLayout({
 
                 {isShowModifyMenu && (
                     <div
-                        className="absolute left-0 top-full flex w-full flex-col rounded-b-lg bg-white pb-2 shadow-lg *:p-3 *:text-left *:text-black-light"
+                        className="absolute left-0 top-full flex w-full translate-y-[-1px] flex-col rounded-b-lg bg-white pb-2 shadow-lg *:p-3 *:text-left *:text-black-light"
                         style={{
                             zIndex: 1,
                         }}
