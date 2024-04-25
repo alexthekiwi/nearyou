@@ -12,7 +12,7 @@ interface Props {
     //
 }
 
-export default function ListingsIndex({}: Props) {
+export default function ListingsCreate({}: Props) {
     const [fileArr, setFileArr] = useState<[File, string][]>([]);
     const [fileBlobUrlArr, setFileBlobUrlArr] = useState<string[]>([]);
     const [title, setTitle] = useState('');
@@ -212,7 +212,10 @@ export default function ListingsIndex({}: Props) {
                         />
                     </button>
                     {fileBlobUrlArr.map((e, i) => (
-                        <div className="relative h-[70px] w-[70px] justify-self-center">
+                        <div
+                            className="relative h-[70px] w-[70px] justify-self-center"
+                            key={i}
+                        >
                             <img
                                 className="h-full w-full object-cover"
                                 style={{
@@ -306,7 +309,7 @@ export default function ListingsIndex({}: Props) {
                         onChange={({ target }) => setDescription(target.value)}
                     />
 
-                    <p
+                    <div
                         className="pointer-events-none absolute left-6 top-4 text-lg"
                         style={{
                             display: isShowDesscriptionPlaceholder
@@ -328,7 +331,7 @@ export default function ListingsIndex({}: Props) {
                                 subject to restrictions.
                             </li>
                         </ul>
-                    </p>
+                    </div>
                 </div>
 
                 <div className="relative mb-[18px] h-[130px] border-b px-5 py-4">
@@ -339,6 +342,7 @@ export default function ListingsIndex({}: Props) {
                                 style={{
                                     color: '#868687',
                                 }}
+                                key={i}
                             >
                                 <button
                                     type="button"
@@ -354,50 +358,53 @@ export default function ListingsIndex({}: Props) {
                                 </button>
                             </li>
                         ))}
-                        <li className="inline-block h-8">
-                            <input
-                                className="rounded-md !p-0"
-                                style={{
-                                    boxShadow: 'none',
-                                    outline: 'none',
-                                    border: isShowTagPlaceholder
-                                        ? 'none'
-                                        : '1px solid rgb(0 0 0 / 10%)',
-                                }}
-                                type="text"
-                                onFocus={() => setShowTagPlaceholder(false)}
-                                onBlur={() =>
-                                    !tagArr.length &&
-                                    setShowTagPlaceholder(true)
-                                }
-                                onKeyDown={(e) => {
-                                    const {
-                                        key,
-                                        target,
-                                        nativeEvent: { isComposing },
-                                    } = e;
-
-                                    if (key === 'Enter') {
-                                        e.preventDefault();
+                        {tagArr.length < 3 && (
+                            <li className="inline-block h-8">
+                                <input
+                                    className="rounded-md !p-0"
+                                    style={{
+                                        boxShadow: 'none',
+                                        outline: 'none',
+                                        border: isShowTagPlaceholder
+                                            ? 'none'
+                                            : '1px solid rgb(0 0 0 / 10%)',
+                                    }}
+                                    type="text"
+                                    onFocus={() => setShowTagPlaceholder(false)}
+                                    onBlur={() =>
+                                        !tagArr.length &&
+                                        setShowTagPlaceholder(true)
                                     }
+                                    onKeyDown={(e) => {
+                                        const {
+                                            key,
+                                            target,
+                                            nativeEvent: { isComposing },
+                                        } = e;
 
-                                    const $input = target as HTMLInputElement;
-                                    const value = $input.value.trim();
-
-                                    if (
-                                        value &&
-                                        !isComposing &&
-                                        key === 'Enter'
-                                    ) {
-                                        if (tagArr.length < 3) {
-                                            setTagArr([...tagArr, value]);
-
-                                            $input.value = '';
+                                        if (key === 'Enter') {
+                                            e.preventDefault();
                                         }
-                                    }
-                                }}
-                            />
-                        </li>
+
+                                        const $input =
+                                            target as HTMLInputElement;
+                                        const value = $input.value.trim();
+
+                                        if (
+                                            value &&
+                                            !isComposing &&
+                                            key === 'Enter'
+                                        ) {
+                                            if (tagArr.length < 3) {
+                                                setTagArr([...tagArr, value]);
+
+                                                $input.value = '';
+                                            }
+                                        }
+                                    }}
+                                />
+                            </li>
+                        )}
                     </ul>
                     <p
                         className="pointer-events-none absolute left-6 top-4 text-lg"

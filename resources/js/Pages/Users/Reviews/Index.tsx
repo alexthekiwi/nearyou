@@ -35,7 +35,7 @@ export default function UserReviewsIndex({ user, reviews }: Props) {
                 <div className="flex flex-col gap-y-4">
                     <NavBar links={links} />
 
-                    <div className="mx-auto mt-5 grid max-w-5xl gap-12">
+                    <div className="mt-5 grid max-w-5xl gap-12">
                         {reviews.data.length === 0 && (
                             <H3 className="text-center">No reviews found.</H3>
                         )}

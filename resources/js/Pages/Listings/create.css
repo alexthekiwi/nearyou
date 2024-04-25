@@ -26,7 +26,7 @@ textarea {
     resize: none;
 }
 
-textarea + p > ul > li::before {
+textarea + div > ul > li::before {
     content: '•';
     font-size: 25px;
     margin-right: 10px;

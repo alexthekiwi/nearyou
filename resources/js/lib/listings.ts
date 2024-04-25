@@ -17,8 +17,13 @@ export function getListingStatus(input: number | App['Models']['Listing']) {
 
 export function isAvailable(
     listing: App['Models']['Listing'],
+    user: App['Models']['User'],
     includeReserved = true
 ) {
+    if (user && user.id === listing.seller_id) {
+        return false;
+    }
+
     const statuses = includeReserved ? [1, 3] : [1];
 
     return statuses.includes(listing.status);

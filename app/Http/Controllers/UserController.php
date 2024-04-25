@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Listings\GetFavouriteListingIds;
-use App\Actions\Reviews\GetGreenScore;
+use App\Actions\Reviews\GetTrees;
 use App\Actions\Users\GenerateUsername;
+use App\Models\Listing;
 use App\Models\Review;
 use App\Models\User;
 use App\Notifications\UserActivation;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -88,17 +90,31 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         // Get their latest 4 listings
+        // $listings = $user->listings()
+        //     // Make sure the auth user is in the same location
+        //     ->where('location_id', auth()->user()->location_id)
+        //     ->orderBy('created_at', 'desc')
+        //     ->limit(4)
+        //     ->get();
         $listings = $user->listings()
-            // Make sure the auth user is in the same location
-            ->where('location_id', auth()->user()->location_id)
             ->orderBy('created_at', 'desc')
             ->limit(4)
             ->get();
 
+        $listings->loadMissing([
+            'images' => fn ($query) => $query->select('listing_id', 'file'),
+            'seller' => fn ($query) => $query->select('id', 'name'),
+        ]);
+
+        Log::info($listings);
+
+        foreach ($listings as $index => $listing) {
+            $listings[$index] = Listing::parseListing($listing);
+        }
+
         // Get their latest 3 reviews (as either seller or buyer)
         $reviews = Review::query()
-            ->where('seller_id', $user->id)
-            ->orWhere('buyer_id', $user->id)
+            ->where('target_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->limit(3)
             ->get();
@@ -107,8 +123,8 @@ class UserController extends Controller
             'user' => $user->toPublicArray(),
             'listings' => $listings,
             'reviews' => $reviews,
-            'greenScore' => (new GetGreenScore)($user),
             'favouriteListings' => (new GetFavouriteListingIds)(),
+            'trees' => (new GetTrees)($user),
         ]);
     }
 

@@ -5,7 +5,6 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import Providers from '@/Components/common/Providers';
-import Socket from './lib/socket';
 
 const appName =
     window.document.getElementsByTagName('title')[0]?.innerText || 'Near You';
@@ -24,11 +23,8 @@ createInertiaApp({
 
         document.body.style.marginBottom = '0';
 
-        const sessionID = props.initialPage.props.session_id as string;
-
         root.render(
             <Providers>
-                {/* <Socket sessionID={sessionID} /> */}
                 <App {...props} />
             </Providers>
         );

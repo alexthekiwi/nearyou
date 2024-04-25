@@ -48,11 +48,11 @@ let isSocketConnected = false;
 let _socket: Socket | null = null;
 let socketPromise: Promise<SockerData> | null = null;
 
-const initSocket = (sessionID: string): Promise<SockerData> => {
+const initSocket = (jwt: string): Promise<SockerData> => {
     if (!socketPromise) {
         socketPromise = new Promise((resolve, reject) => {
-            const socket = io('http://localhost:3000', {
-                auth: { sessionID },
+            const socket = io(':3000', {
+                auth: { jwt },
             });
 
             socket.once(
@@ -104,15 +104,15 @@ export const closeSocket = async () => {
 
 export default async ({
     dispatch = useDispatch(),
-    sessionID,
+    jwt,
 }: {
     dispatch?: Dispatch;
-    sessionID: string;
+    jwt: string;
 }) => {
     if (isSocketConnected) return;
 
     isSocketConnected = true;
-    const { socket, chats: _chats } = await initSocket(sessionID);
+    const { socket, chats: _chats } = await initSocket(jwt);
 
     _socket = socket;
     dispatch(setChats(_chats));
@@ -134,6 +134,8 @@ export default async ({
     });
 
     socket.on(SOCKET_EVENT_NAME.SOLD, (id) => {
+        console.log('sold 1');
+
         dispatch(changeStatus({ id, status: LISTING_STATUS.SOLD }));
     });
 };

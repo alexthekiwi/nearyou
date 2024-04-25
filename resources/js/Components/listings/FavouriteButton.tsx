@@ -3,6 +3,7 @@ import { HiHeart, HiOutlineHeart } from 'react-icons/hi2';
 import { App } from '@/types';
 import { useFavourites } from '@/lib/favourites';
 import { isAvailable } from '@/lib/listings';
+import { useAuth } from '@/lib/auth';
 
 interface Props {
     className?: string;
@@ -11,6 +12,7 @@ interface Props {
     listing?: App['Models']['Listing'];
     favouriteListings?: App['Models']['Listing']['id'][];
     showText?: boolean;
+    isFavourite?: boolean;
 }
 
 export default function FavouriteButton({
@@ -20,21 +22,27 @@ export default function FavouriteButton({
     listing,
     favouriteListings = [],
     showText = false,
+    isFavourite,
 }: Props) {
+    const { user } = useAuth();
+
     const { addFavourite, removeFavourite } = useFavourites();
 
     if (!listing) {
         return null;
     }
 
-    const canFavourite = isAvailable(listing, true);
+    const canFavourite = isAvailable(listing, user, true);
 
     if (!canFavourite) {
         return null;
     }
 
-    const isFavourite = favouriteListings?.includes(listing.id);
-    const text = isFavourite ? 'Remove favourite' : 'Add to favourites';
+    const _isFavourite =
+        typeof isFavourite === 'boolean'
+            ? isFavourite
+            : favouriteListings?.includes(listing.id);
+    const text = _isFavourite ? 'Remove favourite' : 'Add to favourites';
 
     const iconClass = cn('h-8 w-8 flex-shrink-0', iconClassName);
 
@@ -44,12 +52,12 @@ export default function FavouriteButton({
             className={cn(className, 'flex items-center gap-2 text-current')}
             title={text}
             onClick={() =>
-                isFavourite
+                _isFavourite
                     ? removeFavourite({ listing })
                     : addFavourite({ listing })
             }
         >
-            {isFavourite ? (
+            {_isFavourite ? (
                 <HiHeart className={iconClass} />
             ) : (
                 <HiOutlineHeart className={iconClass} />

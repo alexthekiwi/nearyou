@@ -11,8 +11,7 @@ class UserReviewController extends Controller
     public function index(Request $request, User $user)
     {
         $reviews = Review::query()
-            ->where('seller_id', $user->id)
-            ->orWhere('buyer_id', $user->id)
+            ->where('target_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate($request->input('limit', 5))
             ->withQueryString();

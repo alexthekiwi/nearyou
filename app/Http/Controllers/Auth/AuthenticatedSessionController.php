@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Log;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -36,11 +38,25 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $token = auth()->user()->createToken('access_token')->plainTextToken;
+        $id = $request->user()->id;
 
-        Redis::set('user:'.$request->session()->getId(), json_encode($request->user()));
+        $payload = [
+            'iss' => 'nearyou',
+            'id' => $id,
+            'jti' => uniqid(), // JWT ID
+            'iat' => now()->timestamp, // 발급 시간
+            'nbf' => now()->timestamp, // 지금부터 사용 가능
+            'exp' => now()->addMinutes(env('SESSION_LIFETIME'))->timestamp, // 만료 시간
+            // 'exp' => now()->addSeconds(30)->timestamp, // 만료 시간
+        ];
 
-        return redirect()->intended(RouteServiceProvider::HOME)->withCookie(Cookie::make('access_token', $token, 60 * 24 * 30));
+        $jwt = JWT::encode($payload, env('JWT_SECRET'), 'HS256');
+
+        $request->session()->put('jwt', $jwt);
+
+        Redis::sadd('user:'.$id, $jwt);
+
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**
@@ -54,7 +70,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        Redis::del('user:'.$request->session()->getId());
+        $request->session()->forget('jwt');
+
+        Redis::srem('user:'.$request->user()->id, $request->session()->get('jwt'));
 
         return redirect('/')->withCookie(Cookie::forget('access_token'));
     }

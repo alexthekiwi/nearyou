@@ -9,6 +9,7 @@ interface Props {
     chatId: string;
     socket: Socket | null;
     onClose: () => void;
+    onReviewSuccess: () => void;
 }
 
 const textareaPlaceholder = `Please leave an honest review!
@@ -16,7 +17,13 @@ const textareaPlaceholder = `Please leave an honest review!
 * Selecting five leaves gifts one tree
 to your neighbor.`;
 
-export default function ReviewModal({ show, chatId, socket, onClose }: Props) {
+export default function ReviewModal({
+    show,
+    chatId,
+    socket,
+    onClose,
+    onReviewSuccess,
+}: Props) {
     let isSending = false;
 
     const [isSocketConnected, setIsSocketConnected] = useState(false);
@@ -38,9 +45,13 @@ export default function ReviewModal({ show, chatId, socket, onClose }: Props) {
         if (socket && !isSocketConnected) {
             setIsSocketConnected(true);
 
-            socket.on(SOCKET_EVENT_NAME.CHAT_REVIEW_SUCCESS, onClose);
+            socket.on(SOCKET_EVENT_NAME.CHAT_REVIEW_SUCCESS, () => {
+                onReviewSuccess();
+
+                onClose();
+            });
         }
-    }, [socket, onClose, isSocketConnected]);
+    }, [socket, onClose, isSocketConnected, onReviewSuccess]);
 
     const send = () => {
         if (socket) {

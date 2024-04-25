@@ -17,8 +17,8 @@ import { useAuth } from '@/lib/auth';
 import { formatDateChat1, formatDateChat2, formatDateNice } from '@/lib/dates';
 import Picture from '@/Components/common/Picture';
 import { formatMoney } from '@/lib/money';
-import SoldItFirstModal from './SoldItFirstModal';
-import ReviewModal from './ReviewModal';
+import SoldItFirstModal from '../../Components/chats/SoldItFirstModal';
+import ReviewModal from '../../Components/chats/ReviewModal';
 import { SOCKET_EVENT_NAME, getSocket } from '@/lib/socket';
 import { getListingStatus } from '@/lib/listings';
 
@@ -33,6 +33,13 @@ enum Writer {
     TIME = -2,
 }
 
+enum ReviewStatus {
+    NOT_YET = 1,
+    NOT_MY_DEAL = 2,
+    AVAILABLE = 3,
+    DONE = 4,
+}
+
 type Chat = {
     id: string;
     writer: Writer;
@@ -43,6 +50,7 @@ type Chat = {
 type ChatJoin = {
     chatId: string;
     chatArr: Chat[];
+    reviewStatus: ReviewStatus;
 };
 
 export default function ChatShow({ chat }: Props) {
@@ -68,6 +76,9 @@ export default function ChatShow({ chat }: Props) {
     const [isPauseScrollEvt, setIsPauseScrollEvt] = useState(false);
 
     const [status, setStatus] = useState(chat.status);
+    const [reviewStatus, setReviewStatus] = useState<ReviewStatus>(
+        ReviewStatus.DONE
+    );
 
     const [isShowSoldItFirstModal, setIsShowSoldItFirstModal] = useState(false);
     const [isShowReviewModal, setIsShowReviewModal] = useState(false);
@@ -136,6 +147,26 @@ export default function ChatShow({ chat }: Props) {
     useEffect(() => {
         let _socket: Socket | null = null;
 
+        const onReserved = (id: string) => {
+            if (id === chat.id) {
+                chat.status = 3;
+                setStatus(3);
+            }
+        };
+
+        const onSold = (id: string, isReviewAvailable: boolean) => {
+            if (id === chat.id) {
+                chat.status = 4;
+                setStatus(4);
+
+                setReviewStatus(
+                    isReviewAvailable
+                        ? ReviewStatus.AVAILABLE
+                        : ReviewStatus.NOT_MY_DEAL
+                );
+            }
+        };
+
         (async () => {
             _socket = await getSocket();
 
@@ -145,7 +176,11 @@ export default function ChatShow({ chat }: Props) {
                 // 채팅방 연결
                 _socket.once(
                     SOCKET_EVENT_NAME.CHAT_JOIN,
-                    ({ chatId, chatArr: _chatArr }: ChatJoin) => {
+                    ({
+                        chatId,
+                        chatArr: _chatArr,
+                        reviewStatus: _reviewStatus,
+                    }: ChatJoin) => {
                         if (chatId === chat.id) {
                             setIsJoined(true);
 
@@ -158,6 +193,8 @@ export default function ChatShow({ chat }: Props) {
                             }
 
                             _socket?.emit(SOCKET_EVENT_NAME.CHAT_READ, chat.id);
+
+                            setReviewStatus(_reviewStatus);
                         }
                     }
                 );
@@ -252,17 +289,11 @@ export default function ChatShow({ chat }: Props) {
                     }
                 );
 
-                // 채팅 예약 완료
-                _socket.on(SOCKET_EVENT_NAME.CHAT_RESERVED, () => {
-                    chat.status = 3;
-                    setStatus(3);
-                });
+                // 예약 완료
+                _socket.on(SOCKET_EVENT_NAME.RESERVED, onReserved);
 
-                // 채팅 판매 완료
-                _socket.on(SOCKET_EVENT_NAME.CHAT_SOLD, () => {
-                    chat.status = 4;
-                    setStatus(4);
-                });
+                // 판매 완료
+                _socket.on(SOCKET_EVENT_NAME.SOLD, onSold);
 
                 _socket.emit(SOCKET_EVENT_NAME.CHAT_JOIN, chat.id);
             } else {
@@ -273,15 +304,21 @@ export default function ChatShow({ chat }: Props) {
         return () => {
             if (_socket) {
                 _socket.emit(SOCKET_EVENT_NAME.CHAT_LEAVE);
+
                 _socket.off(SOCKET_EVENT_NAME.CHAT_JOIN);
                 _socket.off(SOCKET_EVENT_NAME.CHAT_MESSAGE);
                 _socket.off(SOCKET_EVENT_NAME.CHAT_MESSAGE_SUCCESS);
                 _socket.off(SOCKET_EVENT_NAME.CHAT_MORE_LOAD);
-                _socket.off(SOCKET_EVENT_NAME.CHAT_RESERVED);
-                _socket.off(SOCKET_EVENT_NAME.CHAT_SOLD);
+
+                _socket.off(SOCKET_EVENT_NAME.RESERVED, onReserved);
+                _socket.off(SOCKET_EVENT_NAME.SOLD, onSold);
             }
         };
     }, []);
+
+    useEffect(() => {
+        console.log('reviewStatus', reviewStatus);
+    }, [reviewStatus]);
 
     // 메세지 보내기
     const sendMessage = () => {
@@ -360,30 +397,36 @@ export default function ChatShow({ chat }: Props) {
 
     return (
         <main className="flex h-screen flex-col pb-8">
-            <header className="flex h-[52px] items-center px-4">
+            <header
+                className="grid h-[52px] items-center px-4"
+                style={{ gridTemplateColumns: '2.5rem 1fr 2.5rem' }}
+            >
                 <Link
-                    className="flex h-10 basis-10 items-center justify-center"
+                    className="flex h-10 items-center justify-center"
                     href={route('chat.index')}
                 >
                     <IoArrowBack className="h-1/2 w-1/2" />
                 </Link>
 
-                <div className="flex flex-1 items-center justify-center gap-1.5 font-semibold">
-                    <p className="text-lg">{chat.oppositeUserId}</p>
+                <Link
+                    className="flex items-center justify-center gap-1.5 font-semibold"
+                    href={route('users.show', chat.oppositeUserId)}
+                >
+                    <p className="text-lg">{chat.oppositeUserName}</p>
 
-                    <p className="h-5 rounded-full bg-teal px-1.5 text-xs leading-5 text-white">
-                        999+ Trees
+                    <p className="h-5 whitespace-nowrap rounded-full bg-teal px-1.5 text-xs leading-5 text-white">
+                        {chat.oppositeUserTrees} Trees
                     </p>
-                </div>
+                </Link>
 
-                <button className="flex h-10 basis-10 items-center justify-center">
+                {/* <button className="flex h-10 basis-10 items-center justify-center">
                     <BsThreeDots className="h-1/2 w-1/2" />
-                </button>
+                </button> */}
             </header>
 
             <div className="flex h-28 flex-col gap-2 bg-gray-100 px-4 py-2.5">
                 <Link
-                    href={`/listings/${chat.listing_id}`}
+                    href={`/listings/${chat.listing_id}?type=chat&id=${chat.id}`}
                     className="grid h-[3.625rem] gap-x-2.5"
                     style={{
                         gridTemplateColumns: '3.625rem 1fr',
@@ -438,10 +481,20 @@ export default function ChatShow({ chat }: Props) {
                     </button>
 
                     <button
+                        className={(() => {
+                            switch (reviewStatus) {
+                                case ReviewStatus.NOT_MY_DEAL:
+                                    return 'pointer-events-none !bg-gray-100 !text-gray-400';
+                                case ReviewStatus.DONE:
+                                    return 'pointer-events-none !border-teal !text-teal';
+                                default:
+                                    return '';
+                            }
+                        })()}
                         onClick={() =>
-                            status === 4
-                                ? setIsShowReviewModal(true)
-                                : setIsShowSoldItFirstModal(true)
+                            reviewStatus === ReviewStatus.NOT_YET
+                                ? setIsShowSoldItFirstModal(true)
+                                : setIsShowReviewModal(true)
                         }
                     >
                         <FaRegMessage className="h-3 w-4" />
@@ -512,7 +565,8 @@ export default function ChatShow({ chat }: Props) {
 
             {/* Input */}
             <div className="flex h-10 gap-1.5 px-3">
-                <button
+                {/* 이미지 채팅 후순위 */}
+                {/* <button
                     type="button"
                     className="relative flex w-10 items-center justify-center rounded-lg bg-teal-semi-light"
                 >
@@ -524,7 +578,7 @@ export default function ChatShow({ chat }: Props) {
                         accept="image/*"
                         multiple
                     />
-                </button>
+                </button> */}
 
                 <div className="relative flex-1">
                     <input
@@ -564,6 +618,7 @@ export default function ChatShow({ chat }: Props) {
                 chatId={chat.id}
                 socket={socket}
                 onClose={() => setIsShowReviewModal(false)}
+                onReviewSuccess={() => setReviewStatus(ReviewStatus.DONE)}
             />
         </main>
     );

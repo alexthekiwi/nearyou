@@ -26,12 +26,8 @@ class GetListings
         $request ??= request();
 
         $search = trim($request->input('query', ''));
-        // $sort = trim($request->input('sort', 'status'));
-        // $sortDir = trim($request->input('sortDir', 'asc'));
         $sort = 'created_at';
         $sortDir = 'desc';
-
-        DB::connection()->enableQueryLog();
 
         $query = Listing::search($search, function (Indexes|EloquentBuilder $builder, string|ScoutBuilder $query, array|string $options) use ($user) {
             // If we're using the database Scout driver, we can use the normal EloquentBuilder
@@ -57,10 +53,8 @@ class GetListings
                     ->with([
                         'suburb',
                         'location',
-                        // 'images'
                         'images' => fn ($query) => $query->orderBy('created_at', 'asc'),
-                        // 'images' => fn ($query) => $query->orderBy('created_at', 'asc')->groupBy('listing_id')->first(),
-                        // 'tags:tag',
+                        'seller'
                     ])
             );
 
@@ -74,13 +68,11 @@ class GetListings
             $request->input('sortDir', 'asc'),
         ])->join(':');
 
-        $storage = \Cache::getStore();
-
         $listings = cache()->store()->remember(
             $cacheKey,
             app()->environment('local') ? 0 : 60,
             fn () => $paginate
-                ? $query->paginate($request->input('limit', 24))
+                ? $query->paginate(12)
                 : $query->get()
         );
 

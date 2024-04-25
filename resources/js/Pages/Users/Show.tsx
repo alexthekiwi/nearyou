@@ -10,21 +10,22 @@ import ListingPreview from '@/Components/listings/ListingPreview';
 import Review from '@/Components/reviews/Review';
 import { useAuth } from '@/lib/auth';
 import H3 from '@/Components/typography/H3';
+import ForestComponent from '@/Components/forest/Index';
 
 interface Props {
     user: App['Models']['User'];
     listings: App['Models']['Listing'][];
     reviews: App['Models']['Review'][];
-    greenScore: number;
     favouriteListings: App['Models']['Listing']['id'][];
+    trees: number;
 }
 
 export default function UsersShow({
     user,
     listings,
     reviews,
-    greenScore,
     favouriteListings,
+    trees,
 }: Props) {
     const { user: authUser } = useAuth();
 
@@ -33,6 +34,8 @@ export default function UsersShow({
         { label: 'Listings', href: route('user-listings.index', user.id) },
         { label: 'Reviews', href: route('user-reviews.index', user.id) },
     ];
+
+    console.log(reviews);
 
     const title = authUser.id === user.id ? 'My profile' : `${user.username}`;
 
@@ -46,18 +49,8 @@ export default function UsersShow({
                 <div className="flex flex-col gap-y-4">
                     <NavBar links={links} />
 
-                    <div className="mx-auto mt-5 grid max-w-5xl gap-12">
-                        <Card>
-                            <div className="flex flex-col gap-4">
-                                <H2>Green score: {greenScore}%</H2>
-                                <div className="rounded-full border border-gray-300 p-1">
-                                    <div
-                                        className="h-4 rounded-full bg-teal"
-                                        style={{ width: `${greenScore}%` }}
-                                    />
-                                </div>
-                            </div>
-                        </Card>
+                    <div className="mx-auto grid max-w-5xl gap-12">
+                        <ForestComponent trees={trees} />
 
                         <div className="flex flex-col gap-6">
                             <div className="flex items-center justify-between gap-6">
@@ -84,7 +77,6 @@ export default function UsersShow({
                                         <ListingPreview
                                             key={listing.id}
                                             listing={listing}
-                                            showTags
                                             favouriteListings={
                                                 favouriteListings
                                             }
@@ -93,7 +85,6 @@ export default function UsersShow({
                                 </div>
                             )}
                         </div>
-
                         <div className="flex flex-col gap-6">
                             <div className="flex items-center justify-between gap-6">
                                 <H2>Reviews</H2>

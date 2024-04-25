@@ -4,7 +4,8 @@ export const primaryLinks: LinkItem[] = [
     { href: route('listings.index'), label: 'Browse' },
     { href: route('chat.index'), label: 'Chat' },
     { href: route('about'), label: 'About' },
-    { href: route('community'), label: 'Community' },
+    // { href: route('community'), label: 'Community' },
+    { href: route('forest.index'), label: 'Forest' },
 ];
 
 export const helpLinks: LinkItem[] = [

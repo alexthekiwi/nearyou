@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\CommunityController;
+// use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\ForestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FavouriteController;
@@ -81,7 +82,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/listings', ListingController::class);
     Route::get('/random', RandomListingController::class)->name('listings.random');
     Route::resource('/chat', ChatController::class);
-    Route::get('/community', CommunityController::class)->name('community');
+    // Route::get('/community', CommunityController::class)->name('community');
+    Route::get('/forest', [ForestController::class, 'index'])->name('forest.index');
 });
 
 /**

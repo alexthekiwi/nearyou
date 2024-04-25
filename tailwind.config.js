@@ -47,6 +47,11 @@ export default {
                     ...defaultTheme.colors.green,
                     'semi-dark': '#559B8A',
                 },
+                dirty: {
+                    ...defaultTheme.colors.dirty,
+                    light: '#F5C9A2',
+                    DEFAULT: '#EA9549',
+                },
             },
             transitionTimingFunction: {
                 DEFAULT: 'cubic-bezier(0.4, 0, 0.2, 1)',

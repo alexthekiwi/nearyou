@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
             'success' => session()->get('success'),
             'error' => session()->get('error'),
             'environment' => app()->environment(),
-            'session_id' => $request->session()->getId(),
+            'jwt' => session()->get('jwt'),
         ]);
     }
 }

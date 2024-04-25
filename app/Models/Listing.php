@@ -156,4 +156,24 @@ class Listing extends Model
             ] : [])
             ->toArray();
     }
+
+    static public function parseListing(Listing $listing)
+    {
+        $listing = [
+            'id' => $listing->id,
+            'seller' => $listing->relationLoaded('seller') ? $listing->seller->name : null,
+            'seller_id' => $listing->relationLoaded('seller') ? $listing->seller->id : null,
+            'title' => $listing->title,
+            'images' => $listing->relationLoaded('images') ? array_column($listing->images->toArray(), 'file') : null,
+            'tags' => $listing->relationLoaded('tags') ? array_column($listing->tags->toArray(), 'tag') : null,
+            'description' => $listing->description,
+            'location' => $listing->relationLoaded('location') ? $listing->location->name : null,
+            'price' => $listing->price,
+            'created_at' => $listing->created_at,
+            'status' => $listing->status,
+            'suburb' => $listing->relationLoaded('suburb') ? $listing->suburb->name : null,
+        ];
+
+        return $listing;
+    }
 }

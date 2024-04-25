@@ -1,5 +1,5 @@
 import React from 'react';
-import { router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { App } from '@/types';
 import { useSubmit } from './forms';
 

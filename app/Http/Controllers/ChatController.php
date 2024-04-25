@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Reviews\GetTrees;
 use App\Enums\ListingStatus;
 use App\Models\Chat;
 use App\Models\Listing;
@@ -150,6 +151,7 @@ Please trade based on trust, and whenever possible, proceed with face-to-face tr
                 'suburb' => empty($suburb) ? '' : $suburb->name,
                 'lastMsg' => $defaultMessage,
                 'lastAt' => $timestamp,
+                'status' => $listing->status,
             ]));
 
             return redirect()->route('chat.show', $chat);
@@ -165,10 +167,13 @@ Please trade based on trust, and whenever possible, proceed with face-to-face tr
      */
     public function show(Chat $chat)
     {
+        // $this->authorize('view', Chat::class);
+
         $userId = auth()->id();
 
         $chat2 = Chat::select(
-                DB::raw("(SELECT name FROM users WHERE id = IF(chats.buyer_id = '$userId', l.seller_id, chats.buyer_id)) as oppositeUserId"),
+                'u.id as oppositeUserId',
+                'u.name as oppositeUserName',
                 'li.file as thumbnail',
                 'l.title',
                 'l.price',
@@ -179,6 +184,7 @@ Please trade based on trust, and whenever possible, proceed with face-to-face tr
                 $join->on('li.listing_id', '=', 'l.id')
                     ->where('li.order', 0);
             })
+            ->join('users as u', 'u.id', '=', DB::raw("IF(chats.buyer_id = '$userId', l.seller_id, chats.buyer_id)"))
             ->where('chats.id', $chat->id)
             ->where(function ($query) use ($userId) {
                 $query->where('l.seller_id', $userId)
@@ -186,7 +192,13 @@ Please trade based on trust, and whenever possible, proceed with face-to-face tr
             })
             ->first();
 
+        if ($chat2 == null) {
+            return redirect()->route('chat.index');
+        }
+
         $chat->oppositeUserId = $chat2->oppositeUserId;
+        $chat->oppositeUserName = $chat2->oppositeUserName;
+        $chat->oppositeUserTrees = (new GetTrees)(User::where('id', $chat2->oppositeUserId)->first());
         $chat->thumbnail = $chat2->thumbnail;
         $chat->title = $chat2->title;
         $chat->price = $chat2->price;

@@ -172,4 +172,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'username',
         ]);
     }
+
+    public function receivedReviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'target_id', 'id');
+    }
 }

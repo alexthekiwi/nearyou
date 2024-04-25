@@ -3,6 +3,7 @@ import { HiArrowSmallLeft } from 'react-icons/hi2';
 import { BsThreeDots } from 'react-icons/bs';
 import { Link } from '@inertiajs/react';
 import Modal from '@/Components/common/Modal';
+import Toasts from '@/Components/common/Toasts';
 
 export default function ProductLayout({
     title,
@@ -16,13 +17,34 @@ export default function ProductLayout({
     const [isShowListingDeleteModal, setShowListingDeleteModal] =
         useState(false);
 
+    let backLink;
+
+    const fromType = new URLSearchParams(location.search).get('type');
+    const fromId = new URLSearchParams(location.search).get('id') || '';
+
+    switch (fromType) {
+        case 'chat': {
+            backLink = route('chat.show', fromId);
+            break;
+        }
+        default: {
+            backLink = route('listings.index');
+        }
+    }
+
+    console.log(
+        '..?',
+        new URLSearchParams(location.search).get('type'),
+        new URLSearchParams(location.search).get('id')
+    );
+
     return (
         <div className="flex min-h-screen flex-col bg-white">
             <header className="sticky top-0 z-[100] flex h-[52px] items-center justify-between bg-white px-4">
                 <div className="flex">
                     <Link
                         className="flex h-[24px] w-[24px] items-center"
-                        href={route('listings.index')}
+                        href={backLink}
                     >
                         <HiArrowSmallLeft />
                     </Link>
@@ -82,6 +104,8 @@ export default function ProductLayout({
                     </button>
                 </div>
             </Modal>
+
+            <Toasts />
         </div>
     );
 }

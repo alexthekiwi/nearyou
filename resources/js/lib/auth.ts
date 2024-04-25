@@ -9,7 +9,7 @@ type AuthContext = {
     isAuth: boolean;
     can: (ability: string) => boolean;
     logout: () => void;
-    sessionID: string;
+    jwt: string;
 };
 
 type AppPage = {
@@ -19,14 +19,14 @@ type AppPage = {
 type SharedProps = {
     auth: AuthContext;
     errors: Errors & ErrorBag;
-    session_id: string;
+    jwt: string;
 };
 
 export function useAuth(dispatch?: Dispatch): AuthContext {
     const { props } = usePage() as AppPage;
     const isAuth = Boolean(props.auth.user);
 
-    const sessionID = props.session_id;
+    const { jwt } = props;
 
     function can(ability: string): boolean {
         if (!isAuth) {
@@ -40,7 +40,7 @@ export function useAuth(dispatch?: Dispatch): AuthContext {
         router.post(route('logout'));
     }
 
-    if (isAuth) socket({ dispatch, sessionID });
+    if (isAuth) socket({ dispatch, jwt });
     else closeSocket();
 
     return {
@@ -48,6 +48,6 @@ export function useAuth(dispatch?: Dispatch): AuthContext {
         isAuth,
         can,
         logout,
-        sessionID,
+        jwt,
     };
 }

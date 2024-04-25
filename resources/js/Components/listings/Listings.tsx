@@ -35,7 +35,7 @@ export default function Listings({
                 onStart() {
                     setIsLoadingMore(true);
                 },
-                onSuccess() {
+                onSuccess({ props }) {
                     const searchParams = new URLSearchParams(
                         window.location.search
                     );
@@ -49,22 +49,17 @@ export default function Listings({
                         `${window.location.pathname}?${searchParams.toString()}`
                     );
 
+                    const _listings = (
+                        props.listings as {
+                            data: App['Models']['Listing'][];
+                        }
+                    ).data;
+
+                    console.log('listings', _listings);
+
                     // Reduce the listings to remove duplicates
                     setListings((prev) =>
-                        [...prev, ...paginatedListings.data].reduce(
-                            (acc, curr) => {
-                                if (
-                                    acc.find(
-                                        (listing) => listing.id === curr.id
-                                    )
-                                ) {
-                                    return acc;
-                                }
-
-                                return [...acc, curr];
-                            },
-                            [] as App['Models']['Listing'][]
-                        )
+                        Array.from(new Set([...prev, ..._listings]))
                     );
                 },
                 onFinish() {
@@ -110,7 +105,6 @@ export default function Listings({
                                 <ListingPreview
                                     key={listing.id}
                                     listing={listing}
-                                    showTags
                                     favouriteListings={favouriteListings}
                                 />
                             ))}

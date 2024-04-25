@@ -54,7 +54,6 @@ export default function UserListingsIndex({
                                         <ListingPreview
                                             key={listing.id}
                                             listing={listing}
-                                            showTags
                                             favouriteListings={
                                                 favouriteListings
                                             }

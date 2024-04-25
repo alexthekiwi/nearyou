@@ -10,38 +10,20 @@ import { formatMoney } from '@/lib/money';
 import Picture from '@/Components/common/Picture';
 import { LISTING_STATUS } from '@/constants';
 import { getListingStatus } from '@/lib/listings';
+import { FavouriteProvider } from '@/lib/favourites';
 
 interface Props {
     listing: App['Models']['Listing'];
-    favouriteListings: App['Models']['Listing']['id'][];
     chatId: string | null;
+    isFavourite: boolean;
 }
 
-export default function ListingsShow({
-    listing,
-    favouriteListings,
-    chatId,
-}: Props) {
+export default function ListingsShow({ listing, chatId, isFavourite }: Props) {
     const { user } = useAuth();
 
     const canModify = user.is_admin || user.id === listing.seller_id;
 
-    const onDelete = useSubmit({ message: 'Your listing has been deleted.' });
-
     const price = formatMoney(listing.price, 0);
-
-    function handleDelete(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-
-        if (!confirm('Are you sure you want to delete this listing?')) {
-            return;
-        }
-
-        router.delete(
-            route('listings.destroy', { listing: listing.id }),
-            onDelete
-        );
-    }
 
     const createChat = () => {
         router.post(route('chat.store'), {
@@ -123,14 +105,14 @@ export default function ListingsShow({
 
             <div className="fixed bottom-0 flex w-full justify-between bg-white px-7 py-3.5">
                 <div className="flex items-center">
-                    {!canModify && (
+                    <FavouriteProvider>
                         <FavouriteButton
                             listing={listing}
-                            favouriteListings={favouriteListings}
                             className="mr-4 md:hidden"
                             iconClassName="text-teal"
+                            isFavourite={isFavourite}
                         />
-                    )}
+                    </FavouriteProvider>
 
                     <div className="font-semibold">{price}</div>
                 </div>

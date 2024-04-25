@@ -30,8 +30,6 @@ export const socketSlice = createSlice({
         updateLastMsg: (state, action) => {
             const chats = state.value.chats as Chat[];
 
-            console.log('updateLastMsg', action.payload, chats);
-
             const idx = chats.findIndex((e) => e.id === action.payload.id);
 
             if (idx > -1) {
@@ -45,6 +43,9 @@ export const socketSlice = createSlice({
             }
         },
         addChatRoom: (state, action) => {
+            console.log(action.payload);
+            console.log(state.value.chats);
+            console.log('='.repeat(30));
             state.value.chats = [action.payload, ...state.value.chats];
         },
         changeStatus: (state, action) => {

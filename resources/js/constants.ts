@@ -6,3 +6,6 @@ export enum LISTING_STATUS {
     RESERVED = 3,
     SOLD = 4,
 }
+
+export const LISTING_IMAGE_LAMBDA_PATH =
+    'https://36em0yut81.execute-api.ap-southeast-2.amazonaws.com/';

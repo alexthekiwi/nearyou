@@ -172,7 +172,9 @@ export type App = {
             seller?: App['Models']['User'] | null;
             buyer?: App['Models']['User'] | null;
             listing?: App['Models']['Listing'] | null;
-            oppositeUserId: string | null;
+            oppositeUserId: string;
+            oppositeUserName: string;
+            oppositeUserTrees: number;
             thumbnail: string;
             title: string;
             price: number | null;

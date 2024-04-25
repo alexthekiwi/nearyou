@@ -11,6 +11,7 @@ use App\Models\ListingImage;
 use App\Models\Chat;
 use App\Models\PostCode;
 use App\Models\Suburb;
+use App\Models\UserFavourite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -20,25 +21,6 @@ use Inertia\Response;
 
 class ListingController extends Controller
 {
-    private function parseListing(Listing $listing) {
-        $listing = [
-            'id' => $listing->id,
-            'seller' => $listing->relationLoaded('seller') ? $listing->seller->name : null,
-            'seller_id' => $listing->relationLoaded('seller') ? $listing->seller->id : null,
-            'title' => $listing->title,
-            'images' => $listing->relationLoaded('images') ? array_column($listing->images->toArray(), 'file') : null,
-            'tags' => $listing->relationLoaded('tags') ? array_column($listing->tags->toArray(), 'tag') : null,
-            'description' => $listing->description,
-            'location' => $listing->location->name,
-            'price' => $listing->price,
-            'created_at' => $listing->created_at,
-            'status' => $listing->status,
-            'suburb' => $listing->suburb ? $listing->suburb->name : null,
-        ];
-
-        return $listing;
-    }
-
     public function index(Request $request)
     {
         // $client = new Client(env('MEILISEARCH_HOST'), env('MEILISEARCH_KEY'));
@@ -77,8 +59,10 @@ class ListingController extends Controller
         );
 
         foreach ($listings as $index => $listing) {
-            $listings[$index] = $this->parseListing($listing);
+            $listings[$index] = Listing::parseListing($listing);
         }
+
+        Log::info($listings);
 
         return inertia('Listings/Index', [
             'listings' => $listings,
@@ -196,8 +180,9 @@ class ListingController extends Controller
         if ($chat != null) $chatId = $chat->id;
 
         return inertia('Listings/Show', [
-            'listing' => $this->parseListing($listing),
+            'listing' => Listing::parseListing($listing),
             'chatId' => $chatId,
+            'isFavourite' => UserFavourite::where('user_id', auth()->id())->where('listing_id', $listing->id)->exists(),
             // 'favouriteListings' => (new GetFavouriteListingIds)(),
         ]);
     }
